@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Manual base para preparar Node.js, Cordova CLI y un proyecto Apache Cordova.">
-    <title>Primeros pasos | Manual de Apache Cordova</title>
+    <meta name="description" content="Manual para preparar Apache Cordova en Android e iOS, con diagnóstico y cierre de proyecto.">
+    <title>Manual de instalación | Apache Cordova</title>
     <style>
       :root {
         --fondo: #f8f9fb;
@@ -88,14 +88,38 @@
       }
 
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+      @page { size: A4; margin: 16mm 14mm 18mm; }
+      @media print {
+        :root { --fondo: #fff; --papel: #fff; --tinta: #000; --tinta-suave: #333; --linea: #aaa; --acento: #000; }
+        html { font-size: 10pt; }
+        body { background: #fff; line-height: 1.42; }
+        .contenedor { max-width: none; padding: 0; }
+        .portada { padding: 0 0 1.2rem; }
+        .portada p { font-size: 1rem; }
+        h1 { font-size: 34pt; }
+        h2 { font-size: 21pt; }
+        h3 { font-size: 12pt; }
+        .indice { display: none; }
+        main { padding: 0; }
+        section { padding: 1.5rem 0; }
+        .pasos, .pasos > li, .comando, .salida, .aviso, table, tr { break-inside: avoid; }
+        .pasos > li { padding-bottom: 0.9rem; padding-top: 0.9rem; }
+        pre { border: 1px solid #777; overflow-wrap: anywhere; padding: 0.65rem; white-space: pre-wrap; }
+        .matriz { overflow: visible; }
+        table { font-size: 8.5pt; min-width: 0; }
+        th, td { padding: 0.45rem; }
+        a { color: inherit; text-decoration: underline; }
+        footer { font-size: 8.5pt; padding: 1rem 0 0; }
+      }
     </style>
   </head>
   <body>
     <header class="portada">
       <div class="contenedor">
         <p class="identificador">Manual de Apache Cordova</p>
-        <h1>Primeros pasos</h1>
-        <p>Una guía base para preparar el entorno web, instalar la interfaz de línea de comandos y crear la carpeta inicial de una aplicación.</p>
+        <h1>Instalación y cierre</h1>
+        <p>Guía para preparar Cordova, crear un proyecto y revisar Android, iOS, problemas frecuentes y el cierre documental.</p>
       </div>
     </header>
 
@@ -109,6 +133,9 @@
           <li><a href="#android">Preparar Android</a></li>
           <li><a href="#ios">Preparar iOS</a></li>
           <li><a href="#matriz">Requisitos por capa</a></li>
+          <li><a href="#diagnostico">Diagnóstico</a></li>
+          <li><a href="#sqlite">SQLite opcional</a></li>
+          <li><a href="#checklist">Checklist final</a></li>
           <li><a href="#referencias">Referencias</a></li>
         </ol>
       </div>
@@ -334,15 +361,69 @@ cordova build ios</code></pre></dd></dl>
         <aside class="aviso"><strong>Dato que requiere cuidado.</strong> <code>sdk echo $ANDROID_HOME</code> no es un comando válido. Una ruta local o la versión de <code>adb</code> tampoco demuestran compatibilidad. SQLite es opcional y la compatibilidad de su versión 7 no se ha comprobado aquí.</aside>
       </section>
 
+      <section id="diagnostico" aria-labelledby="titulo-diagnostico">
+        <h2 id="titulo-diagnostico">Diagnóstico sin suposiciones</h2>
+        <p class="intro">Cuando un paso no sale como se esperaba, identifica primero la capa que falta: terminal y Node.js, herramientas de plataforma, proyecto o plugin. Los comandos de esta sección son referencias para diagnosticar en tu propio equipo; este manual no los ejecutó ni presenta salidas reales.</p>
+        <dl class="comando"><dt>Consultas orientativas desde la carpeta del proyecto</dt><dd><pre><code>cordova --version
+cordova platform ls
+cordova plugin ls
+cordova requirements android
+cordova requirements ios</code></pre></dd></dl>
+        <ul class="referencias">
+          <li><strong>La terminal no reconoce <code>cordova</code>.</strong> Confirma que Node.js y npm están disponibles en una terminal nueva; después revisa la instalación global de la CLI y la configuración de rutas de tu sistema. No confundas este caso con un problema del SDK de Android o Xcode.</li>
+          <li><strong>Faltan Java, SDK o licencias en Android.</strong> Revisa <code>JAVA_HOME</code>, <code>ANDROID_HOME</code> y las entradas de <code>Path</code>/<code>PATH</code> de la sección Android. Instala los componentes desde SDK Manager y revisa las licencias con <code>sdkmanager --licenses</code> solo si aceptas sus términos.</li>
+          <li><strong>Gradle o la API de Android no coinciden.</strong> Vuelve a la matriz de la plataforma que uses y evita cambiar archivos de <code>platforms/android</code> a mano: son generados y pueden reemplazarse. Una versión local de <code>adb</code> no prueba que el conjunto sea compatible.</li>
+          <li><strong>iOS no encuentra Xcode, CocoaPods o un simulador.</strong> Comprueba que Xcode completo sea el directorio activo, que el runtime esté descargado y que CocoaPods alcance el mínimo documentado. En un iPhone físico, revisa Team, bundle ID, firma y provisioning en Xcode antes de atribuir el problema a Cordova.</li>
+          <li><strong>Un plugin falla al preparar o compilar.</strong> Revisa primero su documentación, versión, dependencias nativas, permisos y claves de privacidad. Que la plataforma se agregue no confirma que el plugin sea compatible; aísla el cambio y consulta el registro de la herramienta que estés usando.</li>
+        </ul>
+      </section>
+
+      <section id="sqlite" aria-labelledby="titulo-sqlite">
+        <h2 id="titulo-sqlite">SQLite: complemento opcional</h2>
+        <p class="intro">La nota de curso original propone <code>cordova-sqlite-storage</code> para dar a la app una API JavaScript de base de datos local. No es un requisito para crear, preparar ni compilar un proyecto Cordova.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Agrega el plugin solo si la app necesita datos locales</h3>
+            <p>Desde la carpeta del proyecto, la instrucción de la nota es la siguiente. Antes de usarla, consulta la documentación del plugin para confirmar versiones, plataformas, licencias, permisos y dependencias nativas.</p>
+            <dl class="comando"><dt>Comando de referencia</dt><dd><pre><code>cordova plugin add cordova-sqlite-storage</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Usa la API cuando Cordova ya esté listo</h3>
+            <p>El plugin expone <code>window.sqlitePlugin</code> para abrir y consultar una base local. El código de la aplicación debe esperar el evento de dispositivo listo y manejar errores; no debe asumir que la API existe en un navegador común.</p>
+          </li>
+          <li>
+            <h3>Trátalo como una compatibilidad por verificar</h3>
+            <p>La carpeta de ejemplo declara <code>cordova-sqlite-storage</code> 7, pero esta guía no instaló, compiló ni probó el plugin. En particular, no confirma su funcionamiento con <code>cordova-ios</code> 8, simulador o iPhone; valida el caso real en el entorno que corresponda antes de depender de él.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="checklist" aria-labelledby="titulo-checklist">
+        <h2 id="titulo-checklist">Checklist final</h2>
+        <p class="intro">Úsala antes de continuar hacia una compilación o una entrega. Marcar un punto significa que lo revisaste en tu entorno, no que este manual lo haya comprobado.</p>
+        <ul class="referencias">
+          <li>Node.js cumple el mínimo de la CLI y npm está disponible.</li>
+          <li>La CLI de Cordova está instalada y el proyecto tiene <code>www/</code>, <code>config.xml</code> y <code>package.json</code>.</li>
+          <li>Si se trabajará en Android: JDK 17, Android Studio, SDK, variables, Build Tools, Gradle y licencias se revisaron contra la matriz.</li>
+          <li>Si se trabajará en iOS: se usa una Mac con Xcode completo, runtime de simulador, CocoaPods y requisitos de firma revisados.</li>
+          <li>Las versiones de CLI, plataforma y sistema se registraron por separado; no se sustituyó la matriz oficial con una salida de <code>adb</code>.</li>
+          <li>Los plugins necesarios se revisaron de forma individual. SQLite se añadió únicamente si el producto lo requiere.</li>
+          <li>Antes de distribuir, se revisarán los requisitos actuales de Google Play o App Store; los mínimos de Cordova no garantizan publicación.</li>
+        </ul>
+        <aside class="aviso"><strong>Límite de este documento.</strong> Es una guía de preparación y diagnóstico. No se ejecutaron Cordova, la aplicación, compilaciones nativas, emuladores, simuladores ni dispositivos para redactarla.</aside>
+      </section>
+
       <section id="referencias" aria-labelledby="titulo-referencias">
-        <h2 id="titulo-referencias">Referencias oficiales</h2>
+        <h2 id="titulo-referencias">Fuentes y referencias</h2>
         <ul class="referencias">
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/installation.html">Instalación de la CLI de Cordova</a> — compatibilidad de CLI 13.x y Node.js.</li>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html">Guía de Android de Cordova</a> — matriz Android, JDK, SDK, Gradle y variables.</li>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html">Guía de iOS de Cordova</a> — matriz iOS 8.x, Xcode, CocoaPods e ios-deploy.</li>
           <li><a href="https://developer.apple.com/help/account/basics/about-your-developer-account/">Cuenta de desarrollador de Apple</a> y <a href="https://developer.apple.com/support/compare-memberships/">comparación de membresías</a> — Personal Team, firma y distribución.</li>
+          <li><a href="https://github.com/storesafe/cordova-sqlite-storage">cordova-sqlite-storage</a> — documentación del plugin SQLite mencionado como opcional; su compatibilidad concreta debe verificarse por proyecto.</li>
           <li><a href="https://cordova.apache.org/announcements/2026/07/22/cordova-android-15.1.0.html">Anuncio de cordova-android 15.1.0</a>.</li>
           <li><a href="https://cordova.apache.org/announcements/2026/07/07/cordova-ios-8.1.1.html">Anuncio de cordova-ios 8.1.1</a>.</li>
+          <li><strong>Fuente de partida interna:</strong> <code>../notasExpo.md</code>, consultada para recuperar el comando opcional de SQLite; no sustituye la documentación del plugin.</li>
         </ul>
       </section>
     </main>
