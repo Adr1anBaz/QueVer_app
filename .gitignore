@@ -1,0 +1,28 @@
+# Configuración local y skills
+.opencode/
+.agents/
+
+# Dependencias y artefactos generados
+node_modules/
+dist/
+
+# Temporales, registros y dumps
+.DS_Store
+*.log
+*.tmp
+*.swp
+*.swo
+*.dump
+*.dmp
+*.stackdump
+dumps/
+
+# Resultados locales de validación
+coverage/
+playwright-report/
+test-results/
+
+# Secretos locales
+.env
+.env.*
+!.env.example
