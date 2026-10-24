@@ -106,6 +106,7 @@
           <li><a href="#node">Node.js y npm</a></li>
           <li><a href="#cli">Cordova CLI</a></li>
           <li><a href="#proyecto">Crear el proyecto</a></li>
+          <li><a href="#android">Preparar Android</a></li>
           <li><a href="#matriz">Requisitos por capa</a></li>
           <li><a href="#referencias">Referencias</a></li>
         </ol>
@@ -179,6 +180,69 @@ npm --version</code></pre></dd></dl>
         </ul>
       </section>
 
+      <section id="android" aria-labelledby="titulo-android">
+        <h2 id="titulo-android">Preparar Android</h2>
+        <p class="intro">Esta sección reúne el entorno de Android para la familia <code>cordova-android</code> 15.x. La tabla oficial publicada actualmente detalla 15.0.x: JDK 17, API 24–36, Build Tools 36.x y Gradle 8.14.2; el anuncio de 15.1.0 no sustituye esa tabla técnica. Son requisitos de referencia, no una prueba de que este equipo o sus plugins sean compatibles.</p>
+
+        <h3 style="margin-top: 2.5rem;">Antes de elegir sistema</h3>
+        <ul>
+          <li>Instala <strong>JDK 17</strong>, no solo un JRE. La ruta de esa instalación se guardará en <code>JAVA_HOME</code>.</li>
+          <li>Instala Android Studio. En su primer inicio permite instalar el Android SDK y conserva la ubicación que muestra el asistente.</li>
+          <li>En <strong>Tools &gt; SDK Manager</strong>, instala la plataforma Android más alta admitida por la tabla 15.0.x (API 36), <strong>Android SDK Build-Tools 36.x</strong>, <strong>Android SDK Platform-Tools</strong> y <strong>Android SDK Command-line Tools (latest)</strong>. El emulador es opcional y no se configura en este manual.</li>
+        </ul>
+
+        <h3 style="margin-top: 2.5rem;">macOS</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Define JDK y SDK en el perfil de zsh</h3>
+            <p>En macOS actual, agrega estas líneas a <code>~/.zprofile</code>. La primera obtiene la ruta del JDK 17 instalado; la segunda usa la ruta habitual del SDK de Android Studio. Ajusta la ruta si SDK Manager muestra otra.</p>
+            <dl class="comando"><dt>Contenido para <code>~/.zprofile</code></dt><dd><pre><code>export JAVA_HOME="$(/usr/libexec/java_home -v 17)"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools:$ANDROID_HOME/emulator"</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Abre una terminal nueva y consulta las rutas</h3>
+            <p>Estos comandos solo muestran las variables ya definidas. Corrigen el error de escribir <code>sdk echo $ANDROID_HOME</code>: <code>sdk</code> no forma parte de ese comando.</p>
+            <dl class="comando"><dt>Comandos de consulta</dt><dd><pre><code>echo "$JAVA_HOME"
+echo "$ANDROID_HOME"</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Acepta las licencias del SDK</h3>
+            <p>Cuando las herramientas de línea de comandos ya estén instaladas y disponibles en <code>PATH</code>, revisa cada licencia y responde solo si estás de acuerdo con ella.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>sdkmanager --licenses</code></pre></dd></dl>
+          </li>
+        </ol>
+
+        <h3 style="margin-top: 2.5rem;">Windows</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Define las variables desde el panel del sistema</h3>
+            <p>Busca <strong>Editar las variables de entorno del sistema</strong>, abre <strong>Variables de entorno</strong> y crea <code>JAVA_HOME</code> con la carpeta del JDK 17 (sin <code>bin</code>) y <code>ANDROID_HOME</code> con la carpeta que muestra SDK Manager. No copies estas rutas sin confirmar tu nombre de usuario y ubicación reales.</p>
+            <dl class="comando"><dt>Ejemplos de valores</dt><dd><pre><code>JAVA_HOME=C:\Program Files\Java\jdk-17
+ANDROID_HOME=C:\Users\tu_usuario\AppData\Local\Android\Sdk</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Agrega herramientas a <code>Path</code></h3>
+            <p>En la misma ventana, edita <code>Path</code> y agrega una entrada por cada carpeta bajo <code>ANDROID_HOME</code>.</p>
+            <dl class="comando"><dt>Entradas para <code>Path</code></dt><dd><pre><code>%ANDROID_HOME%\platform-tools
+%ANDROID_HOME%\cmdline-tools\latest\bin
+%ANDROID_HOME%\build-tools
+%ANDROID_HOME%\emulator</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Abre una terminal nueva, consulta y acepta licencias</h3>
+            <p>En Símbolo del sistema, los porcentajes muestran las variables. Después de confirmar que la ruta no está vacía, el administrador del SDK presenta las licencias pendientes.</p>
+            <dl class="comando"><dt>Comandos en Símbolo del sistema</dt><dd><pre><code>echo %JAVA_HOME%
+echo %ANDROID_HOME%
+sdkmanager --licenses</code></pre></dd></dl>
+          </li>
+        </ol>
+
+        <h3 style="margin-top: 2.5rem;">Gradle: qué instalar y qué no editar</h3>
+        <p>La guía de Cordova requiere un Gradle del sistema. En Windows, agrega también la carpeta <code>bin</code> de esa instalación a <code>Path</code>; en macOS, sigue el método de instalación indicado por Gradle y asegúrate de que su ejecutable esté disponible en la terminal. Para la línea 15.0.x, Cordova declara Gradle 8.14.2 para el proyecto: el Gradle del sistema crea el Gradle Wrapper, que descarga y usa la versión del proyecto. Por eso ambas versiones no tienen que coincidir.</p>
+        <aside class="aviso"><strong>Conserva los valores administrados por Cordova.</strong> No cambies manualmente los archivos generados dentro de <code>platforms/android</code> para forzar API, Build Tools o Gradle: pueden regenerarse. Si en el futuro se necesita una propiedad de Gradle, se documentará como configuración del proyecto, no como cambio a esta instalación base.</aside>
+      </section>
+
       <section id="matriz" aria-labelledby="titulo-matriz">
         <h2 id="titulo-matriz">Requisitos por capa</h2>
         <p class="intro">Las versiones de la CLI, de cada plataforma y del sistema operativo son cosas distintas. “Mínimo” expresa un requisito publicado, no una garantía de compatibilidad de cualquier plugin.</p>
@@ -188,7 +252,7 @@ npm --version</code></pre></dd></dl>
             <thead><tr><th scope="col">Capa</th><th scope="col">Versión de referencia</th><th scope="col">Requisitos publicados</th><th scope="col">Alcance y observaciones</th></tr></thead>
             <tbody>
               <tr><th scope="row">Cordova CLI</th><td>13.0.0</td><td>Node.js ≥ 20.17.0; npm llega con Node.js.</td><td>Git es opcional y solo hace falta si npm o la CLI descargan recursos desde una URL Git.</td></tr>
-              <tr><th scope="row">Cordova Android</th><td>15.1.0 (22 jul 2026)</td><td>JDK 17; Android SDK; Android Studio; Gradle del sistema; variables <code>JAVA_HOME</code> y <code>ANDROID_HOME</code>.</td><td>La tabla técnica vigente enumera 15.0.x, no 15.1.x: API 24–36, Build Tools ^36.0.0, Gradle 8.14.2, AGP 8.10.1 y Node.js ≥20.17.0 o ≥22.9.0. No se debe afirmar todavía que esos valores se revalidaron para 15.1.0.</td></tr>
+              <tr><th scope="row">Cordova Android</th><td>15.1.0 (22 jul 2026)</td><td>JDK 17; Android SDK; Android Studio; Gradle del sistema; variables <code>JAVA_HOME</code> y <code>ANDROID_HOME</code>.</td><td>La guía oficial vigente detalla 15.0.x: API 24–36, Build Tools ^36.0.0, Gradle 8.14.2, AGP 8.10.1 y Node.js ≥20.17.0 o ≥22.9.0. Esta sección aplica esa referencia a la familia 15.x y advierte que la tabla no enumera 15.1.x de forma separada.</td></tr>
               <tr><th scope="row">Cordova iOS</th><td>8.1.1 (7 jul 2026)</td><td>macOS; iOS ≥13; Xcode/xcodebuild ≥15; Node.js ≥20.17.0; CocoaPods ≥1.16.0; ios-deploy ≥1.12.2.</td><td>La matriz oficial aplica estos mínimos a toda la familia 8.x. iOS no puede prepararse desde Windows o Linux.</td></tr>
             </tbody>
           </table>
