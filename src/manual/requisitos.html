@@ -273,6 +273,48 @@ sdkmanager --licenses</code></pre></dd></dl>
         </ol>
 
         <aside class="aviso"><strong>No mezcles dos políticas distintas.</strong> Los mínimos anteriores sirven para que Cordova 8.x pueda preparar un proyecto. La distribución en App Store depende además de las reglas actuales de Apple —por ejemplo, el SDK y Xcode que Apple acepte en ese momento—, por lo que deben consultarse antes de enviar una app. Cumplir el mínimo de Cordova no garantiza que una entrega sea aceptada por App Store.</aside>
+
+        <h3 style="margin-top: 2.5rem;">Agregar la plataforma y usar el simulador</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Agrega iOS desde la carpeta del proyecto</h3>
+            <p>Con el entorno anterior listo y desde la carpeta que contiene <code>config.xml</code>, este comando declara la plataforma iOS. La versión se fija para que el ejemplo corresponda a la familia documentada; es texto instructivo y no se ejecuta desde esta página.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova platform add ios@8.1.1</code></pre></dd></dl>
+            <p>Al preparar la plataforma, Cordova genera <code>platforms/ios</code>, incluido el proyecto y workspace que Xcode abre para revisar la parte nativa. Es contenido generado: evita editarlo como lugar permanente para cambios de la app.</p>
+          </li>
+          <li>
+            <h3>Revisa requisitos y prepara una compilación</h3>
+            <p>La CLI puede informar qué herramientas detecta y preparar el proyecto iOS. Los siguientes comandos son referencias para ejecutar en una Mac configurada, no resultados ni comprobaciones realizadas por este manual.</p>
+            <dl class="comando"><dt>Comandos</dt><dd><pre><code>cordova requirements ios
+cordova build ios</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Elige un simulador instalado</h3>
+            <p>En Xcode abre el selector de destino y elige un modelo de iPhone junto con el runtime descargado en <strong>Settings &gt; Platforms</strong>. Después, la instrucción de Cordova para iniciar en el simulador es la siguiente:</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova run ios --emulator</code></pre></dd></dl>
+            <p>El simulador permite probar la interfaz sin una cuenta de pago ni un iPhone físico, pero no sustituye un dispositivo: hardware, permisos, rendimiento, notificaciones y algunos servicios pueden variar o no estar disponibles.</p>
+          </li>
+        </ol>
+
+        <h3 style="margin-top: 2.5rem;">Usar un iPhone físico y firmar</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Abre el workspace en Xcode y selecciona el equipo</h3>
+            <p>Conecta el iPhone, abre el archivo <code>.xcworkspace</code> generado dentro de <code>platforms/ios</code>, selecciona el destino físico y, en <strong>Signing &amp; Capabilities</strong>, elige tu <strong>Team</strong>. Con la firma automática, Xcode relaciona el identificador único de la app (<em>bundle ID</em>) con un certificado de desarrollo y un perfil de aprovisionamiento (<em>provisioning profile</em>) para permitir instalarla en ese dispositivo.</p>
+            <p>Puede ser necesario iniciar sesión con la Apple Account en Xcode, confiar en el ordenador y activar Developer Mode en el iPhone cuando iOS lo solicite. Son pasos de seguridad del dispositivo; no son sustituidos por Cordova.</p>
+          </li>
+          <li>
+            <h3>Distingue el equipo personal de la membresía de pago</h3>
+            <p>Una Apple Account gratuita puede aparecer como <strong>Personal Team</strong> en Xcode y sirve para firmar y probar personalmente una app en dispositivos propios, sujeto a límites de vigencia y cantidad que Apple puede cambiar. No permite distribuir por App Store ni TestFlight. El Apple Developer Program de pago habilita la distribución y los recursos de cuenta necesarios para publicar; no hace falta para aprender con el simulador.</p>
+          </li>
+          <li>
+            <h3>Entiende el papel limitado de <code>ios-deploy</code></h3>
+            <p><code>ios-deploy</code> es una utilidad de línea de comandos que Cordova puede usar para instalar o lanzar una compilación ya firmada en un dispositivo físico; no inicia ni controla el simulador y no reemplaza la firma, el perfil ni Xcode. La matriz de <code>cordova-ios</code> 8.x pide <code>ios-deploy</code> 1.12.2 o posterior, pero su comportamiento puede depender de la versión de iOS/Xcode: para el primer despliegue y los problemas de firma, Xcode es la ruta principal.</p>
+            <dl class="comando"><dt>Comando para dispositivo (solo referencia)</dt><dd><pre><code>cordova run ios --device</code></pre></dd></dl>
+          </li>
+        </ol>
+
+        <aside class="aviso"><strong>Los plugins necesitan su propia revisión.</strong> Que Cordova prepare iOS no demuestra que cada plugin funcione en iOS, en el simulador o en un iPhone. Verifica que el plugin declare soporte para la versión de <code>cordova-ios</code>, sus dependencias CocoaPods, permisos y claves de privacidad de Apple; prueba en un dispositivo cuando use hardware. En particular, este manual no ha confirmado la compatibilidad de <code>cordova-sqlite-storage</code> 7 con <code>cordova-ios</code> 8 ni su funcionamiento.</aside>
       </section>
 
       <section id="matriz" aria-labelledby="titulo-matriz">
@@ -298,6 +340,7 @@ sdkmanager --licenses</code></pre></dd></dl>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/installation.html">Instalación de la CLI de Cordova</a> — compatibilidad de CLI 13.x y Node.js.</li>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html">Guía de Android de Cordova</a> — matriz Android, JDK, SDK, Gradle y variables.</li>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html">Guía de iOS de Cordova</a> — matriz iOS 8.x, Xcode, CocoaPods e ios-deploy.</li>
+          <li><a href="https://developer.apple.com/help/account/basics/about-your-developer-account/">Cuenta de desarrollador de Apple</a> y <a href="https://developer.apple.com/support/compare-memberships/">comparación de membresías</a> — Personal Team, firma y distribución.</li>
           <li><a href="https://cordova.apache.org/announcements/2026/07/22/cordova-android-15.1.0.html">Anuncio de cordova-android 15.1.0</a>.</li>
           <li><a href="https://cordova.apache.org/announcements/2026/07/07/cordova-ios-8.1.1.html">Anuncio de cordova-ios 8.1.1</a>.</li>
         </ul>
