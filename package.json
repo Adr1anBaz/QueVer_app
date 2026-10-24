@@ -5,9 +5,13 @@
   "description": "Entregables estáticos de documentación para QueVer.",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "pdf": "node scripts/export-pdf.mjs"
   },
   "dependencies": {
     "reveal.js": "^6.0.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.2"
   }
 }
