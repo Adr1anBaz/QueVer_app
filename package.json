@@ -6,5 +6,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "serve": "node scripts/serve.mjs"
+  },
+  "dependencies": {
+    "reveal.js": "^6.0.2"
   }
 }

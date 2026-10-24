@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plantilla de presentación | Apache Cordova</title>
+    <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="../assets/css/presentacion.css">
+  </head>
+  <body>
+    <main class="reveal">
+      <div class="slides">
+        <section class="portada">
+          <div class="portada__texto">
+            <p class="portada__curso">Aplicaciones Móviles</p>
+            <h1>Apache <mark>Cordova</mark></h1>
+            <p>Plantilla para una presentación clara, breve y preparada para explicar.</p>
+          </div>
+          <div class="portada__datos">
+            <p>José Adrián Bazaldúa Huerta<br>Haili Ailin Ávila Ramírez<br>Universidad Iberoamericana</p>
+            <p class="portada__fecha">9 de noviembre de 2026</p>
+          </div>
+          <aside class="notes">Da la bienvenida, presenta al equipo y anticipa el recorrido de la exposición.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Un layout para explicar una idea</h2>
+            <p class="referencia">Ejemplo</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p>Esta columna contiene la idea principal con frases cortas. El <mark>acento</mark> se reserva para lo que debe recordarse.</p>
+              <p class="nota-clave">Una diapositiva responde una pregunta; los detalles se dicen, no se acumulan en pantalla.</p>
+            </div>
+            <ol class="pasos">
+              <li>Formula una idea concreta.</li>
+              <li>Usa evidencia solo si ayuda a entenderla.</li>
+              <li>Deja la fuente visible y discreta.</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: reemplazar por la referencia específica de cada diapositiva.</p>
+          <aside class="notes">Explica la idea principal en menos de un minuto. No leas la diapositiva.</aside>
+        </section>
+      </div>
+    </main>
+
+    <script type="module">
+      import Reveal from '../../node_modules/reveal.js/dist/reveal.mjs';
+      import Notes from '../../node_modules/reveal.js/dist/plugin/notes.mjs';
+
+      const deck = new Reveal({
+        width: 1600,
+        height: 900,
+        margin: 0.08,
+        minScale: 0.2,
+        maxScale: 1.5,
+        center: false,
+        controls: true,
+        progress: true,
+        slideNumber: 'c/t',
+        hash: true,
+        transition: 'none',
+        plugins: [Notes]
+      });
+
+      deck.initialize();
+    </script>
+  </body>
+</html>
