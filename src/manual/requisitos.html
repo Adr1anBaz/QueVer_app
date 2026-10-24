@@ -107,6 +107,7 @@
           <li><a href="#cli">Cordova CLI</a></li>
           <li><a href="#proyecto">Crear el proyecto</a></li>
           <li><a href="#android">Preparar Android</a></li>
+          <li><a href="#ios">Preparar iOS</a></li>
           <li><a href="#matriz">Requisitos por capa</a></li>
           <li><a href="#referencias">Referencias</a></li>
         </ol>
@@ -241,6 +242,37 @@ sdkmanager --licenses</code></pre></dd></dl>
         <h3 style="margin-top: 2.5rem;">Gradle: qué instalar y qué no editar</h3>
         <p>La guía de Cordova requiere un Gradle del sistema. En Windows, agrega también la carpeta <code>bin</code> de esa instalación a <code>Path</code>; en macOS, sigue el método de instalación indicado por Gradle y asegúrate de que su ejecutable esté disponible en la terminal. Para la línea 15.0.x, Cordova declara Gradle 8.14.2 para el proyecto: el Gradle del sistema crea el Gradle Wrapper, que descarga y usa la versión del proyecto. Por eso ambas versiones no tienen que coincidir.</p>
         <aside class="aviso"><strong>Conserva los valores administrados por Cordova.</strong> No cambies manualmente los archivos generados dentro de <code>platforms/android</code> para forzar API, Build Tools o Gradle: pueden regenerarse. Si en el futuro se necesita una propiedad de Gradle, se documentará como configuración del proyecto, no como cambio a esta instalación base.</aside>
+      </section>
+
+      <section id="ios" aria-labelledby="titulo-ios">
+        <h2 id="titulo-ios">Preparar iOS</h2>
+        <p class="intro">Para trabajar con iOS se necesita una Mac y la aplicación completa Xcode; Windows y Linux no pueden preparar este entorno. Para <code>cordova-ios</code> 8.x, la matriz oficial indica iOS 13 o posterior, Xcode 15 o posterior, Node.js 20.17.0 o posterior y CocoaPods 1.16.0 o posterior. Son mínimos de Cordova, no requisitos vigentes para publicar en App Store.</p>
+
+        <h3 style="margin-top: 2.5rem;">Qué instalar</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Instala macOS compatible y Xcode completo</h3>
+            <p>Descarga Xcode desde App Store o desde Apple Developer. Una instalación completa aporta <code>xcodebuild</code>, el SDK de iOS y el simulador; las Command Line Tools instaladas por separado no sustituyen a Xcode para este propósito. La versión mínima de Xcode para Cordova 8.x es 15, aunque una versión de macOS puede exigir una versión concreta de Xcode.</p>
+          </li>
+          <li>
+            <h3>Completa el primer inicio y selecciona Xcode activo</h3>
+            <p>Abre Xcode una vez y acepta su licencia para que instale sus componentes. Si hay varias copias de Xcode o las herramientas apuntan a las Command Line Tools, selecciona la aplicación completa como directorio activo. El comando siguiente es una instrucción para Terminal; no se ejecuta desde este manual.</p>
+            <dl class="comando"><dt>Seleccionar Xcode instalado</dt><dd><pre><code>sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pre></dd></dl>
+            <p>Después se puede confirmar qué ruta está activa con <code>xcode-select --print-path</code>. Si falta el componente de línea de comandos, Xcode puede ofrecerlo al primer inicio; <code>xcode-select --install</code> solicita solo esas herramientas y no reemplaza la instalación completa de Xcode.</p>
+          </li>
+          <li>
+            <h3>Instala el runtime del simulador que vayas a usar</h3>
+            <p>Abre <strong>Xcode &gt; Settings &gt; Platforms</strong> y descarga un runtime de simulador de iOS compatible con tu Xcode. El SDK llega con Xcode, pero los runtimes del simulador se descargan por separado y pueden ocupar bastante espacio. Elegir o iniciar un simulador y agregar la plataforma iOS al proyecto se explica después; esta sección solo deja preparado el entorno.</p>
+          </li>
+          <li>
+            <h3>Instala CocoaPods para dependencias nativas</h3>
+            <p>CocoaPods resuelve e integra bibliotecas nativas de iOS que pueden necesitar Cordova o sus plugins. La matriz de <code>cordova-ios</code> 8.x exige CocoaPods 1.16.0 o posterior. Si usas Homebrew, este es el método que muestra la guía de Cordova:</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>brew install cocoapods</code></pre></dd></dl>
+            <p>Una vez instalado, <code>pod --version</code> permite consultar la versión. La guía conserva un párrafo antiguo que menciona 1.8.0: para la familia 8.x se toma como referencia el mínimo 1.16.0 de su matriz versionada.</p>
+          </li>
+        </ol>
+
+        <aside class="aviso"><strong>No mezcles dos políticas distintas.</strong> Los mínimos anteriores sirven para que Cordova 8.x pueda preparar un proyecto. La distribución en App Store depende además de las reglas actuales de Apple —por ejemplo, el SDK y Xcode que Apple acepte en ese momento—, por lo que deben consultarse antes de enviar una app. Cumplir el mínimo de Cordova no garantiza que una entrega sea aceptada por App Store.</aside>
       </section>
 
       <section id="matriz" aria-labelledby="titulo-matriz">
