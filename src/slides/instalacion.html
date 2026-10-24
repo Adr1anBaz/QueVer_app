@@ -182,6 +182,95 @@
           <p class="fuente">Fuente: Apache Cordova, guía de Android (matriz 15.0.x).</p>
           <aside class="notes">Cierra esta parte con la idea práctica: Android Studio facilita instalar el SDK, pero hay que conservar su ubicación. En la continuación se verán variables, rutas, licencias y la plataforma Android. El emulador es opcional y no se configura aquí.</aside>
         </section>
+        <section>
+          <header class="encabezado"><h2>Conectar Java y el SDK</h2><p class="referencia">09 / rutas</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>La terminal necesita ubicar las herramientas instaladas fuera del proyecto.</p><p class="nota-clave"><code>JAVA_HOME</code> y <code>ANDROID_HOME</code> apuntan a esas ubicaciones.</p></div>
+            <ol class="pasos"><li>Definir las variables según el sistema</li><li>Añadir herramientas al <code>Path</code></li><li>Abrir una terminal nueva</li><li>Consultar las rutas configuradas</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía de Android.</p>
+          <aside class="notes">Explique que estas rutas conectan la terminal con JDK y SDK. En macOS se suelen declarar en la configuración de zsh; en Windows, en Variables de entorno. Los comandos para consultar rutas son instrucciones: no se muestran resultados de esta computadora.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Licencias y plataforma Android</h2><p class="referencia">10 / preparar</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Con el entorno localizado, se aceptan las licencias del SDK y se incorpora Android al proyecto.</p><p class="nota-clave"><code>cordova platform add android@15.1.0</code></p></div>
+            <ol class="pasos"><li>Revisar licencias del SDK</li><li>Agregar la plataforma</li><li>Dejar que Cordova genere sus archivos</li><li>No editar <code>platforms/android</code> a mano</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guías Android y CLI; anuncio cordova-android 15.1.0.</p>
+          <aside class="notes">La licencia corresponde al SDK de Android, no a Cordova. Al agregar la plataforma aparecen archivos generados: el trabajo diario sigue en www y config.xml. El número 15.1.0 es una versión publicada, no una versión instalada o verificada aquí.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Diagnosticar antes de compilar</h2><p class="referencia">11 / comprobar</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>La CLI puede señalar requisitos faltantes antes de intentar preparar una salida nativa.</p><p class="nota-clave"><code>cordova requirements android</code></p></div>
+            <ol class="pasos"><li>Corregir rutas o componentes faltantes</li><li>Preparar el proyecto</li><li>Compilar cuando el entorno esté listo</li><li>Usar emulador o dispositivo por separado</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guías CLI y Android.</p>
+          <aside class="notes">Diga que requirements ayuda a detectar dependencias, pero no sustituye una prueba funcional. Build crea artefactos nativos y run los despliega en un destino elegido; son etapas distintas. No se ejecutó ninguno de estos comandos para esta presentación.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>SQLite es una decisión opcional</h2><p class="referencia">12 / plugin</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Cordova no exige SQLite. Una app lo añade cuando necesita almacenamiento local mediante un plugin.</p><p class="nota-clave"><code>cordova-sqlite-storage</code> es un ejemplo, no un requisito.</p></div>
+            <ol class="pasos"><li>Definir la necesidad de datos locales</li><li>Revisar plataforma y permisos</li><li>Agregar y documentar el plugin</li><li>Probarlo en cada plataforma objetivo</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, arquitectura de plugins; package.json de QueVer.</p>
+          <aside class="notes">Conecte el ejemplo QueVer: su package.json declara cordova-sqlite-storage 7. Eso no demuestra que esté instalado ni que funcione en Android o iOS. Cada plugin agrega dependencias y debe validarse para la plataforma y la versión elegidas.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>iOS requiere macOS y Xcode</h2><p class="referencia">13 / entorno iOS</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>La ruta iOS se prepara en una Mac con la aplicación completa de Xcode.</p><p class="nota-clave">Para <mark>cordova-ios 8.x</mark>: Xcode ≥ 15 e iOS ≥ 13.</p></div>
+            <ol class="pasos"><li>Instalar y abrir Xcode una vez</li><li>Aceptar licencia y seleccionar Xcode</li><li>Descargar un runtime de simulador</li><li>Confirmar las herramientas activas</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía de iOS (matriz 8.x).</p>
+          <aside class="notes">Aclare que macOS no basta por sí solo: se necesita Xcode completo, no únicamente Command Line Tools. El mínimo de Cordova no promete que esa versión cumpla siempre las reglas vigentes de publicación de Apple.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Dependencias nativas en iOS</h2><p class="referencia">14 / CocoaPods</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>CocoaPods resuelve dependencias nativas que pueden requerir los plugins en el proyecto iOS.</p><p class="nota-clave">Matriz 8.x: <mark>CocoaPods ≥ 1.16</mark>.</p></div>
+            <ol class="pasos"><li>Instalar CocoaPods compatible</li><li>Agregar <code>ios@8.1.0</code> al proyecto</li><li>Revisar <code>cordova requirements ios</code></li><li>Abrir el workspace generado si hace falta</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía de iOS; anuncio cordova-ios 8.1.0.</p>
+          <aside class="notes">CocoaPods no es un paso decorativo: ayuda a integrar código nativo de plugins. La documentación antigua conserva un mínimo menor, pero aquí se usa el de la matriz 8.x. El workspace generado es relevante para Xcode; no se abre ni se compila durante esta exposición.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Simulador y iPhone no son lo mismo</h2><p class="referencia">15 / destino</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>El simulador permite recorrer la app; un dispositivo físico añade firma, confianza y comportamiento real.</p><p class="nota-clave">Elija el runtime o el iPhone antes de ejecutar <code>run</code>.</p></div>
+            <ol class="pasos"><li>Simulador: seleccionar runtime disponible</li><li>Dispositivo: conectar y elegir un Team</li><li>Activar firma automática y bundle ID</li><li>Atender Developer Mode y confianza</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía de iOS; Apple Developer Support.</p>
+          <aside class="notes">El simulador no sustituye el hardware: permisos, rendimiento y algunos servicios se comportan distinto. Para iPhone, Xcode suele ser la ruta más clara para la primera firma. ios-deploy corresponde al dispositivo físico ya firmado, no al simulador ni a la firma.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Checklist para iniciar sin sorpresas</h2><p class="referencia">16 / cierre</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>El objetivo no es instalar todo a la vez, sino dejar lista la ruta de la plataforma elegida.</p><p class="nota-clave">Empieza por Android o iOS; comparte solo Node, npm y la CLI.</p></div>
+            <ol class="pasos"><li>Node, npm y CLI compatibles</li><li>Proyecto y plataforma definidos</li><li>SDK o Xcode con rutas correctas</li><li>Plugins opcionales revisados</li><li>Destino de prueba elegido</li></ol>
+          </div>
+          <p class="fuente">Fuentes: guías oficiales de Cordova para CLI, Android e iOS.</p>
+          <aside class="notes">Cierre con una recapitulación de aproximadamente un minuto. Esta presentación completa dura entre 10 y 15 minutos si se dedica cerca de 35 a 45 segundos a cada diapositiva y un poco más a Android e iOS. Reitere el límite: aquí se explicó el proceso, no se ejecutaron Cordova, la app, builds, emuladores, simuladores ni dispositivos.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Consultar antes de asumir</h2><p class="referencia">17 / fuentes</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Los requisitos cambian por versión y plataforma. La documentación oficial es el punto de partida cuando una pieza no coincide.</p><p class="nota-clave">Una versión mostrada o un comando listado no prueban que una instalación funcione.</p></div>
+            <ol class="pasos"><li>Guía CLI de Apache Cordova</li><li>Guía Android y su matriz técnica</li><li>Guía iOS y su matriz técnica</li><li>Documentación de cada plugin</li></ol>
+          </div>
+          <p class="fuente">Fuentes: cordova.apache.org/docs/en/latest/guide/cli/, /platforms/android/ y /platforms/ios/.</p>
+          <aside class="notes">Termine con una invitación a consultar la documentación de la versión elegida antes de resolver un problema. Esta slide deja clara la frontera entre la guía y una verificación real: se explicó el proceso, pero no se ejecutaron Cordova, la app ni herramientas nativas.</aside>
+        </section>
       </div>
     </main>
 
