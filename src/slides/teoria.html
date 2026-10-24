@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Presentación de teoría e historia de Apache Cordova.">
+    <title>Teoría | Apache Cordova</title>
+    <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="../assets/css/presentacion.css">
+    <style>
+      .reveal .cronologia { display: grid; gap: 0.7rem; grid-template-columns: repeat(4, 1fr); margin-top: 1.3rem; position: relative; }
+      .reveal .cronologia::before { background: var(--linea); content: ""; height: 2px; left: 8%; position: absolute; right: 8%; top: 0.5rem; }
+      .reveal .hito { color: var(--tinta); font-size: 0.55em; line-height: 1.25; max-width: none; padding-top: 1.15rem; position: relative; }
+      .reveal .hito::before { background: var(--acento); border: 4px solid var(--fondo); border-radius: 50%; content: ""; height: 0.42rem; left: 0; position: absolute; top: 0.18rem; width: 0.42rem; }
+      .reveal .hito strong { display: block; font-size: 1.5em; margin-bottom: 0.25rem; }
+    </style>
+  </head>
+  <body>
+    <main class="reveal">
+      <div class="slides">
+        <section class="portada">
+          <div class="portada__texto">
+            <p class="portada__curso">Aplicaciones Móviles</p>
+            <h1>Entender <mark>Apache Cordova</mark></h1>
+            <p>El problema que atiende, su contexto web y el recorrido de PhoneGap a Apache.</p>
+          </div>
+          <div class="portada__datos">
+            <p>José Adrián Bazaldúa Huerta<br>Haili Ailin Ávila Ramírez<br>Universidad Iberoamericana</p>
+            <p class="portada__fecha">9 de noviembre de 2026</p>
+          </div>
+          <aside class="notes">Abra con la pregunta central: cómo usar conocimientos web para crear aplicaciones móviles. Esta primera parte explica el contexto y la historia; la segunda parte abordará arquitectura, plugins y decisiones de uso.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Un problema de plataformas</h2><p class="referencia">01 / problema</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Una misma idea móvil podía exigir equipos, lenguajes y herramientas distintos para cada sistema operativo.</p><p class="nota-clave">El reto: llegar a más de una plataforma sin rehacer toda la interfaz.</p></div>
+            <ol class="pasos"><li>Una experiencia para cada sistema</li><li>Código y herramientas diferentes</li><li>Más tiempo de mantenimiento</li><li>Necesidad de reutilizar</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">No afirme que una sola base elimina todo el trabajo específico. El problema es reducir duplicación en la interfaz y la lógica web; las plataformas siguen teniendo requisitos propios.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>La web ya tenía una base común</h2><p class="referencia">02 / contexto</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>HTML, CSS y JavaScript eran tecnologías conocidas para construir interfaces y comportamiento en el navegador.</p><p class="nota-clave">Una <mark>WebView</mark> lleva ese código web dentro de una aplicación para cada plataforma.</p></div>
+            <ol class="pasos"><li>HTML estructura la pantalla</li><li>CSS define la presentación</li><li>JavaScript responde a acciones</li><li>La app se empaqueta por plataforma</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">Explique WebView como una ventana de navegador integrada, no como un navegador separado. Cordova permite que el código web se ejecute dentro de un contenedor de aplicación.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>La necesidad: web + dispositivo</h2><p class="referencia">03 / motivación</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Reutilizar código web no bastaba si la app no podía interactuar con capacidades del teléfono.</p><p class="nota-clave">Cordova une tecnologías web con <mark>APIs del dispositivo</mark>.</p></div>
+            <ol class="pasos"><li>Sensores y estado de red</li><li>Cámara y almacenamiento</li><li>Interfaz web compartida</li><li>Acceso mediante APIs compatibles</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">La idea no es convertir HTML en controles nativos automáticamente. Es ejecutar una app web y ofrecer enlaces a capacidades nativas cuando la aplicación las necesita.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>2008: comienza PhoneGap</h2><p class="referencia">04 / Nitobi</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>PhoneGap surgió como proyecto de código abierto de <strong>Nitobi Software</strong> en 2008.</p><p class="nota-clave">Su propuesta conectaba desarrollo web y aplicaciones móviles híbridas.</p></div>
+            <ol class="pasos"><li>Nitobi inicia PhoneGap</li><li>Se publica como código abierto</li><li>Se enfoca en apps híbridas</li><li>Abre el camino del proyecto</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Cordova, “Goodbye PhoneGap” (2020).</p>
+          <aside class="notes">Esta fecha procede del comunicado oficial de Apache Cordova. Presente PhoneGap como el origen histórico, no como el nombre actual del proyecto Apache.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>2011: Adobe adquiere Nitobi</h2><p class="referencia">05 / transición</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Adobe adquirió Nitobi en 2011 y, poco después, PhoneGap fue donado a la Apache Software Foundation.</p><p class="nota-clave">La donación separó la tecnología base de una sola empresa.</p></div>
+            <ol class="pasos"><li>Adobe compra Nitobi</li><li>PhoneGap continúa como marca</li><li>La base se dona a Apache</li><li>Empieza una nueva etapa</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Cordova, “Goodbye PhoneGap” (2020).</p>
+          <aside class="notes">No sugiera que Adobe desapareció del día a día de inmediato. La idea clave es la transición de la tecnología hacia una fundación y un modelo de comunidad.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Callback se convierte en Cordova</h2><p class="referencia">06 / Apache</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>El proyecto entró a la incubadora de Apache en octubre de 2011 como <strong>Callback</strong>; el nombre pasó a ser Apache Cordova.</p><p class="nota-clave">Apache aporta un gobierno abierto basado en comunidad y contribuciones.</p></div>
+            <ol class="pasos"><li>Octubre de 2011: incubación</li><li>Nombre inicial: Callback</li><li>Nombre del proyecto: Cordova</li><li>Proyecto Apache establecido en 2012</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Foundation, Board history: Cordova.</p>
+          <aside class="notes">Diga que Callback fue el nombre de incubación y Cordova el nombre adoptado por Apache. La cronología de la fundación registra la creación formal del proyecto Apache en octubre de 2012.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>PhoneGap y Cordova no terminaron juntos</h2><p class="referencia">07 / diferencia clave</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Adobe anunció el cierre de PhoneGap en 2020. Apache Cordova, como proyecto abierto mantenido por comunidad, continuó.</p><p class="nota-clave"><mark>Cierre de PhoneGap</mark> no significa cierre de Apache Cordova.</p></div>
+            <ol class="pasos"><li>PhoneGap: producto y marca de Adobe</li><li>2020: Adobe anuncia su cierre</li><li>Cordova: proyecto de Apache</li><li>Su continuidad depende de su comunidad</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Cordova, “Goodbye PhoneGap” (14 ago. 2020).</p>
+          <aside class="notes">Esta distinción evita el error más común de la historia del proyecto. El anuncio de 2020 afirma expresamente que Cordova seguía activo y mantenido; no use el cierre de PhoneGap como evidencia de que Cordova terminó.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Una historia que sigue en marcha</h2><p class="referencia">08 / estado documentado</p></header>
+          <div class="cronologia" aria-label="Cronología de Apache Cordova">
+            <p class="hito"><strong>2008</strong>Nitobi inicia PhoneGap.</p>
+            <p class="hito"><strong>2011</strong>Adobe adquiere Nitobi y la base llega a Apache.</p>
+            <p class="hito"><strong>2020</strong>PhoneGap cierra; Cordova continúa.</p>
+            <p class="hito"><strong>2026</strong>Android 15.1.0 e iOS 8.1.0 publicados.</p>
+          </div>
+          <p class="nota-clave">Las versiones publicadas documentan actividad; no miden por sí solas adopción ni cuota de mercado.</p>
+          <p class="fuente">Fuentes primarias: Apache Cordova, anuncios Android 15.1.0 (22 jul. 2026), iOS 8.1.0 (31 may. 2026).</p>
+          <aside class="notes">Use la línea de tiempo para recapitular. Las versiones son evidencia concreta de publicaciones recientes, pero no permiten concluir cuántas personas o empresas usan Cordova.</aside>
+        </section>
+      </div>
+    </main>
+    <script type="module">
+      import Reveal from '../../node_modules/reveal.js/dist/reveal.mjs';
+      import Notes from '../../node_modules/reveal.js/dist/plugin/notes.mjs';
+      const deck = new Reveal({ width: 1600, height: 900, margin: 0.08, minScale: 0.2, maxScale: 1.5, center: false, controls: true, progress: true, slideNumber: 'c/t', hash: true, transition: 'none', plugins: [Notes] });
+      deck.initialize();
+    </script>
+  </body>
+</html>
