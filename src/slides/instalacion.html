@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Presentación de instalación de Apache Cordova: requisitos y comienzo de Android.">
+    <title>Instalación | Apache Cordova</title>
+    <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="../assets/css/presentacion.css">
+  </head>
+  <body>
+    <main class="reveal">
+      <div class="slides">
+        <section class="portada">
+          <div class="portada__texto">
+            <p class="portada__curso">Aplicaciones Móviles</p>
+            <h1>Instalar <mark>Apache Cordova</mark></h1>
+            <p>Del entorno web al comienzo de la preparación de Android.</p>
+          </div>
+          <div class="portada__datos">
+            <p>José Adrián Bazaldúa Huerta<br>Haili Ailin Ávila Ramírez<br>Universidad Iberoamericana</p>
+            <p class="portada__fecha">9 de noviembre de 2026</p>
+          </div>
+          <aside class="notes">Presenten el objetivo: ordenar las herramientas necesarias antes de crear o preparar una app. Esta primera parte llega hasta el inicio del entorno Android; los comandos son instrucciones, no pruebas realizadas.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>¿Qué vamos a preparar?</h2>
+            <p class="referencia">01 / recorrido</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <p>Una app Cordova parte de código web y después se prepara para cada plataforma.</p>
+            <ol class="pasos">
+              <li>Node.js y npm</li>
+              <li>Cordova CLI</li>
+              <li>Proyecto base</li>
+              <li>Entorno Android</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía CLI y estructura de proyecto.</p>
+          <aside class="notes">Enfatiza el orden. Node y npm permiten instalar la CLI; la CLI crea el proyecto; Android se prepara después. No son cuatro instalaciones independientes ni se compila nada en esta exposición.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Capas que no conviene confundir</h2>
+            <p class="referencia">02 / requisitos</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p><strong>CLI</strong> crea y organiza el proyecto.</p>
+              <p><strong>Plataforma</strong> aporta las herramientas de Android o iOS.</p>
+            </div>
+            <ol class="pasos">
+              <li>Node.js ≥ 20.17.0</li>
+              <li>Cordova CLI 13.x</li>
+              <li>Android: JDK + SDK</li>
+              <li>iOS: solo en macOS</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, instalación CLI; guías Android e iOS.</p>
+          <aside class="notes">Aclara que las versiones pertenecen a capas distintas. Tener Cordova CLI no significa que Android o iOS ya estén listos. iOS se cubrirá en la segunda parte del deck.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Primero: Node.js y npm</h2>
+            <p class="referencia">03 / base</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p>npm acompaña a Node.js y permite instalar la herramienta de Cordova.</p>
+              <p class="nota-clave">Para CLI 13.x: <mark>Node.js 20.17.0 o posterior</mark>.</p>
+            </div>
+            <ol class="pasos">
+              <li>Instalar Node.js compatible</li>
+              <li>Abrir una terminal nueva</li>
+              <li>Consultar versiones</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, instalación de la CLI.</p>
+          <aside class="notes">Menciona que npm se instala con Node.js. Las consultas sugeridas son node --version y npm --version; mostrar una versión no demuestra que Android o un proyecto estén configurados.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Después: Cordova CLI</h2>
+            <p class="referencia">04 / herramienta</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p>La CLI es el programa de terminal que crea y administra la estructura Cordova.</p>
+              <p class="nota-clave"><code>npm install -g cordova</code></p>
+            </div>
+            <ol class="pasos">
+              <li>Instalar globalmente</li>
+              <li>Consultar <code>cordova --version</code></li>
+              <li>Crear el proyecto desde una carpeta elegida</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, instalación de la CLI.</p>
+          <aside class="notes">Explica el -g: deja disponible el comando cordova en distintas carpetas. La versión de la CLI es una consulta; no verifica plataformas, SDKs ni plugins.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Crear la carpeta de la app</h2>
+            <p class="referencia">05 / proyecto</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p><code>cordova create</code> reúne el código web y la configuración inicial.</p>
+              <p class="nota-clave"><code>cordova create quever com.ejemplo.quever QueVer</code></p>
+            </div>
+            <ol class="pasos">
+              <li><code>quever</code>: carpeta</li>
+              <li><code>com.ejemplo.quever</code>: identificador</li>
+              <li><code>QueVer</code>: nombre visible</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía CLI.</p>
+          <aside class="notes">Descompón los tres argumentos. com.ejemplo.quever es solo un ejemplo: debe sustituirse por un identificador único antes de distribuir. Crear el proyecto todavía no instala Android ni iOS.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Cuatro archivos para ubicarse</h2>
+            <p class="referencia">06 / estructura</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <p>Reconocer la estructura evita editar por accidente contenido generado por una plataforma.</p>
+            <ol class="pasos">
+              <li><code>www/</code> · HTML, CSS y JavaScript</li>
+              <li><code>config.xml</code> · preferencias Cordova</li>
+              <li><code>package.json</code> · dependencias</li>
+              <li><code>.gitignore</code> · si la plantilla lo crea</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, estructura de proyecto.</p>
+          <aside class="notes">Relaciona www con la interfaz web. config.xml contiene nombre e identificador; package.json lista dependencias. Aclara que .gitignore depende de la plantilla y no debe prometerse siempre.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Android empieza fuera del proyecto</h2>
+            <p class="referencia">07 / entorno</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p>Antes de agregar la plataforma se prepara el conjunto de herramientas nativas.</p>
+              <p class="nota-clave">Referencia para <mark>cordova-android 15.x</mark>.</p>
+            </div>
+            <ol class="pasos">
+              <li>JDK 17</li>
+              <li>Android Studio</li>
+              <li>Android SDK</li>
+              <li>Gradle y licencias</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía de Android; matriz técnica 15.0.x.</p>
+          <aside class="notes">Introduce que la guía técnica publicada detalla 15.0.x, mientras 15.1.0 está anunciado como lanzamiento. Por eso se usan estos requisitos como referencia, no como una prueba de compatibilidad local.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado">
+            <h2>Android Studio instala el SDK</h2>
+            <p class="referencia">08 / SDK</p>
+          </header>
+          <div class="layout-dos-columnas">
+            <div>
+              <p>En <strong>Tools › SDK Manager</strong> se eligen las piezas que usará la plataforma.</p>
+              <p class="nota-clave">Guardar la ruta del SDK: se usará como <code>ANDROID_HOME</code>.</p>
+            </div>
+            <ol class="pasos">
+              <li>API 36</li>
+              <li>Build-Tools 36.x</li>
+              <li>Platform-Tools</li>
+              <li>Command-line Tools</li>
+            </ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, guía de Android (matriz 15.0.x).</p>
+          <aside class="notes">Cierra esta parte con la idea práctica: Android Studio facilita instalar el SDK, pero hay que conservar su ubicación. En la continuación se verán variables, rutas, licencias y la plataforma Android. El emulador es opcional y no se configura aquí.</aside>
+        </section>
+      </div>
+    </main>
+
+    <script type="module">
+      import Reveal from '../../node_modules/reveal.js/dist/reveal.mjs';
+      import Notes from '../../node_modules/reveal.js/dist/plugin/notes.mjs';
+
+      const deck = new Reveal({
+        width: 1600,
+        height: 900,
+        margin: 0.08,
+        minScale: 0.2,
+        maxScale: 1.5,
+        center: false,
+        controls: true,
+        progress: true,
+        slideNumber: 'c/t',
+        hash: true,
+        transition: 'none',
+        plugins: [Notes]
+      });
+
+      deck.initialize();
+    </script>
+  </body>
+</html>
