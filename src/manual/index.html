@@ -40,6 +40,7 @@
 
       .portada p { color: var(--tinta-suave); font-size: 1.1rem; margin: 1rem 0 0; max-width: 59ch; }
       .portada .identificador { color: var(--acento); font-size: 0.9rem; font-weight: 700; margin: 0; }
+      .volver-indice { font-size: 0.9rem; font-weight: 700; margin: 0 0 2rem; }
 
       h1, h2, h3 { letter-spacing: -0.045em; line-height: 1.03; }
       h1 { font-size: clamp(3rem, 8vw, 6.5rem); margin: 0.35rem 0 0; max-width: 10ch; }
@@ -101,6 +102,7 @@
         h2 { font-size: 21pt; }
         h3 { font-size: 12pt; }
         h2, h3 { break-after: avoid-page; }
+        .volver-indice { display: none; }
         .indice { display: none; }
         main { padding: 0; }
         section { padding: 1.5rem 0; }
@@ -118,6 +120,7 @@
   <body>
     <header class="portada">
       <div class="contenedor">
+        <p class="volver-indice"><a href="../index.html">← Volver al índice</a></p>
         <p class="identificador">Manual de Apache Cordova</p>
         <h1>Instalación y cierre</h1>
         <p>Guía para preparar Cordova, crear un proyecto y revisar Android, iOS, problemas frecuentes y el cierre documental.</p>

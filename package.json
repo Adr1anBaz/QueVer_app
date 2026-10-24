@@ -4,8 +4,10 @@
   "private": true,
   "description": "Entregables estáticos de documentación para QueVer.",
   "scripts": {
+    "assets": "node scripts/copy-reveal.mjs",
     "build": "node scripts/build.mjs",
     "serve": "node scripts/serve.mjs",
+    "prepdf": "npm run assets",
     "pdf": "node scripts/export-pdf.mjs"
   },
   "dependencies": {

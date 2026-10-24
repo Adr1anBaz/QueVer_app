@@ -24,6 +24,23 @@
   text-align: left;
 }
 
+.enlace-indice {
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  color: var(--tinta);
+  font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  left: 1rem;
+  padding: 0.45rem 0.65rem;
+  position: fixed;
+  text-decoration: none;
+  top: 1rem;
+  z-index: 20;
+}
+
+.enlace-indice:hover { color: var(--acento); }
+
 .reveal .slides section {
   box-sizing: border-box;
   height: 100%;
@@ -272,6 +289,8 @@
 }
 
 @media print {
+  .enlace-indice { display: none; }
+
   .reveal .slides section {
     padding: 2.4rem 3rem;
   }

@@ -5,6 +5,7 @@
 # Dependencias y artefactos generados
 node_modules/
 dist/
+src/vendor/
 
 # Temporales, registros y dumps
 .DS_Store
