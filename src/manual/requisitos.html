@@ -3,70 +3,202 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Matriz de requisitos | Manual de Apache Cordova</title>
+    <meta name="description" content="Manual base para preparar Node.js, Cordova CLI y un proyecto Apache Cordova.">
+    <title>Primeros pasos | Manual de Apache Cordova</title>
+    <style>
+      :root {
+        --fondo: #f8f9fb;
+        --papel: #ffffff;
+        --tinta: #1c2229;
+        --tinta-suave: #59636d;
+        --linea: #d9dee4;
+        --acento: #245fc4;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--fondo);
+        color: var(--tinta);
+        font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      a { color: inherit; text-decoration-color: var(--acento); text-underline-offset: 0.18em; }
+      a:hover { color: var(--acento); }
+      a:focus-visible { outline: 3px solid var(--acento); outline-offset: 0.2rem; }
+
+      .contenedor { margin: 0 auto; max-width: 72rem; padding: 0 2rem; }
+
+      .portada {
+        border-bottom: 1px solid var(--linea);
+        padding: 5.5rem 0 3.25rem;
+      }
+
+      .portada p { color: var(--tinta-suave); font-size: 1.1rem; margin: 1rem 0 0; max-width: 59ch; }
+      .portada .identificador { color: var(--acento); font-size: 0.9rem; font-weight: 700; margin: 0; }
+
+      h1, h2, h3 { letter-spacing: -0.045em; line-height: 1.03; }
+      h1 { font-size: clamp(3rem, 8vw, 6.5rem); margin: 0.35rem 0 0; max-width: 10ch; }
+      h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin: 0; max-width: 19ch; }
+      h3 { font-size: 1.2rem; margin: 0; }
+
+      .indice { border-bottom: 1px solid var(--linea); padding: 1.5rem 0; }
+      .indice h2 { font-size: 1rem; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+      .indice ol { display: flex; flex-wrap: wrap; gap: 0.55rem 1.5rem; list-style-position: inside; margin: 0; padding: 0; }
+      .indice li { color: var(--tinta-suave); }
+
+      main { padding: 1rem 0 5rem; }
+      section { border-bottom: 1px solid var(--linea); padding: 4rem 0; scroll-margin-top: 1rem; }
+      section:last-child { border-bottom: 0; }
+      .intro { color: var(--tinta-suave); font-size: 1.08rem; max-width: 64ch; }
+
+      .pasos { counter-reset: paso; list-style: none; margin: 2.25rem 0 0; padding: 0; }
+      .pasos > li { border-top: 1px solid var(--linea); counter-increment: paso; padding: 1.4rem 0 1.5rem 3.5rem; position: relative; }
+      .pasos > li::before { color: var(--acento); content: "0" counter(paso); font-size: 0.9rem; font-weight: 700; left: 0; position: absolute; top: 1.55rem; }
+      .pasos p { margin: 0.45rem 0 0; max-width: 68ch; }
+
+      .comando, .salida, .aviso { margin: 1rem 0 0; max-width: 68ch; }
+      .comando dt, .salida dt, .aviso strong { color: var(--acento); font-size: 0.9rem; font-weight: 700; }
+      .comando dd, .salida dd { margin: 0.4rem 0 0; }
+      pre { background: var(--papel); border-left: 3px solid var(--acento); margin: 0; overflow-x: auto; padding: 1rem 1.2rem; }
+      code, pre { font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.92em; }
+      .salida pre { border-left-color: var(--linea); color: var(--tinta-suave); }
+      .aviso { border-left: 3px solid var(--acento); color: var(--tinta-suave); padding-left: 1rem; }
+
+      .matriz { margin-top: 2rem; overflow-x: auto; }
+      table { border-collapse: collapse; min-width: 48rem; text-align: left; width: 100%; }
+      caption { color: var(--tinta-suave); margin-bottom: 0.7rem; text-align: left; }
+      th, td { border-top: 1px solid var(--linea); padding: 1rem; vertical-align: top; }
+      thead th { color: var(--acento); font-size: 0.88rem; }
+      tbody th { min-width: 9rem; }
+
+      .referencias { padding-left: 1.2rem; }
+      .referencias li { margin: 0.65rem 0; max-width: 74ch; }
+      footer { border-top: 1px solid var(--linea); color: var(--tinta-suave); font-size: 0.9rem; padding: 1.5rem 0 2.5rem; }
+
+      @media (max-width: 600px) {
+        .contenedor { padding: 0 1.25rem; }
+        .portada { padding: 3.5rem 0 2.5rem; }
+        section { padding: 3rem 0; }
+        .pasos > li { padding-left: 2.75rem; }
+      }
+
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    </style>
   </head>
   <body>
-    <main>
-      <header>
-        <p>Manual de Apache Cordova · Base documental</p>
-        <h1>Matriz de requisitos</h1>
-        <p>Información contrastada con documentación oficial el 24 de octubre de 2026. Las versiones de la CLI, de cada plataforma y del sistema operativo son cosas distintas.</p>
-      </header>
+    <header class="portada">
+      <div class="contenedor">
+        <p class="identificador">Manual de Apache Cordova</p>
+        <h1>Primeros pasos</h1>
+        <p>Una guía base para preparar el entorno web, instalar la interfaz de línea de comandos y crear la carpeta inicial de una aplicación.</p>
+      </div>
+    </header>
 
-      <section aria-labelledby="lectura">
-        <h2 id="lectura">Cómo leer esta tabla</h2>
-        <p>“Mínimo” indica el requisito publicado para la línea de versión señalada, no una garantía de que cualquier plugin funcione. “Pendiente” señala datos que el manual no debe presentar como comprobados hasta revisarlos de nuevo.</p>
+    <nav class="indice" aria-label="Índice del manual">
+      <div class="contenedor">
+        <h2>En esta página</h2>
+        <ol>
+          <li><a href="#node">Node.js y npm</a></li>
+          <li><a href="#cli">Cordova CLI</a></li>
+          <li><a href="#proyecto">Crear el proyecto</a></li>
+          <li><a href="#matriz">Requisitos por capa</a></li>
+          <li><a href="#referencias">Referencias</a></li>
+        </ol>
+      </div>
+    </nav>
+
+    <main class="contenedor">
+      <section id="node" aria-labelledby="titulo-node">
+        <h2 id="titulo-node">Node.js y npm</h2>
+        <p class="intro">Cordova CLI se instala con npm, el gestor de paquetes que acompaña a Node.js. Para la familia Cordova CLI 13.x, la documentación pide Node.js 20.17.0 o posterior.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Instala una versión compatible de Node.js</h3>
+            <p>Descarga e instala Node.js desde su sitio oficial o mediante el método de administración de software que use tu sistema. npm se instala junto con Node.js.</p>
+          </li>
+          <li>
+            <h3>Consulta las versiones disponibles</h3>
+            <p>Abre una terminal nueva y usa estos comandos. Son una consulta: no instalan ni modifican nada.</p>
+            <dl class="comando"><dt>Comandos</dt><dd><pre><code>node --version
+npm --version</code></pre></dd></dl>
+            <dl class="salida"><dt>Salida ilustrativa</dt><dd><pre><code>v20.17.0
+10.x.x</code></pre></dd></dl>
+          </li>
+        </ol>
       </section>
 
-      <section aria-labelledby="matriz">
-        <h2 id="matriz">Requisitos por capa</h2>
-        <table>
-          <caption>Versiones y herramientas separadas por responsabilidad</caption>
-          <thead>
-            <tr>
-              <th scope="col">Capa</th>
-              <th scope="col">Versión de referencia</th>
-              <th scope="col">Requisitos publicados</th>
-              <th scope="col">Alcance y observaciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Cordova CLI</th>
-              <td>13.0.0</td>
-              <td>Node.js ≥ 20.17.0; npm llega con Node.js.</td>
-              <td>La guía oficial publica el requisito para la familia CLI 13.x. Git es opcional y solo hace falta si npm o la CLI descargan recursos desde una URL Git.</td>
-            </tr>
-            <tr>
-              <th scope="row">Cordova Android</th>
-              <td>15.1.0 (publicada el 22 jul 2026)</td>
-              <td>JDK 17; Android SDK; Android Studio; Gradle del sistema; variables <code>JAVA_HOME</code> y <code>ANDROID_HOME</code>.</td>
-              <td>La tabla técnica vigente enumera explícitamente <strong>15.0.x</strong>, no 15.1.x: para 15.0.x indica API 24–36, Build Tools ^36.0.0, Gradle 8.14.2, Android Gradle Plugin 8.10.1 y Node.js ≥20.17.0 o ≥22.9.0. No se debe afirmar todavía que esos valores fueron revalidados para 15.1.0.</td>
-            </tr>
-            <tr>
-              <th scope="row">Cordova iOS</th>
-              <td>8.1.1 (publicada el 7 jul 2026)</td>
-              <td>macOS; iOS ≥13; Xcode/xcodebuild ≥15; Node.js ≥20.17.0; CocoaPods ≥1.16.0; ios-deploy ≥1.12.2.</td>
-              <td>La matriz oficial aplica estos mínimos a toda la familia 8.x. Xcode incluye el SDK de iOS; sus requisitos de macOS y los SDK disponibles se consultan con Apple. iOS no puede prepararse desde Windows o Linux.</td>
-            </tr>
-          </tbody>
-        </table>
+      <section id="cli" aria-labelledby="titulo-cli">
+        <h2 id="titulo-cli">Cordova CLI</h2>
+        <p class="intro">La CLI es el programa de terminal que crea y organiza un proyecto Cordova. No es la plataforma Android ni la plataforma iOS: esas se agregan después, desde el proyecto.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Instala la CLI globalmente</h3>
+            <p>La opción <code>-g</code> instala el paquete para poder usar el comando <code>cordova</code> desde cualquier carpeta del equipo.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>npm install -g cordova</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Consulta la versión de la CLI</h3>
+            <p>Este comando solo muestra la versión disponible en la terminal. Una salida concreta no prueba que Android, iOS o un proyecto ya estén configurados.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova --version</code></pre></dd></dl>
+            <dl class="salida"><dt>Salida ilustrativa</dt><dd><pre><code>13.0.0</code></pre></dd></dl>
+          </li>
+        </ol>
       </section>
 
-      <section aria-labelledby="inconsistencias">
-        <h2 id="inconsistencias">Datos que requieren cuidado</h2>
+      <section id="proyecto" aria-labelledby="titulo-proyecto">
+        <h2 id="titulo-proyecto">Crear el proyecto</h2>
+        <p class="intro">El comando de creación reúne en una carpeta el código web y la configuración que Cordova usará más adelante para preparar plataformas nativas.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Elige carpeta, identificador y nombre visible</h3>
+            <p>La carpeta puede llamarse <code>quever</code>. El identificador debe ser único para la aplicación, con formato de dominio invertido; <code>com.ejemplo.quever</code> es un ejemplo que debe sustituirse antes de distribuir una app.</p>
+          </li>
+          <li>
+            <h3>Crea la estructura inicial</h3>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova create quever com.ejemplo.quever QueVer</code></pre></dd></dl>
+            <p><code>cordova create</code> inicia el proyecto; <code>quever</code> es la carpeta; <code>com.ejemplo.quever</code> es el identificador; y <code>QueVer</code> es el nombre que verá la persona usuaria.</p>
+          </li>
+          <li>
+            <h3>Entra a la carpeta creada</h3>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cd quever</code></pre></dd></dl>
+            <p>Desde esa carpeta se agregarán plataformas o plugins en secciones posteriores del manual.</p>
+          </li>
+        </ol>
+        <aside class="aviso"><strong>Alcance de esta página.</strong> Crear el proyecto no instala Android ni iOS, no compila una aplicación y no confirma que un plugin funcione.</aside>
+        <h3 style="margin-top: 2.5rem;">Archivos que conviene reconocer</h3>
         <ul>
-          <li>La guía de iOS conserva un párrafo que dice CocoaPods ≥1.8.0, pero su matriz 8.x indica ≥1.16.0. Para iOS 8.x se usará el valor de la matriz (≥1.16.0).</li>
-          <li>Una versión de <code>adb</code> o una ruta local del SDK no prueban que el SDK, Build Tools y plataforma instalados sean compatibles con Cordova Android.</li>
-          <li><code>sdk echo $ANDROID_HOME</code> no es un comando de verificación válido; la variable se consulta por separado y su ruta depende del equipo.</li>
-          <li>El plugin <code>cordova-sqlite-storage</code> es opcional. La compatibilidad de su versión 7 con Cordova Android 15.1.0 o iOS 8.1.1 no se ha comprobado aquí.</li>
-          <li>Esta matriz no prueba instalaciones: no se ejecutaron Cordova, la aplicación, compilaciones, emuladores ni dispositivos.</li>
+          <li><code>www/</code>: código web de la aplicación, como HTML, CSS, JavaScript e imágenes.</li>
+          <li><code>config.xml</code>: configuración de Cordova, incluido el identificador, el nombre y preferencias del proyecto.</li>
+          <li><code>package.json</code>: dependencias y metadatos del proyecto.</li>
+          <li><code>.gitignore</code>: reglas para indicar qué archivos no se incluyen en el repositorio, si la plantilla lo crea.</li>
         </ul>
       </section>
 
-      <section aria-labelledby="referencias">
-        <h2 id="referencias">Referencias oficiales</h2>
-        <ul>
+      <section id="matriz" aria-labelledby="titulo-matriz">
+        <h2 id="titulo-matriz">Requisitos por capa</h2>
+        <p class="intro">Las versiones de la CLI, de cada plataforma y del sistema operativo son cosas distintas. “Mínimo” expresa un requisito publicado, no una garantía de compatibilidad de cualquier plugin.</p>
+        <div class="matriz">
+          <table>
+            <caption>Versiones y herramientas separadas por responsabilidad</caption>
+            <thead><tr><th scope="col">Capa</th><th scope="col">Versión de referencia</th><th scope="col">Requisitos publicados</th><th scope="col">Alcance y observaciones</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Cordova CLI</th><td>13.0.0</td><td>Node.js ≥ 20.17.0; npm llega con Node.js.</td><td>Git es opcional y solo hace falta si npm o la CLI descargan recursos desde una URL Git.</td></tr>
+              <tr><th scope="row">Cordova Android</th><td>15.1.0 (22 jul 2026)</td><td>JDK 17; Android SDK; Android Studio; Gradle del sistema; variables <code>JAVA_HOME</code> y <code>ANDROID_HOME</code>.</td><td>La tabla técnica vigente enumera 15.0.x, no 15.1.x: API 24–36, Build Tools ^36.0.0, Gradle 8.14.2, AGP 8.10.1 y Node.js ≥20.17.0 o ≥22.9.0. No se debe afirmar todavía que esos valores se revalidaron para 15.1.0.</td></tr>
+              <tr><th scope="row">Cordova iOS</th><td>8.1.1 (7 jul 2026)</td><td>macOS; iOS ≥13; Xcode/xcodebuild ≥15; Node.js ≥20.17.0; CocoaPods ≥1.16.0; ios-deploy ≥1.12.2.</td><td>La matriz oficial aplica estos mínimos a toda la familia 8.x. iOS no puede prepararse desde Windows o Linux.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="aviso"><strong>Dato que requiere cuidado.</strong> <code>sdk echo $ANDROID_HOME</code> no es un comando válido. Una ruta local o la versión de <code>adb</code> tampoco demuestran compatibilidad. SQLite es opcional y la compatibilidad de su versión 7 no se ha comprobado aquí.</aside>
+      </section>
+
+      <section id="referencias" aria-labelledby="titulo-referencias">
+        <h2 id="titulo-referencias">Referencias oficiales</h2>
+        <ul class="referencias">
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/installation.html">Instalación de la CLI de Cordova</a> — compatibilidad de CLI 13.x y Node.js.</li>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html">Guía de Android de Cordova</a> — matriz Android, JDK, SDK, Gradle y variables.</li>
           <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html">Guía de iOS de Cordova</a> — matriz iOS 8.x, Xcode, CocoaPods e ios-deploy.</li>
@@ -75,5 +207,6 @@
         </ul>
       </section>
     </main>
+    <footer><div class="contenedor">Base documental actualizada el 24 de octubre de 2026. Los comandos se muestran como instrucciones; no se ejecutaron Cordova, la aplicación, compilaciones, emuladores ni dispositivos.</div></footer>
   </body>
 </html>
