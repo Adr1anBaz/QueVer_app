@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matriz de requisitos | Manual de Apache Cordova</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p>Manual de Apache Cordova · Base documental</p>
+        <h1>Matriz de requisitos</h1>
+        <p>Información contrastada con documentación oficial el 24 de octubre de 2026. Las versiones de la CLI, de cada plataforma y del sistema operativo son cosas distintas.</p>
+      </header>
+
+      <section aria-labelledby="lectura">
+        <h2 id="lectura">Cómo leer esta tabla</h2>
+        <p>“Mínimo” indica el requisito publicado para la línea de versión señalada, no una garantía de que cualquier plugin funcione. “Pendiente” señala datos que el manual no debe presentar como comprobados hasta revisarlos de nuevo.</p>
+      </section>
+
+      <section aria-labelledby="matriz">
+        <h2 id="matriz">Requisitos por capa</h2>
+        <table>
+          <caption>Versiones y herramientas separadas por responsabilidad</caption>
+          <thead>
+            <tr>
+              <th scope="col">Capa</th>
+              <th scope="col">Versión de referencia</th>
+              <th scope="col">Requisitos publicados</th>
+              <th scope="col">Alcance y observaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cordova CLI</th>
+              <td>13.0.0</td>
+              <td>Node.js ≥ 20.17.0; npm llega con Node.js.</td>
+              <td>La guía oficial publica el requisito para la familia CLI 13.x. Git es opcional y solo hace falta si npm o la CLI descargan recursos desde una URL Git.</td>
+            </tr>
+            <tr>
+              <th scope="row">Cordova Android</th>
+              <td>15.1.0 (publicada el 22 jul 2026)</td>
+              <td>JDK 17; Android SDK; Android Studio; Gradle del sistema; variables <code>JAVA_HOME</code> y <code>ANDROID_HOME</code>.</td>
+              <td>La tabla técnica vigente enumera explícitamente <strong>15.0.x</strong>, no 15.1.x: para 15.0.x indica API 24–36, Build Tools ^36.0.0, Gradle 8.14.2, Android Gradle Plugin 8.10.1 y Node.js ≥20.17.0 o ≥22.9.0. No se debe afirmar todavía que esos valores fueron revalidados para 15.1.0.</td>
+            </tr>
+            <tr>
+              <th scope="row">Cordova iOS</th>
+              <td>8.1.1 (publicada el 7 jul 2026)</td>
+              <td>macOS; iOS ≥13; Xcode/xcodebuild ≥15; Node.js ≥20.17.0; CocoaPods ≥1.16.0; ios-deploy ≥1.12.2.</td>
+              <td>La matriz oficial aplica estos mínimos a toda la familia 8.x. Xcode incluye el SDK de iOS; sus requisitos de macOS y los SDK disponibles se consultan con Apple. iOS no puede prepararse desde Windows o Linux.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="inconsistencias">
+        <h2 id="inconsistencias">Datos que requieren cuidado</h2>
+        <ul>
+          <li>La guía de iOS conserva un párrafo que dice CocoaPods ≥1.8.0, pero su matriz 8.x indica ≥1.16.0. Para iOS 8.x se usará el valor de la matriz (≥1.16.0).</li>
+          <li>Una versión de <code>adb</code> o una ruta local del SDK no prueban que el SDK, Build Tools y plataforma instalados sean compatibles con Cordova Android.</li>
+          <li><code>sdk echo $ANDROID_HOME</code> no es un comando de verificación válido; la variable se consulta por separado y su ruta depende del equipo.</li>
+          <li>El plugin <code>cordova-sqlite-storage</code> es opcional. La compatibilidad de su versión 7 con Cordova Android 15.1.0 o iOS 8.1.1 no se ha comprobado aquí.</li>
+          <li>Esta matriz no prueba instalaciones: no se ejecutaron Cordova, la aplicación, compilaciones, emuladores ni dispositivos.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="referencias">
+        <h2 id="referencias">Referencias oficiales</h2>
+        <ul>
+          <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/installation.html">Instalación de la CLI de Cordova</a> — compatibilidad de CLI 13.x y Node.js.</li>
+          <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html">Guía de Android de Cordova</a> — matriz Android, JDK, SDK, Gradle y variables.</li>
+          <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html">Guía de iOS de Cordova</a> — matriz iOS 8.x, Xcode, CocoaPods e ios-deploy.</li>
+          <li><a href="https://cordova.apache.org/announcements/2026/07/22/cordova-android-15.1.0.html">Anuncio de cordova-android 15.1.0</a>.</li>
+          <li><a href="https://cordova.apache.org/announcements/2026/07/07/cordova-ios-8.1.1.html">Anuncio de cordova-ios 8.1.1</a>.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
