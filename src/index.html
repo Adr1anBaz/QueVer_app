@@ -26,7 +26,7 @@
       h1, h2 { letter-spacing: -0.055em; line-height: 0.98; }
       h1 { font-size: clamp(3.4rem, 10vw, 8rem); margin: 0; max-width: 9ch; }
       .introduccion { color: var(--tinta-suave); font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.55; margin: 1.5rem 0 3.5rem; max-width: 51ch; }
-      .entregables { border-top: 1px solid var(--linea); display: grid; grid-template-columns: repeat(3, 1fr); }
+      .entregables { border-top: 1px solid var(--linea); display: grid; grid-template-columns: repeat(4, 1fr); }
       article { border-right: 1px solid var(--linea); padding: 1.4rem 1.5rem 1.7rem 0; }
       article + article { padding-left: 1.5rem; }
       article:last-child { border-right: 0; }
@@ -36,10 +36,15 @@
       .enlaces a:first-child { color: var(--acento); font-weight: 700; }
       footer { border-top: 1px solid var(--linea); color: var(--tinta-suave); font-size: 0.9rem; margin-top: 4rem; padding-top: 1.25rem; }
 
+      @media (max-width: 900px) {
+        .entregables { grid-template-columns: repeat(2, 1fr); }
+        article:nth-child(2) { border-right: 0; }
+      }
+
       @media (max-width: 700px) {
         main { padding-inline: 1.25rem; }
         .entregables { grid-template-columns: 1fr; }
-        article, article + article { border-bottom: 1px solid var(--linea); border-right: 0; padding: 1.4rem 0; }
+        article, article + article { border-bottom: 1px solid var(--linea); border-right: 0 !important; padding: 1.4rem 0; }
         article:last-child { border-bottom: 0; }
       }
     </style>
@@ -51,14 +56,6 @@
       <p class="introduccion">Material de instalación y teoría preparado por José Adrián Bazaldúa Huerta y Haili Ailin Ávila Ramírez · 9 de noviembre de 2026.</p>
 
       <section class="entregables" aria-label="Entregables">
-        <article>
-          <h2>Manual</h2>
-          <p>Guía de instalación, requisitos y cierre documental para Android e iOS.</p>
-          <div class="enlaces">
-            <a href="manual/index.html">Abrir manual HTML</a>
-            <a href="pdf/manual.pdf" download>Descargar PDF</a>
-          </div>
-        </article>
         <article>
           <h2>Instalación</h2>
           <p>Presentación sobre el entorno, Android, iOS y el recorrido de preparación.</p>
@@ -73,6 +70,23 @@
           <div class="enlaces">
             <a href="slides/teoria.html">Abrir slides HTML</a>
             <a href="pdf/teoria.pdf" download>Descargar PDF</a>
+          </div>
+        </article>
+        <article>
+          <h2>Guía paso a paso</h2>
+          <p>Arma QueVer con checkpoints, código copiable y rutas de ejecución. El PDF completo es largo: aproximadamente 288 páginas.</p>
+          <div class="enlaces">
+            <a href="guia/index.html">Abrir guía HTML</a>
+            <a href="pdf/guia.pdf" download>Descargar PDF · ~288 págs.</a>
+            <a href="guia/index.html#datos">Abrir checkpoints descargables</a>
+          </div>
+        </article>
+        <article>
+          <h2>Manual de referencia</h2>
+          <p>Guía de instalación, requisitos y cierre documental para Android e iOS.</p>
+          <div class="enlaces">
+            <a href="manual/index.html">Abrir manual HTML</a>
+            <a href="pdf/manual.pdf" download>Descargar PDF</a>
           </div>
         </article>
       </section>

@@ -123,6 +123,44 @@
         .copy-button { flex: 1 1 9rem; max-width: 100%; }
       }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+      @page { size: A4; margin: 15mm 13mm 17mm; }
+      @media print {
+        :root { --fondo: #fff; --papel: #fff; --tinta: #000; --tinta-suave: #333; --linea: #888; --acento: #000; }
+        html { font-size: 10pt; }
+        body { background: #fff; line-height: 1.42; }
+        .contenedor { max-width: none; padding: 0; }
+        .portada { padding: 0 0 1.2rem; }
+        .volver, .indice, .code-actions, .copy-status, .copy-fallback { display: none !important; }
+        .maquetacion { display: block; padding: 1.5rem 0 0; }
+        .guia section { padding: 1.6rem 0; }
+        .guia section, .ruta-plataforma { break-inside: auto; }
+        h1 { font-size: 34pt; }
+        h2 { font-size: 22pt; }
+        h3, .code-card__header, figure, .evidencia > p { break-after: avoid-page; }
+        .bloque, .evidencia, .ruta-plataforma { margin-top: 1.2rem; padding-top: 1.2rem; }
+        details, details:not([open]) { display: block; }
+        details > summary { display: none; }
+        details > *:not(summary) { display: block !important; }
+        .archivo-completo-etapa { border-top: 1px solid #888; }
+        .archivo-completo-etapa > p { display: block; }
+        .code-card { border: 1px solid #555; break-inside: auto; }
+        .code-card__header { background: #fff; color: #000; padding: 0.65rem 0.8rem; }
+        .code-card__header > div:first-child { flex-basis: auto; }
+        .code-action { border-color: #000; color: #000; }
+        .code-path { color: #000; overflow-wrap: anywhere; }
+        .code-panel, .code-source { background: #fff !important; color: #000 !important; max-height: none; overflow: visible; padding: 0.65rem 0.8rem !important; white-space: pre-wrap; }
+        .code-line { min-height: 0; padding-left: 0; white-space: pre-wrap; }
+        .linea-nueva { border-left-color: #000; }
+        .linea-nueva::before { display: none; }
+        .prueba-opcional, .nota { border-left-color: #000; }
+        .galeria-evidencia { gap: 0.65rem; }
+        figure { break-inside: avoid; padding: 0.45rem; }
+        figure img { max-height: 120mm; }
+        .evidencia-ejecucion figure img { max-height: 130mm; }
+        a { color: #000; text-decoration: underline; }
+        a[data-print-href]::after { content: " (" attr(data-print-href) ")"; font-size: 8pt; overflow-wrap: anywhere; }
+        footer { font-size: 8.5pt; padding-top: 1rem; }
+      }
     </style>
   </head>
   <body>
