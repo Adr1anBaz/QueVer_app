@@ -13,10 +13,14 @@ El resultado queda en `dist/`. La construcción crea `dist/.nojekyll` para que G
 
 ## Publicar en GitHub Pages
 
+La publicación principal es automática: cada `push` a `main` ejecuta el workflow de GitHub Actions, instala las dependencias, genera el sitio y los tres PDF, y despliega `dist/` en GitHub Pages.
+
+Como respaldo manual, si Actions no está disponible, se puede publicar la misma salida en la rama `gh-pages`:
+
 ```sh
 npm run deploy
 ```
 
-El comando reconstruye el sitio, genera los tres PDF y publica únicamente `dist/` en la rama `gh-pages`. En GitHub, configurar una vez **Settings → Pages → Build and deployment → Source: Deploy from a branch**, y seleccionar **Branch: `gh-pages`** y **Folder: `/ (root)`**.
+El comando reconstruye el sitio, genera los tres PDF y publica únicamente `dist/` en `gh-pages`.
 
 La publicación estará disponible en `https://adr1anbaz.github.io/QueVer_app/`.
