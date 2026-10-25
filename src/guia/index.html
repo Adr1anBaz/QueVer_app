@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Guía proyectable para construir QueVer paso a paso con Apache Cordova.">
+    <title>Construye QueVer | Aplicaciones Móviles</title>
+    <style>
+      :root {
+        --fondo: #f8f9fb;
+        --papel: #ffffff;
+        --tinta: #1c2229;
+        --tinta-suave: #59636d;
+        --linea: #d9dee4;
+        --acento: #245fc4;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--fondo); color: var(--tinta); font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif; line-height: 1.58; margin: 0; }
+      a { color: inherit; text-decoration-color: var(--acento); text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+      a:hover { color: var(--acento); }
+      a:focus-visible { outline: 3px solid var(--acento); outline-offset: 0.25rem; }
+      code { background: #e9edf2; border-radius: 0.2rem; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.9em; padding: 0.12em 0.28em; }
+
+      .contenedor { margin: 0 auto; max-width: 76rem; padding: 0 2rem; }
+      .portada { border-bottom: 1px solid var(--linea); padding: 5.5rem 0 3.5rem; }
+      .volver { font-size: 0.9rem; font-weight: 700; margin: 0 0 2.25rem; }
+      .identificador, .etiqueta, .paso { color: var(--acento); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.035em; text-transform: uppercase; }
+      .identificador { margin: 0; }
+      h1, h2, h3 { letter-spacing: -0.05em; line-height: 1.02; }
+      h1 { font-size: clamp(3.25rem, 8vw, 6.75rem); margin: 0.35rem 0 1rem; max-width: 9ch; }
+      h2 { font-size: clamp(2rem, 4vw, 3.4rem); margin: 0; max-width: 17ch; }
+      h3 { font-size: 1.25rem; margin: 0; }
+      .resumen { color: var(--tinta-suave); font-size: clamp(1.05rem, 2vw, 1.25rem); margin: 0; max-width: 59ch; }
+      .regla { border-left: 3px solid var(--acento); color: var(--tinta); margin: 2rem 0 0; max-width: 67ch; padding: 0.15rem 0 0.15rem 1rem; }
+
+      .maquetacion { align-items: start; display: grid; gap: clamp(2.5rem, 6vw, 6rem); grid-template-columns: minmax(0, 1fr) 16.5rem; padding: 4rem 0 6rem; }
+      .indice { align-self: start; border-left: 1px solid var(--linea); font-size: 0.9rem; position: sticky; top: 1.5rem; }
+      .indice h2 { font-size: 0.9rem; letter-spacing: -0.02em; margin: 0 0 0.8rem; padding-left: 1rem; }
+      .indice ol { display: grid; gap: 0.45rem; list-style: none; margin: 0; padding: 0 0 0 1rem; }
+      .indice a { color: var(--tinta-suave); text-decoration: none; }
+      .indice a:hover { color: var(--acento); text-decoration: underline; }
+      .guia section { border-top: 1px solid var(--linea); padding: 4.5rem 0; scroll-margin-top: 1.5rem; }
+      .guia section:first-child { border-top: 0; padding-top: 0; }
+      .introduccion { color: var(--tinta-suave); font-size: 1.07rem; margin: 1.15rem 0 0; max-width: 65ch; }
+
+      .tiempo { border-bottom: 1px solid var(--linea); display: grid; grid-template-columns: 5rem 1fr; max-width: 46rem; padding: 0.75rem 0; }
+      .tiempo strong { color: var(--acento); font-size: 0.9rem; }
+      .tiempo span { color: var(--tinta-suave); }
+      .bloque { background: var(--papel); border: 1px solid var(--linea); margin-top: 2rem; padding: clamp(1.2rem, 3vw, 2rem); }
+      .bloque > *:first-child { margin-top: 0; }
+      .bloque > *:last-child { margin-bottom: 0; }
+      .ruta { color: var(--tinta-suave); font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.86rem; margin: 0.35rem 0 1.1rem; overflow-wrap: anywhere; }
+      .detalles { display: grid; gap: 0; margin: 1.4rem 0 0; }
+      .detalles div { border-top: 1px solid var(--linea); padding: 0.9rem 0; }
+      .detalles dt { color: var(--acento); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.035em; text-transform: uppercase; }
+      .detalles dd { margin: 0.25rem 0 0; max-width: 68ch; }
+      .archivos { display: flex; flex-wrap: wrap; gap: 0.6rem 1.1rem; list-style: none; margin: 1.25rem 0 0; padding: 0; }
+      .archivos a { color: var(--acento); font-size: 0.92rem; font-weight: 700; }
+      .code-stage { margin-top: 1.75rem; }
+      .code-stage__intro { align-items: baseline; border-bottom: 1px solid var(--linea); display: flex; flex-wrap: wrap; gap: 0.45rem 0.8rem; margin-bottom: 1rem; padding-bottom: 0.7rem; }
+      .code-stage__intro strong { color: var(--acento); font-size: 0.9rem; }
+      .code-stage__intro span { color: var(--tinta-suave); font-size: 0.84rem; }
+      .code-card { border: 1px solid #303944; margin-top: 1rem; }
+      .code-card__header { align-items: start; background: #252d36; color: #fff; display: flex; gap: 1rem; justify-content: space-between; overflow: hidden; padding: 0.85rem 1rem; }
+      .code-card__header > div:first-child { flex: 1 1 12rem; min-width: 0; }
+      .code-action { border: 1px solid #9fc0ff; color: #dbe9ff; display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; padding: 0.18rem 0.35rem; }
+      .code-path { color: #fff; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.86rem; margin: 0.45rem 0 0; overflow-wrap: anywhere; }
+      .code-actions { display: flex; flex: 0 1 auto; flex-wrap: wrap; gap: 0.45rem; justify-content: end; max-width: 100%; }
+      .copy-button { background: #fff; border: 1px solid #fff; color: #1c2229; cursor: pointer; font: inherit; font-size: 0.82rem; font-weight: 700; min-height: 2.75rem; padding: 0.45rem 0.7rem; }
+      .copy-button--file { background: transparent; color: #fff; }
+      .copy-button:hover { background: #9fc0ff; border-color: #9fc0ff; color: #1c2229; }
+      .copy-button:focus-visible { outline: 3px solid #9fc0ff; outline-offset: 3px; }
+      .copy-status { background: #e8f0ff; color: #163d80; font-size: 0.84rem; margin: 0; min-height: 0; padding: 0 1rem; }
+      .copy-status:not(:empty) { border-bottom: 1px solid #b7ccf3; padding-block: 0.55rem; }
+      .copy-fallback { color: var(--tinta-suave); font-size: 0.8rem; margin: 0; padding: 0.7rem 1rem; }
+      .code-panel { background: #111820; color: #f3f6fa; font: 0.82rem/1.55 "SFMono-Regular", Consolas, monospace; margin: 0; max-height: 31rem; overflow: auto; padding: 1rem 1.25rem; tab-size: 2; }
+      .code-panel:focus-visible { outline: 3px solid var(--acento); outline-offset: -3px; }
+      .code-source { background: #111820 !important; border-radius: 0; color: #f3f6fa !important; display: block; font: inherit; padding: 0 !important; }
+      .code-line { display: block; min-height: 1.55em; padding-left: 0.55rem; white-space: pre; }
+      .linea-nueva { border-left: 3px solid #9fc0ff; position: relative; }
+      .linea-nueva::before { color: #9fc0ff; content: attr(data-label); font: 700 0.58rem/1 Avenir, "Segoe UI", sans-serif; letter-spacing: 0.04em; position: absolute; right: 0.4rem; text-transform: uppercase; top: 0.25rem; }
+      .terminal-card .code-action { border-color: #9fc0ff; }
+      .prueba-opcional { border-left: 3px solid var(--acento); color: var(--tinta-suave); font-size: 0.9rem; margin-top: 1rem; padding: 0.65rem 0 0.65rem 0.85rem; }
+      .archivo-completo-etapa { border-top: 1px solid var(--linea); margin-top: 1.5rem; padding-top: 1rem; }
+      .archivo-completo-etapa > summary { color: var(--acento); cursor: pointer; font-weight: 700; }
+      .archivo-completo-etapa > p { color: var(--tinta-suave); font-size: 0.9rem; }
+      .archivo-completo { margin-top: 1rem; }
+      .archivo-completo > .code-card { margin-top: 0; }
+      .nota { border-left: 3px solid var(--acento); color: var(--tinta-suave); margin-top: 1.5rem; padding-left: 1rem; }
+      .resultado-real { border: 1px solid var(--acento); margin-top: 2rem; padding: 1.25rem 1.4rem; }
+      .resultado-real h3 { color: var(--acento); }
+      .evidencia { border-top: 1px solid var(--linea); margin-top: 2rem; padding-top: 1.2rem; }
+      .evidencia > p { color: var(--tinta-suave); font-size: 0.92rem; margin: 0 0 0.9rem; }
+      .galeria-evidencia { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      figure { background: var(--papel); border: 1px solid var(--linea); margin: 0; padding: 0.7rem; }
+      figure img { display: block; height: auto; max-height: 31rem; object-fit: contain; object-position: center; width: 100%; }
+      figcaption { color: var(--tinta-suave); font-size: 0.82rem; line-height: 1.4; padding: 0.65rem 0.1rem 0.1rem; }
+      .evidencia-ejecucion figure img { max-height: 38rem; }
+      .ruta-plataforma { border-top: 1px solid var(--linea); margin-top: 3rem; padding-top: 3rem; scroll-margin-top: 1.5rem; }
+      .ruta-plataforma > h3 { font-size: clamp(1.7rem, 3vw, 2.5rem); margin: 0.35rem 0 1rem; }
+      .ruta-plataforma > p { color: var(--tinta-suave); max-width: 67ch; }
+      .ruta-android__paso { margin-top: 1.25rem; }
+      .ruta-android__paso > ul { color: var(--tinta-suave); max-width: 67ch; }
+      footer { border-top: 1px solid var(--linea); color: var(--tinta-suave); font-size: 0.9rem; padding: 1.5rem 0 2.5rem; }
+
+      @media (max-width: 800px) {
+        .contenedor { padding: 0 1.25rem; }
+        .portada { padding: 3.5rem 0 2.5rem; }
+        .maquetacion { display: block; padding-top: 2.5rem; }
+        .indice { border-bottom: 1px solid var(--linea); border-left: 0; margin-bottom: 3rem; padding-bottom: 1.5rem; position: static; }
+        .indice h2, .indice ol { padding-left: 0; }
+        .indice ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .guia section { padding: 3.25rem 0; }
+      }
+      @media (max-width: 480px) {
+        .indice ol { grid-template-columns: 1fr; }
+        .tiempo { grid-template-columns: 4.5rem 1fr; }
+        .code-card__header { flex-wrap: wrap; gap: 0.7rem; }
+        .code-card__header > div:first-child { flex-basis: 100%; }
+        .code-actions { flex-basis: 100%; justify-content: start; }
+        .copy-button { flex: 1 1 9rem; max-width: 100%; }
+      }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    </style>
+  </head>
+  <body>
+    <header class="portada">
+      <div class="contenedor">
+        <p class="volver"><a href="../index.html">← Volver al índice</a></p>
+        <p class="identificador">Aplicaciones Móviles · Guía de construcción</p>
+        <h1>Construye QueVer</h1>
+        <p class="resumen">Un recorrido para proyectar, copiar y armar la aplicación. Sigue el orden: cada checkpoint completa al anterior. Esta página enseña a construir QueVer y llevarla a un teléfono, emulador o simulador; la preparación de herramientas vive en el manual.</p>
+        <p class="regla"><strong>Antes de empezar:</strong> cada persona usa su propia clave de OMDb. Escribe la clave solo en <code>www/js/config.local.js</code> y consérvala al reemplazar los demás archivos.</p>
+      </div>
+    </header>
+
+    <div class="contenedor maquetacion">
+      <main class="guia">
+        <section id="recorrido" aria-labelledby="titulo-recorrido">
+          <p class="etiqueta">120 minutos</p>
+          <h2 id="titulo-recorrido">El recorrido de la clase</h2>
+          <p class="introduccion">Los primeros minutos se usan para la instalación y la explicación. Después se construye la app en seis etapas cortas. Si una persona se atrasa, puede abrir el checkpoint de la etapa actual y continuar desde allí.</p>
+          <div class="bloque" aria-label="Ritmo de la sesión">
+            <div class="tiempo"><strong>0–15</strong><span>Instalación: abre el <a href="../manual/index.html#proyecto">manual</a> para preparar Cordova, Android o iOS.</span></div>
+            <div class="tiempo"><strong>15–30</strong><span>Teoría y mapa de Cordova con los decks de <a href="../slides/teoria.html">teoría</a> e <a href="../slides/instalacion.html">instalación</a>.</span></div>
+            <div class="tiempo"><strong>30–38</strong><span>Crea QueVer, agrega plataformas y SQLite siguiendo las instrucciones del manual.</span></div>
+            <div class="tiempo"><strong>38–101</strong><span>Construye la app: datos, búsqueda, guardado, catálogo, edición y recomendación.</span></div>
+            <div class="tiempo"><strong>101–112</strong><span>Cada alumno lleva su copia a Android, iOS o Browser; la evidencia disponible se resume al final.</span></div>
+            <div class="tiempo"><strong>112–120</strong><span>Recuperación, dudas y comprobación de la lista final.</span></div>
+          </div>
+        </section>
+
+        <section id="preparar" aria-labelledby="titulo-preparar">
+          <p class="etiqueta">Antes del checkpoint 01</p>
+          <h2 id="titulo-preparar">Prepara el proyecto</h2>
+          <p class="introduccion">La guía no repite toda la instalación. Sigue el manual hasta tener la carpeta de QueVer, sus plataformas y el plugin SQLite; luego vuelve aquí para construir la interfaz.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3>
+            <p>Pasas de un proyecto Cordova vacío a una carpeta lista para recibir los archivos de QueVer.</p>
+            <dl class="detalles">
+              <div><dt>Dónde pegar</dt><dd>En la carpeta de tu propio proyecto <code>quever/</code>. Consulta el <a href="../manual/index.html">manual de instalación</a> para cada comando y requisito.</dd></div>
+              <div><dt>Resultado esperado</dt><dd>Tienes <code>config.xml</code> y la carpeta <code>www/</code>. Aún no esperes una app terminada.</dd></div>
+              <div><dt>Error común</dt><dd>Confundir la instalación de Cordova con la construcción de QueVer. Si todavía no existe tu carpeta de proyecto, vuelve al manual antes de copiar un checkpoint.</dd></div>
+            </dl>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> La instalación deja disponibles el comando y la estructura inicial del proyecto.</p><div class="galeria-evidencia"><figure><img src="img/installCordova.webp" loading="lazy" alt="Terminal con la instalación global de Cordova terminada"><figcaption>Instalación de Cordova en Terminal.</figcaption></figure><figure><img src="img/tree1.webp" loading="lazy" alt="Explorador de archivos con la carpeta quever, www y config.xml"><figcaption>Carpeta inicial de QueVer.</figcaption></figure></div></div>
+            <article class="code-card terminal-card">
+              <header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">En la carpeta de tu proyecto quever/</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="terminal-commands">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="terminal-commands">Copiar archivo completo</button></div></header>
+              <p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p>
+              <pre class="code-panel" tabindex="0" aria-label="Comandos de terminal"><code class="code-source" id="terminal-commands">cordova create quever com.ejemplo.quever QueVer
+cd quever
+cordova platform add android@15.1.0
+cordova platform add ios@8.1.1
+cordova plugin add cordova-sqlite-storage
+cordova run android --emulator
+cordova emulate ios --target=iPhone-17-Pro</code></pre>
+            </article>
+          </div>
+        </section>
+
+        <section id="datos" aria-labelledby="titulo-datos">
+          <p class="paso">Checkpoint 01 · 38–46 min</p>
+          <h2 id="titulo-datos">Base visual y datos</h2>
+          <p class="introduccion">Se crea la base de la pantalla y la conexión local que guardará las películas. Este es el punto de partida acumulativo.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3>
+            <p>QueVer recibe su estructura visual, la configuración de red limitada y la preparación de SQLite con avisos visibles si la base no abre.</p>
+            <p class="ruta">checkpoint: 01-datos/</p>
+            <dl class="detalles">
+              <div><dt>Dónde pegar</dt><dd>Reemplaza <code>config.xml</code> en la raíz de QueVer y copia los archivos indicados dentro de <code>www/</code>. Crea <code>www/js/config.local.js</code> con tu clave.</dd></div>
+              <div><dt>Resultado esperado</dt><dd>Se ve la base de QueVer. En una plataforma Cordova disponible, el aviso de preparación deja de estar pendiente; si SQLite falta, el aviso explica qué ruta usar.</dd></div>
+              <div><dt>Error común</dt><dd>Abrir <code>www/index.html</code> directamente en el navegador y esperar SQLite. La aplicación necesita ejecutarse mediante Cordova.</dd></div>
+            </dl>
+            <ul class="archivos" aria-label="Archivos completos del checkpoint 01"><li><a href="checkpoints/01-datos/config.xml" download>config.xml</a></li><li><a href="checkpoints/01-datos/www/index.html" download>www/index.html</a></li><li><a href="checkpoints/01-datos/www/css/index.css" download>www/css/index.css</a></li><li><a href="checkpoints/01-datos/www/js/db.js" download>www/js/db.js</a></li><li><a href="checkpoints/01-datos/www/js/index.js" download>www/js/index.js</a></li><li><a href="checkpoints/01-datos/www/js/config.local.js" download>plantilla de clave</a></li></ul>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> La interfaz inicial carga el título, la búsqueda y el espacio para el catálogo.</p><figure><img src="img/visualizacionWebApp.webp" loading="lazy" alt="Vista de QueVer con buscador, botón de película aleatoria y catálogo vacío"><figcaption>Base visual de QueVer antes de guardar películas.</figcaption></figure></div>
+            <div class="code-stage" data-code-stage="01-datos"></div>
+          </div>
+        </section>
+
+        <section id="busqueda" aria-labelledby="titulo-busqueda">
+          <p class="paso">Checkpoint 02 · 46–58 min</p>
+          <h2 id="titulo-busqueda">Busca en OMDb</h2>
+          <p class="introduccion">Se añade la búsqueda remota, los resultados y el detalle de una película para elegir qué se guardará después.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3><p>La app consulta OMDb usando la clave personal y muestra un aviso si falta la clave, la red falla o la respuesta no sirve.</p><p class="ruta">checkpoint: 02-busqueda/</p>
+            <dl class="detalles"><div><dt>Dónde pegar</dt><dd>Reemplaza los archivos de este checkpoint dentro de tu proyecto. Conserva tu <code>www/js/config.local.js</code>: no lo reemplaces con una clave ajena.</dd></div><div><dt>Resultado esperado</dt><dd>Al buscar un título aparece una lista y puedes abrir su detalle. Con una clave ausente se muestra un mensaje claro, no un resultado inventado.</dd></div><div><dt>Error común</dt><dd>Pegar la clave en <code>index.js</code> o sustituir el archivo local al actualizar. La clave vive separada para que los siguientes cambios no la borren.</dd></div></dl>
+            <ul class="archivos" aria-label="Archivos completos del checkpoint 02"><li><a href="checkpoints/02-busqueda/config.xml" download>config.xml</a></li><li><a href="checkpoints/02-busqueda/www/index.html" download>www/index.html</a></li><li><a href="checkpoints/02-busqueda/www/css/index.css" download>www/css/index.css</a></li><li><a href="checkpoints/02-busqueda/www/js/db.js" download>www/js/db.js</a></li><li><a href="checkpoints/02-busqueda/www/js/index.js" download>www/js/index.js</a></li></ul>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> Al activar tu propia clave y buscar un título, se confirma la activación y aparece una lista de resultados.</p><div class="galeria-evidencia"><figure><img src="img/activateAPI.webp" loading="lazy" alt="Página de OMDb que confirma la activación de una clave, con la barra de dirección ocultada"><figcaption>Confirmación de activación; la clave y la URL privada fueron ocultadas.</figcaption></figure><figure><img src="img/buscadorAPI.webp" loading="lazy" alt="Resultados de búsqueda de Inception dentro de QueVer"><figcaption>Resultados de una búsqueda en OMDb.</figcaption></figure></div></div>
+            <div class="code-stage" data-code-stage="02-busqueda"></div>
+          </div>
+        </section>
+
+        <section id="guardado" aria-labelledby="titulo-guardado">
+          <p class="paso">Checkpoint 03 · 58–72 min</p>
+          <h2 id="titulo-guardado">Guarda tu opinión</h2>
+          <p class="introduccion">Una película encontrada ya puede guardarse como pendiente o como vista, con calificación y opinión opcional.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3><p>El detalle incorpora las decisiones de guardado y un listado mínimo. Los duplicados no sobrescriben una opinión ni calificación existente.</p><p class="ruta">checkpoint: 03-guardado/</p>
+            <dl class="detalles"><div><dt>Dónde pegar</dt><dd>Reemplaza los archivos completos del checkpoint 03 en las mismas rutas. Mantén intacto tu archivo local de clave.</dd></div><div><dt>Resultado esperado</dt><dd>Puedes guardar una película como pendiente o vista; al terminar correctamente aparece en el listado.</dd></div><div><dt>Error común</dt><dd>Interpretar un aviso de duplicado como un fallo silencioso. Significa que esa película ya existe y sus datos se conservaron.</dd></div></dl>
+            <ul class="archivos" aria-label="Archivos completos del checkpoint 03"><li><a href="checkpoints/03-guardado/config.xml" download>config.xml</a></li><li><a href="checkpoints/03-guardado/www/index.html" download>www/index.html</a></li><li><a href="checkpoints/03-guardado/www/css/index.css" download>www/css/index.css</a></li><li><a href="checkpoints/03-guardado/www/js/db.js" download>www/js/db.js</a></li><li><a href="checkpoints/03-guardado/www/js/index.js" download>www/js/index.js</a></li></ul>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> Al elegir una película, aparece una decisión clara entre dejarla pendiente o marcarla como vista.</p><figure><img src="img/preguntaPeli.webp" loading="lazy" alt="Cuadro de QueVer para Ready Player One con botones La quiero ver y Ya la vi"><figcaption>Elección de estado antes del guardado.</figcaption></figure></div>
+            <div class="code-stage" data-code-stage="03-guardado"></div>
+          </div>
+        </section>
+
+        <section id="catalogo" aria-labelledby="titulo-catalogo">
+          <p class="paso">Checkpoint 04 · 72–84 min</p>
+          <h2 id="titulo-catalogo">Ordena el catálogo</h2>
+          <p class="introduccion">La colección se separa entre películas pendientes y vistas para que el catálogo sea fácil de revisar.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3><p>Aparecen tarjetas, estados vacíos, detalle de la película guardada y el enlace <em>Ver más</em> para abrir todos los registros ya consultados.</p><p class="ruta">checkpoint: 04-catalogo/</p>
+            <dl class="detalles"><div><dt>Dónde pegar</dt><dd>Reemplaza los archivos completos del checkpoint 04, conservando <code>www/js/config.local.js</code>.</dd></div><div><dt>Resultado esperado</dt><dd>Ves hasta cinco películas por estado y <em>Ver más</em> abre la lista completa. No es paginación ni scroll infinito.</dd></div><div><dt>Error común</dt><dd>Esperar que al guardar seis películas se muestren todas en la portada: la vista inicial muestra cinco y deja el resto en la lista completa.</dd></div></dl>
+            <ul class="archivos" aria-label="Archivos completos del checkpoint 04"><li><a href="checkpoints/04-catalogo/config.xml" download>config.xml</a></li><li><a href="checkpoints/04-catalogo/www/index.html" download>www/index.html</a></li><li><a href="checkpoints/04-catalogo/www/css/index.css" download>www/css/index.css</a></li><li><a href="checkpoints/04-catalogo/www/js/db.js" download>www/js/db.js</a></li><li><a href="checkpoints/04-catalogo/www/js/index.js" download>www/js/index.js</a></li></ul>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> Una película guardada se organiza en el catálogo, con su año y calificación cuando corresponde.</p><figure><img src="img/peliculaCatalogo.webp" loading="lazy" alt="Catálogo de QueVer con Blade Runner guardada y calificada con cuatro estrellas"><figcaption>Una película ya guardada dentro del catálogo.</figcaption></figure></div>
+            <div class="code-stage" data-code-stage="04-catalogo"></div>
+          </div>
+        </section>
+
+        <section id="edicion" aria-labelledby="titulo-edicion">
+          <p class="paso">Checkpoint 05 · 84–94 min</p>
+          <h2 id="titulo-edicion">Edita, cambia o elimina</h2>
+          <p class="introduccion">El catálogo deja de ser solo una consulta: ahora se pueden corregir datos, marcar una película como vista o eliminarla.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3><p>Se incorporan edición de calificación y opinión, cambio de estado y eliminación con confirmación.</p><p class="ruta">checkpoint: 05-edicion/</p>
+            <dl class="detalles"><div><dt>Dónde pegar</dt><dd>Reemplaza los archivos del checkpoint 05 en tu carpeta de QueVer y conserva el archivo local con tu clave.</dd></div><div><dt>Resultado esperado</dt><dd>Una película vista conserva sus campos al editar; una pendiente puede pasar a vista; eliminar pide confirmación.</dd></div><div><dt>Error común</dt><dd>Creer que el cambio se guardó si aparece un error. Cuando falla, el formulario o la tarjeta permanece para que puedas intentarlo otra vez.</dd></div></dl>
+            <ul class="archivos" aria-label="Archivos completos del checkpoint 05"><li><a href="checkpoints/05-edicion/config.xml" download>config.xml</a></li><li><a href="checkpoints/05-edicion/www/index.html" download>www/index.html</a></li><li><a href="checkpoints/05-edicion/www/css/index.css" download>www/css/index.css</a></li><li><a href="checkpoints/05-edicion/www/js/db.js" download>www/js/db.js</a></li><li><a href="checkpoints/05-edicion/www/js/index.js" download>www/js/index.js</a></li></ul>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> La tarjeta conserva los datos de una película vista para poder revisarlos o actualizarlos.</p><figure><img src="img/actualizacionCatalogo.webp" loading="lazy" alt="Catálogo de QueVer con Como Caído Del Cielo, calificación y opinión guardadas"><figcaption>Catálogo actualizado con calificación y opinión.</figcaption></figure></div>
+            <div class="code-stage" data-code-stage="05-edicion"></div>
+          </div>
+        </section>
+
+        <section id="aleatorio" aria-labelledby="titulo-aleatorio">
+          <p class="paso">Checkpoint 06 · 94–101 min</p>
+          <h2 id="titulo-aleatorio">Pide una recomendación</h2>
+          <p class="introduccion">La etapa final añade una recomendación obtenida desde OMDb y reutiliza el mismo guardado del catálogo.</p>
+          <div class="bloque">
+            <h3>Lo que cambia</h3><p>El botón <em>Recomiéndame una</em> consulta OMDb y abre el detalle solo cuando recibe datos completos. No usa una selección aleatoria de SQLite.</p><p class="ruta">checkpoint: 06-aleatorio/</p>
+            <dl class="detalles"><div><dt>Dónde pegar</dt><dd>Reemplaza los archivos del checkpoint 06. Conserva tu <code>www/js/config.local.js</code> sin cambios.</dd></div><div><dt>Resultado esperado</dt><dd>La recomendación muestra detalle y puede guardarse como pendiente o vista con la misma protección contra duplicados.</dd></div><div><dt>Error común</dt><dd>Ver un problema de red como si fuera una película aleatoria vacía. Si OMDb no responde bien, aparece el aviso y no se abre un modal incompleto.</dd></div></dl>
+            <ul class="archivos" aria-label="Archivos completos del checkpoint 06"><li><a href="checkpoints/06-aleatorio/config.xml" download>config.xml</a></li><li><a href="checkpoints/06-aleatorio/www/index.html" download>www/index.html</a></li><li><a href="checkpoints/06-aleatorio/www/css/index.css" download>www/css/index.css</a></li><li><a href="checkpoints/06-aleatorio/www/js/db.js" download>www/js/db.js</a></li><li><a href="checkpoints/06-aleatorio/www/js/index.js" download>www/js/index.js</a></li></ul>
+            <div class="evidencia"><p><strong>Debería verse así.</strong> No hay una captura publicada para esta etapa: al elegir <em>Recomiéndame una</em>, aparece el detalle de una película válida de OMDb con las opciones de guardado. Si la red falla, aparece un aviso y no un modal vacío.</p></div>
+            <div class="code-stage" data-code-stage="06-aleatorio"></div>
+          </div>
+        </section>
+
+        <section id="ejecutar" aria-labelledby="titulo-ejecutar">
+          <p class="etiqueta">101–112 min</p>
+          <h2 id="titulo-ejecutar">Llévala a una plataforma</h2>
+          <p class="introduccion">Usa la ruta correspondiente del manual para enviar tu propia copia. La guía detallada para Android, iOS y Browser se completará en las siguientes secciones del material; esta evidencia evita presentar esos destinos como promesas.</p>
+          <div class="resultado-real">
+            <h3>Resultados reales disponibles</h3>
+            <p><strong>Android:</strong> QueVer se compiló y se abrió en el AVD <code>Pixel_4</code> (Android 17); SQLite se confirmó por logcat.</p>
+            <p><strong>iOS:</strong> con Xcode 26.3, runtime iOS 26.3 y CocoaPods 1.17.0, la compilación para simulador finalizó y SQLite se confirmó en <code>iPhone-17-Pro</code>.</p>
+            <p><strong>Límite:</strong> un iPhone físico no se probó. Requiere abrir el workspace en Xcode, elegir Personal Team, usar un Bundle ID único, confiar en el certificado y activar Modo desarrollador.</p>
+          </div>
+          <div class="evidencia evidencia-ejecucion"><p><strong>Debería verse así.</strong> Estas capturas documentan los dos simuladores que sí se comprobaron; no representan una prueba en iPhone físico.</p><div class="galeria-evidencia"><figure><img src="img/androidEmulador.webp" loading="lazy" alt="QueVer abierto en el emulador Android Pixel 4 con catálogo vacío"><figcaption>Android: QueVer en el AVD Pixel_4.</figcaption></figure><figure><img src="img/iosSimulador.webp" loading="lazy" alt="QueVer abierto en el simulador iPhone 17 Pro con catálogo vacío"><figcaption>iOS: QueVer en el simulador iPhone-17-Pro.</figcaption></figure></div></div>
+          <div id="android" class="ruta-plataforma" aria-labelledby="titulo-android">
+            <p class="etiqueta">Ruta Android · 101–112 min</p>
+            <h3 id="titulo-android">Emulador o teléfono Android</h3>
+            <p>Antes de continuar, revisa en el <a href="../manual/index.html#android">manual de Android</a> que JDK 17, Android SDK, API 36, Build Tools 36.x, Gradle, <code>JAVA_HOME</code> y <code>ANDROID_HOME</code> estén preparados. Esta sección no los reinstala: solo ayuda a elegir un destino y ejecutar QueVer.</p>
+
+            <div class="bloque ruta-android__paso">
+              <h3>1. Elige o crea un AVD</h3>
+              <p>En Android Studio abre <strong>Tools &gt; Device Manager</strong>, crea o elige un dispositivo virtual y selecciona una imagen compatible con la arquitectura de tu equipo. Si ya tienes un AVD, elígelo allí; no es necesario crear otro.</p>
+              <ul><li><strong>Mac con Apple Silicon:</strong> imagen <code>arm64-v8a</code>.</li><li><strong>Mac Intel o Windows:</strong> imagen <code>x86_64</code>.</li></ul>
+              <article class="code-card terminal-card"><header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">Solo si necesitas crear una imagen y AVD</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="android-avd">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="android-avd">Copiar archivo completo</button></div></header><p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p><pre class="code-panel" tabindex="0" aria-label="Comandos para crear un AVD Android"><code class="code-source" id="android-avd"># Mac con Apple Silicon
+sdkmanager "system-images;android-37;google_apis;arm64-v8a"
+avdmanager create avd -n Pixel_4_API_37 -k "system-images;android-37;google_apis;arm64-v8a"
+
+# Mac Intel o Windows
+sdkmanager "system-images;android-37;google_apis;x86_64"
+avdmanager create avd -n Pixel_4_API_37 -k "system-images;android-37;google_apis;x86_64"</code></pre></article>
+              <p class="nota">Si SDK Manager muestra licencias pendientes, revísalas y acéptalas solo si estás de acuerdo: <code>sdkmanager --licenses</code>.</p>
+            </div>
+
+            <div class="bloque ruta-android__paso">
+              <h3>2. O conecta tu teléfono</h3>
+              <p>En el teléfono activa Opciones de desarrollador y <strong>Depuración USB</strong>. Conéctalo por cable, desbloquéalo y acepta la huella RSA cuando aparezca. En Windows instala el driver USB que corresponda al fabricante si el equipo no aparece.</p>
+              <article class="code-card terminal-card"><header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">Comprueba que ADB reconoce el teléfono</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="android-adb">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="android-adb">Copiar archivo completo</button></div></header><p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p><pre class="code-panel" tabindex="0" aria-label="Comando ADB para detectar un teléfono"><code class="code-source" id="android-adb">adb devices</code></pre></article>
+              <p class="nota">El estado debe decir <code>device</code>. Si dice <code>unauthorized</code>, desbloquea el teléfono y acepta la huella RSA; si no aparece, revisa cable, Depuración USB y driver en Windows.</p>
+            </div>
+
+            <div class="bloque ruta-android__paso">
+              <h3>3. Compila, abre y confirma</h3>
+              <p>Desde la carpeta <code>quever/</code>, usa un solo destino. Si hay varios emuladores o teléfonos conectados, escribe el nombre del destino después de <code>--target</code>.</p>
+              <article class="code-card terminal-card"><header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">En la carpeta quever/</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="android-run">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="android-run">Copiar archivo completo</button></div></header><p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p><pre class="code-panel" tabindex="0" aria-label="Comandos para ejecutar QueVer en Android"><code class="code-source" id="android-run">cordova build android
+cordova run android --emulator
+cordova run android --device
+cordova run android --target=Pixel_4
+adb logcat | grep SQLite</code></pre></article>
+              <p><strong>Resultado esperado:</strong> QueVer abre en el destino elegido y el log registra SQLite. En Q40 se comprobó este recorrido con <code>cordova build android</code> y <code>cordova run android --emulator</code> en el AVD <code>Pixel_4</code> (Android 17); SQLite se confirmó por logcat. Es evidencia de ese equipo, no una garantía para todos los equipos.</p>
+            </div>
+
+            <div class="bloque ruta-android__paso">
+              <h3>Si algo se detiene</h3>
+              <dl class="detalles"><div><dt>ANDROID_HOME o Java no encontrados</dt><dd>Vuelve al <a href="../manual/index.html#android">manual</a> y confirma <code>JAVA_HOME</code>, <code>ANDROID_HOME</code> y <code>PATH</code>/<code>Path</code> en una terminal nueva.</dd></div><div><dt>Licencias pendientes</dt><dd>Abre SDK Manager o usa <code>sdkmanager --licenses</code> solo tras revisar sus términos.</dd></div><div><dt>Sin dispositivo</dt><dd>Inicia o elige un AVD, o revisa <code>adb devices</code>, cable, RSA y drivers de Windows.</dd></div><div><dt>Error de Gradle</dt><dd>Comprueba la matriz del manual: Cordova Android 15.x usa como referencia API 24–36, Build Tools 36.x y Gradle 8.14.2. No edites manualmente <code>platforms/android</code>.</dd></div></dl>
+            </div>
+          </div>
+
+          <div id="ios" class="ruta-plataforma" aria-labelledby="titulo-ios">
+            <p class="etiqueta">Ruta iOS · Mac</p>
+            <h3 id="titulo-ios">Simulador o iPhone</h3>
+            <p>Consulta primero el <a href="../manual/index.html#ios">manual de iOS</a>: se necesita Xcode completo, no solo Command Line Tools. Esta lista concentra las comprobaciones que se necesitaron para el simulador reportado en Q40.</p>
+            <div class="bloque ruta-android__paso">
+              <h3>1. Verifica Xcode, runtime y CocoaPods</h3>
+              <p>Selecciona la aplicación completa de Xcode, acepta su licencia y completa su primer inicio. Después descarga el runtime de iOS y prepara CocoaPods. Estos pasos son para tu Mac; no se ejecutan desde esta guía.</p>
+              <article class="code-card terminal-card"><header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">Preparación y comprobación en macOS</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="ios-preflight">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="ios-preflight">Copiar archivo completo</button></div></header><p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p><pre class="code-panel" tabindex="0" aria-label="Preparación de Xcode y CocoaPods"><code class="code-source" id="ios-preflight">sudo xcode-select -s /Applications/Xcode.app
+sudo xcodebuild -license accept
+sudo xcodebuild -runFirstLaunch
+xcodebuild -downloadPlatform iOS
+brew install cocoapods
+
+xcode-select -p
+xcodebuild -version
+xcrun simctl list runtimes
+pod --version</code></pre></article>
+              <p class="nota">Q40 necesitó Xcode completo, runtime iOS 26.3 y CocoaPods 1.17.0. Que estos comandos respondan no convierte por sí solo un proyecto en compatible: solo confirma que las herramientas base están disponibles.</p>
+            </div>
+            <div class="bloque ruta-android__paso">
+              <h3>2. Agrega iOS y abre el simulador</h3>
+              <p>Desde <code>quever/</code>, agrega la plataforma con la versión indicada. Lista primero los destinos: el nombre comprobado usa guiones, no espacios.</p>
+              <article class="code-card terminal-card"><header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">En la carpeta quever/</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="ios-run">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="ios-run">Copiar archivo completo</button></div></header><p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p><pre class="code-panel" tabindex="0" aria-label="Comandos para ejecutar QueVer en el simulador iOS"><code class="code-source" id="ios-run">cordova platform add ios@8.1.1
+cordova build ios --emulator
+cordova run ios --list
+cordova emulate ios --target=iPhone-17-Pro</code></pre></article>
+              <p><strong>Importante:</strong> en Q40 el destino válido fue <code>iPhone-17-Pro</code>. Escribir el nombre con espacios o pegar su UUID falló; usa la salida de <code>cordova run ios --list</code> y copia el nombre que Cordova muestra.</p>
+              <p><strong>Resultado observado en Q40:</strong> la compilación y el simulador terminaron correctamente con SQLite confirmado. Los avisos de AppIntents y LaunchStoryboard no bloquearon la ejecución.</p>
+            </div>
+            <div class="bloque ruta-android__paso">
+              <h3>3. iPhone físico — no probado en el demo</h3>
+              <ol><li>Abre <code>platforms/ios/App.xcworkspace</code> en Xcode y conecta tu iPhone desbloqueado.</li><li>En <strong>Signing &amp; Capabilities</strong>, elige tu <strong>Personal Team</strong> y usa un Bundle ID único.</li><li>Activa <strong>Modo desarrollador</strong> en el iPhone cuando iOS lo solicite y pulsa Run desde Xcode.</li><li>En el iPhone, abre <strong>Ajustes &gt; General &gt; VPN y gestión de dispositivos</strong> y confía en el certificado de desarrollo si aparece el aviso.</li></ol>
+              <p class="nota">Con Personal Team gratuito, el aprovisionamiento suele durar siete días y hay límites de apps activas que Apple puede cambiar. Sirve para pruebas personales, no para distribuir en App Store o TestFlight. Este flujo no se probó durante el demo.</p>
+            </div>
+          </div>
+
+          <div id="browser" class="ruta-plataforma" aria-labelledby="titulo-browser">
+            <p class="etiqueta">Práctica rápida</p>
+            <h3 id="titulo-browser">Browser</h3>
+            <p>Browser permite seguir la interfaz sin preparar un emulador, pero no reemplaza Android ni iOS. Úsalo como una práctica breve y vuelve a una plataforma nativa para comprobar el recorrido completo.</p>
+            <div class="bloque ruta-android__paso"><article class="code-card terminal-card"><header class="code-card__header"><div><span class="code-action">TERMINAL</span><p class="code-path">En la carpeta quever/</p></div><div class="code-actions"><button type="button" class="copy-button" data-copy-inline="browser-run">Copiar</button><button type="button" class="copy-button copy-button--file" data-copy-inline="browser-run">Copiar archivo completo</button></div></header><p class="copy-status" aria-live="polite" aria-atomic="true"></p><p class="copy-fallback">Si el botón no funciona, selecciona solo el texto del panel y cópialo manualmente.</p><pre class="code-panel" tabindex="0" aria-label="Comandos para ejecutar QueVer en Browser"><code class="code-source" id="browser-run">cordova platform add browser
+cordova run browser</code></pre></article><p class="nota"><strong>Límite de Browser:</strong> el plugin usa sql.js en este destino; SQLite no persiste al recargar y sus límites de transacciones no equivalen a una app Android o iOS. No abras <code>index.html</code> directamente.</p></div>
+          </div>
+
+          <p class="nota">Los comandos de las tres rutas son instrucciones para alumnos; esta guía no los ejecutó.</p>
+        </section>
+      </main>
+
+      <nav class="indice" aria-label="Índice de la guía">
+        <h2>En esta guía</h2>
+        <ol>
+          <li><a href="#recorrido">Recorrido</a></li>
+          <li><a href="#preparar">Preparar proyecto</a></li>
+          <li><a href="#datos">01 · Datos</a></li>
+          <li><a href="#busqueda">02 · Búsqueda</a></li>
+          <li><a href="#guardado">03 · Guardado</a></li>
+          <li><a href="#catalogo">04 · Catálogo</a></li>
+          <li><a href="#edicion">05 · Edición</a></li>
+          <li><a href="#aleatorio">06 · Aleatorio</a></li>
+          <li><a href="#ejecutar">Llevarla a plataforma</a></li>
+          <li><a href="#android">Ruta Android</a></li>
+          <li><a href="#ios">Ruta iOS</a></li>
+          <li><a href="#browser">Browser</a></li>
+        </ol>
+      </nav>
+    </div>
+
+    <footer><div class="contenedor">Los comandos enlazados son instrucciones para alumnos. Esta guía no ejecuta Cordova ni la aplicación.</div></footer>
+    <script>
+      async function copyText(text) {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.append(area);
+        area.select();
+        const copied = document.execCommand('copy');
+        area.remove();
+        if (!copied) throw new Error('No se pudo copiar');
+      }
+
+      document.addEventListener('click', async (event) => {
+        const button = event.target.closest('[data-copy-url], [data-copy-inline]');
+        if (!button) return;
+        const card = button.closest('.code-card');
+        const status = card.querySelector('.copy-status');
+        const originalLabel = button.textContent;
+        try {
+          const text = button.dataset.copyUrl
+            ? await fetch(button.dataset.copyUrl).then((response) => response.ok ? response.text() : Promise.reject(new Error('Archivo no disponible')))
+            : document.getElementById(button.dataset.copyInline).textContent;
+          await copyText(text);
+          button.textContent = 'Copiado';
+          status.textContent = 'Copiado. El texto coincide con el archivo mostrado.';
+        } catch {
+          status.textContent = 'No se pudo copiar automáticamente. Selecciona el texto del panel y cópialo manualmente.';
+        }
+        window.setTimeout(() => { button.textContent = originalLabel; }, 1800);
+      });
+    </script>
+  </body>
+</html>
