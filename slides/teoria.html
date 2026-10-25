@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Presentación de teoría e historia de Apache Cordova.">
+    <title>Teoría | Apache Cordova</title>
+    <link rel="stylesheet" href="../vendor/reveal/reveal.css">
+    <link rel="stylesheet" href="../assets/css/presentacion.css">
+    <style>
+      .reveal .cronologia { display: grid; gap: 0.7rem; grid-template-columns: repeat(4, 1fr); margin-top: 1.3rem; position: relative; }
+      .reveal .cronologia::before { background: var(--linea); content: ""; height: 2px; left: 8%; position: absolute; right: 8%; top: 0.5rem; }
+      .reveal .hito { color: var(--tinta); font-size: 0.55em; line-height: 1.25; max-width: none; padding-top: 1.15rem; position: relative; }
+      .reveal .hito::before { background: var(--acento); border: 4px solid var(--fondo); border-radius: 50%; content: ""; height: 0.42rem; left: 0; position: absolute; top: 0.18rem; width: 0.42rem; }
+      .reveal .hito strong { display: block; font-size: 1.5em; margin-bottom: 0.25rem; }
+      .reveal .arquitectura { align-items: center; display: grid; gap: 0.55rem; grid-template-columns: 1fr auto 1fr auto 1fr; margin: 1rem 0 0.45rem; }
+      .reveal .arquitectura svg { display: block; height: auto; width: 100%; }
+      .reveal .arquitectura .flecha { color: var(--acento); font-size: 0.75em; font-weight: 700; }
+      .reveal .diagrama-pie { font-size: 0.48em; max-width: none; }
+      .reveal .archivo-lista { display: grid; gap: 0.42rem; grid-template-columns: repeat(2, 1fr); margin: 0; padding: 0; }
+      .reveal .archivo-lista li { border-bottom: 1px solid var(--linea); color: var(--tinta); font-size: 0.57em; list-style: none; margin: 0; max-width: none; padding: 0.3rem 0; }
+      .reveal .archivo-lista code { color: var(--acento); font-weight: 700; }
+      .reveal .flujo-cli { align-items: center; display: flex; gap: 0.35rem; margin-top: 1.25rem; }
+      .reveal .flujo-cli span { color: var(--tinta); font-size: 0.5em; font-weight: 700; text-align: center; }
+      .reveal .flujo-cli b { background: var(--papel); border: 1px solid var(--linea); color: var(--tinta); display: block; font-size: 1.25em; font-weight: 700; padding: 0.7rem 0.45rem; }
+      .reveal .flujo-cli i { color: var(--acento); font-size: 0.8em; font-style: normal; }
+      .reveal .comparacion { border-collapse: collapse; font-size: 0.49em; width: 100%; }
+      .reveal .comparacion th, .reveal .comparacion td { border-bottom: 1px solid var(--linea); padding: 0.38rem 0.32rem; text-align: left; vertical-align: top; }
+      .reveal .comparacion th { color: var(--tinta); font-weight: 700; }
+      .reveal .comparacion td { color: var(--tinta-suave); }
+      .reveal .bibliografia { columns: 2; column-gap: 1.4rem; font-size: 0.48em; margin: 0.7rem 0; padding-left: 1em; }
+      .reveal .bibliografia li { break-inside: avoid; margin-bottom: 0.48rem; max-width: none; }
+    </style>
+  </head>
+  <body>
+    <a class="enlace-indice" href="../index.html">← Índice</a>
+    <main class="reveal">
+      <div class="slides">
+        <section class="portada">
+          <div class="portada__texto">
+            <p class="portada__curso">Aplicaciones Móviles</p>
+            <h1>Entender <mark>Apache Cordova</mark></h1>
+            <p>El problema que atiende, su contexto web y el recorrido de PhoneGap a Apache.</p>
+          </div>
+          <div class="portada__datos">
+            <p>José Adrián Bazaldúa Huerta<br>Haili Ailin Ávila Ramírez<br>Universidad Iberoamericana</p>
+            <p class="portada__fecha">9 de noviembre de 2026</p>
+          </div>
+          <aside class="notes">Abra con la pregunta central: cómo usar conocimientos web para crear aplicaciones móviles. Esta primera parte explica el contexto y la historia; la segunda parte abordará arquitectura, plugins y decisiones de uso.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Un problema de plataformas</h2><p class="referencia">01 / problema</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Una misma idea móvil podía exigir equipos, lenguajes y herramientas distintos para cada sistema operativo.</p><p class="nota-clave">El reto: llegar a más de una plataforma sin rehacer toda la interfaz.</p></div>
+            <ol class="pasos"><li>Una experiencia para cada sistema</li><li>Código y herramientas diferentes</li><li>Más tiempo de mantenimiento</li><li>Necesidad de reutilizar</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">No afirme que una sola base elimina todo el trabajo específico. El problema es reducir duplicación en la interfaz y la lógica web; las plataformas siguen teniendo requisitos propios.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>La web ya tenía una base común</h2><p class="referencia">02 / contexto</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>HTML, CSS y JavaScript eran tecnologías conocidas para construir interfaces y comportamiento en el navegador.</p><p class="nota-clave">Una <mark>WebView</mark> lleva ese código web dentro de una aplicación para cada plataforma.</p></div>
+            <ol class="pasos"><li>HTML estructura la pantalla</li><li>CSS define la presentación</li><li>JavaScript responde a acciones</li><li>La app se empaqueta por plataforma</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">Explique WebView como una ventana de navegador integrada, no como un navegador separado. Cordova permite que el código web se ejecute dentro de un contenedor de aplicación.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>La necesidad: web + dispositivo</h2><p class="referencia">03 / motivación</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Reutilizar código web no bastaba si la app no podía interactuar con capacidades del teléfono.</p><p class="nota-clave">Cordova une tecnologías web con <mark>APIs del dispositivo</mark>.</p></div>
+            <ol class="pasos"><li>Sensores y estado de red</li><li>Cámara y almacenamiento</li><li>Interfaz web compartida</li><li>Acceso mediante APIs compatibles</li></ol>
+          </div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">La idea no es convertir HTML en controles nativos automáticamente. Es ejecutar una app web y ofrecer enlaces a capacidades nativas cuando la aplicación las necesita.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>2008: comienza PhoneGap</h2><p class="referencia">04 / Nitobi</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>PhoneGap surgió como proyecto de código abierto de <strong>Nitobi Software</strong> en 2008.</p><p class="nota-clave">Su propuesta conectaba desarrollo web y aplicaciones móviles híbridas.</p></div>
+            <ol class="pasos"><li>Nitobi inicia PhoneGap</li><li>Se publica como código abierto</li><li>Se enfoca en apps híbridas</li><li>Abre el camino del proyecto</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Cordova, “Goodbye PhoneGap” (2020).</p>
+          <aside class="notes">Esta fecha procede del comunicado oficial de Apache Cordova. Presente PhoneGap como el origen histórico, no como el nombre actual del proyecto Apache.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>2011: Adobe adquiere Nitobi</h2><p class="referencia">05 / transición</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Adobe adquirió Nitobi en 2011 y, poco después, PhoneGap fue donado a la Apache Software Foundation.</p><p class="nota-clave">La donación separó la tecnología base de una sola empresa.</p></div>
+            <ol class="pasos"><li>Adobe compra Nitobi</li><li>PhoneGap continúa como marca</li><li>La base se dona a Apache</li><li>Empieza una nueva etapa</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Cordova, “Goodbye PhoneGap” (2020).</p>
+          <aside class="notes">No sugiera que Adobe desapareció del día a día de inmediato. La idea clave es la transición de la tecnología hacia una fundación y un modelo de comunidad.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Callback se convierte en Cordova</h2><p class="referencia">06 / Apache</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>El proyecto entró a la incubadora de Apache en octubre de 2011 como <strong>Callback</strong>; el nombre pasó a ser Apache Cordova.</p><p class="nota-clave">Apache aporta un gobierno abierto basado en comunidad y contribuciones.</p></div>
+            <ol class="pasos"><li>Octubre de 2011: incubación</li><li>Nombre inicial: Callback</li><li>Nombre del proyecto: Cordova</li><li>Proyecto Apache establecido en 2012</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Foundation, Board history: Cordova.</p>
+          <aside class="notes">Diga que Callback fue el nombre de incubación y Cordova el nombre adoptado por Apache. La cronología de la fundación registra la creación formal del proyecto Apache en octubre de 2012.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>PhoneGap y Cordova no terminaron juntos</h2><p class="referencia">07 / diferencia clave</p></header>
+          <div class="layout-dos-columnas">
+            <div><p>Adobe anunció el cierre de PhoneGap en 2020. Apache Cordova, como proyecto abierto mantenido por comunidad, continuó.</p><p class="nota-clave"><mark>Cierre de PhoneGap</mark> no significa cierre de Apache Cordova.</p></div>
+            <ol class="pasos"><li>PhoneGap: producto y marca de Adobe</li><li>2020: Adobe anuncia su cierre</li><li>Cordova: proyecto de Apache</li><li>Su continuidad depende de su comunidad</li></ol>
+          </div>
+          <p class="fuente">Fuente primaria: Apache Cordova, “Goodbye PhoneGap” (14 ago. 2020).</p>
+          <aside class="notes">Esta distinción evita el error más común de la historia del proyecto. El anuncio de 2020 afirma expresamente que Cordova seguía activo y mantenido; no use el cierre de PhoneGap como evidencia de que Cordova terminó.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Una historia que sigue en marcha</h2><p class="referencia">08 / estado documentado</p></header>
+          <div class="cronologia" aria-label="Cronología de Apache Cordova">
+            <p class="hito"><strong>2008</strong>Nitobi inicia PhoneGap.</p>
+            <p class="hito"><strong>2011</strong>Adobe adquiere Nitobi y la base llega a Apache.</p>
+            <p class="hito"><strong>2020</strong>PhoneGap cierra; Cordova continúa.</p>
+            <p class="hito"><strong>2026</strong>Android 15.1.0 e iOS 8.1.0 publicados.</p>
+          </div>
+          <p class="nota-clave">Las versiones publicadas documentan actividad; no miden por sí solas adopción ni cuota de mercado.</p>
+          <p class="fuente">Fuentes primarias: Apache Cordova, anuncios Android 15.1.0 (22 jul. 2026), iOS 8.1.0 (31 may. 2026).</p>
+          <aside class="notes">Use la línea de tiempo para recapitular. Las versiones son evidencia concreta de publicaciones recientes, pero no permiten concluir cuántas personas o empresas usan Cordova.</aside>
+        </section>
+
+
+        <section>
+          <header class="encabezado"><h2>Arquitectura: capas que colaboran</h2><p class="referencia">09 / arquitectura</p></header>
+          <div class="arquitectura" aria-label="La app web se ejecuta en una WebView, se comunica por un puente con plugins y estos acceden a APIs nativas.">
+            <svg viewBox="0 0 180 106" role="img" aria-label="App web con HTML CSS y JavaScript"><rect x="3" y="3" width="174" height="100" fill="#fff" stroke="#d9dee4" stroke-width="2"/><text x="90" y="39" fill="#1c2229" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="middle">App web</text><text x="90" y="65" fill="#59636d" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">HTML · CSS · JS</text><path d="M27 81h126" stroke="#245fc4" stroke-width="3"/></svg>
+            <span class="flecha" aria-hidden="true">→</span>
+            <svg viewBox="0 0 180 106" role="img" aria-label="WebView y puente Cordova"><rect x="3" y="3" width="174" height="100" fill="#fff" stroke="#d9dee4" stroke-width="2"/><text x="90" y="35" fill="#1c2229" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="middle">WebView</text><text x="90" y="61" fill="#245fc4" font-family="Arial, sans-serif" font-size="14" font-weight="700" text-anchor="middle">bridge Cordova</text><path d="M27 81h126" stroke="#245fc4" stroke-width="3"/></svg>
+            <span class="flecha" aria-hidden="true">→</span>
+            <svg viewBox="0 0 180 106" role="img" aria-label="Plugins y APIs nativas"><rect x="3" y="3" width="174" height="100" fill="#fff" stroke="#d9dee4" stroke-width="2"/><text x="90" y="32" fill="#1c2229" font-family="Arial, sans-serif" font-size="19" font-weight="700" text-anchor="middle">Plugins</text><text x="90" y="56" fill="#59636d" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">APIs nativas</text><text x="90" y="78" fill="#59636d" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">cámara · red · datos</text></svg>
+          </div>
+          <p class="diagrama-pie">La interfaz viaja como contenido web; los plugins conectan las llamadas JavaScript con código de cada plataforma.</p>
+          <p class="fuente">Fuente: Apache Cordova, Overview y Plugin Development Guide.</p>
+          <aside class="notes">~45 segundos. Recorra el diagrama de izquierda a derecha: la aplicación web no salta directamente a una API nativa. La WebView ejecuta la interfaz y el puente coordina la comunicación con los plugins. Esta separación explica por qué cada plugin debe tener soporte por plataforma.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>La WebView ejecuta la interfaz</h2><p class="referencia">10 / WebView</p></header>
+          <div class="layout-dos-columnas"><div><p>HTML, CSS y JavaScript corren dentro de una vista web integrada en el paquete de Android o iOS.</p><p class="nota-clave">No se convierte automáticamente en controles nativos: sigue siendo una interfaz web.</p></div><ol class="pasos"><li>Renderiza pantallas y estilos</li><li>Ejecuta la lógica JavaScript</li><li>Carga recursos de <code>www/</code></li><li>Comparte una base visual entre plataformas</li></ol></div>
+          <p class="fuente">Fuente: Apache Cordova, Overview.</p>
+          <aside class="notes">~35 segundos. Una WebView es el entorno donde vive la parte visible web. Aclare el límite: Cordova empaqueta la interfaz para la plataforma, pero no transforma automáticamente cada elemento HTML en un control nativo.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Puente y plugins: el acceso al dispositivo</h2><p class="referencia">11 / integración</p></header>
+          <div class="layout-dos-columnas"><div><p>Un plugin expone una API JavaScript y la conecta con una implementación nativa para Android, iOS u otra plataforma.</p><p class="nota-clave">El puente permite pedir una capacidad; el plugin define cómo atenderla en cada sistema.</p></div><ol class="pasos"><li>JavaScript invoca una API</li><li>El bridge entrega el mensaje</li><li>El plugin ejecuta código nativo</li><li>El resultado vuelve a JavaScript</li></ol></div>
+          <p class="fuente">Fuente: Apache Cordova, Plugin Development Guide.</p>
+          <aside class="notes">~40 segundos. Distinga dos piezas: el bridge es el canal de comunicación; el plugin es la extensión que implementa una capacidad. Un plugin puede requerir permisos, configuración y mantenimiento por plataforma; no todo plugin ofrece el mismo soporte en todos los sistemas.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Archivos que organizan un proyecto</h2><p class="referencia">12 / estructura</p></header>
+          <ul class="archivo-lista"><li><code>config.xml</code><br>identidad, preferencias y configuración Cordova.</li><li><code>www/</code><br>HTML, CSS, JavaScript y recursos de la app.</li><li><code>platforms/</code><br>proyectos nativos generados; no es la fuente principal.</li><li><code>plugins/</code><br>integraciones instaladas para capacidades del dispositivo.</li></ul>
+          <p class="nota-clave">También <code>package.json</code> declara dependencias y plataformas del proyecto.</p>
+          <p class="fuente">Fuente: Apache Cordova, Project Structure y CLI Guide.</p>
+          <aside class="notes">~40 segundos. Relacione cada carpeta con su responsabilidad. En particular, señale que www es el origen de la aplicación web; platforms contiene resultados generados y se debe administrar mediante el flujo de Cordova, no como lugar habitual para editar la lógica compartida.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>El CLI coordina el flujo, no reemplaza la revisión</h2><p class="referencia">13 / flujo</p></header>
+          <div class="flujo-cli" aria-label="Flujo: crear, añadir plataforma, preparar, compilar y distribuir"><span><b>crear</b>base web</span><i>→</i><span><b>añadir</b>plataforma</span><i>→</i><span><b>preparar</b>sincronizar</span><i>→</i><span><b>compilar</b>paquete</span><i>→</i><span><b>distribuir</b>firma y tienda</span></div>
+          <p class="nota-clave">Es un mapa conceptual: cada plataforma conserva requisitos, permisos y firmas propios.</p>
+          <p class="fuente">Fuente: Apache Cordova, CLI Guide.</p>
+          <aside class="notes">~40 segundos. No ejecute ni presente resultados de comandos. Explique que el CLI organiza el proyecto: crea la base, incorpora plataformas, sincroniza la app web y delega la compilación a las herramientas nativas. Publicar agrega revisión, firma y políticas de cada tienda.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>QueVer: un ejemplo declarado, no una prueba</h2><p class="referencia">14 / caso local</p></header>
+          <div class="layout-dos-columnas"><div><p>El proyecto de referencia declara <code>com.ejemplo.quever</code> y carga <code>www/index.html</code> desde su <code>config.xml</code>.</p><p class="nota-clave">En su <code>package.json</code> declara Android 15.1.0 y <mark>cordova-sqlite-storage</mark> 7.0.0.</p></div><ol class="pasos"><li>SQLite es un plugin externo</li><li>Puede atender datos locales</li><li>La declaración no prueba instalación</li><li>Tampoco prueba funcionamiento</li></ol></div>
+          <p class="fuente">Referencia local leída: <code>../quever/config.xml</code>, <code>www/</code> y <code>package.json</code>; sin ejecución.</p>
+          <aside class="notes">~45 segundos. Sea preciso: se inspeccionaron archivos, no se ejecutó QueVer, Cordova ni SQLite. El ejemplo sirve para reconocer config.xml, www y una declaración de plugin. No afirme que el plugin funciona, que la base existe o que la compatibilidad está comprobada.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Usos y límites: una decisión situada</h2><p class="referencia">15 / evaluación</p></header>
+          <div class="layout-dos-columnas"><div><p>Puede encajar en flujos internos, catálogos o productos que parten de una base web y requieren capacidades concretas del dispositivo.</p><p class="nota-clave">La reutilización no elimina la evaluación de rendimiento, seguridad, permisos y mantenimiento de plugins.</p></div><ol class="pasos"><li>Equipos con base web existente</li><li>Necesidades nativas bien delimitadas</li><li>Soporte real de los plugins elegidos</li><li>Cambios de Android e iOS a vigilar</li></ol></div>
+          <p class="fuente">Fuente: Apache Cordova, Overview y Security Guide.</p>
+          <aside class="notes">~45 segundos. Estos son escenarios posibles, no una promesa de que Cordova sea siempre la mejor opción. La carga de la interfaz, los permisos, la seguridad del contenido web y el mantenimiento de los plugins cambian la decisión. Evalúe esas condiciones antes de elegir.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Alternativas: comparar el modelo, no buscar un ganador</h2><p class="referencia">17 / decisión</p></header>
+          <table class="comparacion"><thead><tr><th>Opción</th><th>Interfaz principal</th><th>Acceso a plataforma</th><th>Pregunta útil</th></tr></thead><tbody><tr><td>Cordova</td><td>WebView: HTML, CSS y JS</td><td>Plugins y bridge</td><td>¿La app web y los plugins cubren el alcance?</td></tr><tr><td>Capacitor</td><td>Web dentro de una app nativa</td><td>Plugins y APIs de Capacitor</td><td>¿Conviene su integración con el stack web actual?</td></tr><tr><td>React Native</td><td>Componentes React renderizados de forma nativa</td><td>Módulos nativos</td><td>¿El equipo trabaja con React y necesita UI nativa?</td></tr><tr><td>Flutter</td><td>Widgets renderizados por Flutter</td><td>Plugins y canales de plataforma</td><td>¿Dart y su modelo visual se ajustan al producto?</td></tr></tbody></table>
+          <p class="fuente">Fuentes: documentación oficial de Capacitor, React Native y Flutter; enlaces en bibliografía.</p>
+          <aside class="notes">~55 segundos. Esta tabla no califica herramientas. Cordova y Capacitor comparten el uso de tecnologías web en un contenedor; React Native y Flutter siguen otros modelos de interfaz. Compare habilidades del equipo, necesidad de UI nativa, APIs, ciclo de actualización, rendimiento y mantenimiento antes de elegir.</aside>
+        </section>
+
+        <section>
+          <header class="encabezado"><h2>Conclusión: una capa web con responsabilidades nativas</h2><p class="referencia">18 / cierre</p></header>
+          <div class="layout-dos-columnas"><div><p>Cordova permite empaquetar una aplicación web y conectar capacidades del dispositivo mediante una WebView, un puente y plugins.</p><p class="nota-clave">Su valor está en la reutilización consciente; su límite está en todo lo que la plataforma y los plugins aún exigen mantener.</p></div><ol class="bibliografia"><li>Apache Cordova. <em>Overview</em>, CLI Guide, Project Structure, Plugin Development y Security Guide.<br>cordova.apache.org/docs/en/latest/</li><li>Apache Cordova. “Goodbye PhoneGap” (2020) y anuncios Android 15.1.0 / iOS 8.1.0 (2026).<br>cordova.apache.org/announcements/</li><li>Capacitor. <em>Documentation</em>.<br>capacitorjs.com/docs</li><li>React Native. <em>Introduction</em>.<br>reactnative.dev/docs/getting-started</li><li>Flutter. <em>Architectural overview</em>.<br>docs.flutter.dev/resources/architectural-overview</li></ol></div>
+          <p class="fuente">Guion completo: 18 slides × ~35–55 s = 10–15 min. Fuentes consultadas: 24 oct. 2026.</p>
+          <aside class="notes">~40 segundos. Cierre con tres ideas: Cordova ejecuta una aplicación web en una WebView, el bridge y los plugins dan acceso a capacidades nativas, y la decisión debe considerar mantenimiento además de velocidad inicial. Reserve preguntas. El deck completo está pensado para 10 a 15 minutos, no para una demostración técnica.</aside>
+        </section>
+      </div>
+    </main>
+    <script type="module">
+      import Reveal from '../vendor/reveal/reveal.mjs';
+      import Notes from '../vendor/reveal/plugin/notes.mjs';
+      const deck = new Reveal({ width: 1600, height: 900, margin: 0.08, minScale: 0.2, maxScale: 1.5, center: false, controls: true, progress: true, slideNumber: 'c/t', hash: true, transition: 'none', plugins: [Notes] });
+      deck.initialize();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Manual para preparar Apache Cordova en Android e iOS, con diagnóstico y cierre de proyecto.">
+    <title>Manual de instalación | Apache Cordova</title>
+    <style>
+      :root {
+        --fondo: #f8f9fb;
+        --papel: #ffffff;
+        --tinta: #1c2229;
+        --tinta-suave: #59636d;
+        --linea: #d9dee4;
+        --acento: #245fc4;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--fondo);
+        color: var(--tinta);
+        font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      a { color: inherit; text-decoration-color: var(--acento); text-underline-offset: 0.18em; }
+      a:hover { color: var(--acento); }
+      a:focus-visible { outline: 3px solid var(--acento); outline-offset: 0.2rem; }
+
+      .contenedor { margin: 0 auto; max-width: 72rem; padding: 0 2rem; }
+
+      .portada {
+        border-bottom: 1px solid var(--linea);
+        padding: 5.5rem 0 3.25rem;
+      }
+
+      .portada p { color: var(--tinta-suave); font-size: 1.1rem; margin: 1rem 0 0; max-width: 59ch; }
+      .portada .identificador { color: var(--acento); font-size: 0.9rem; font-weight: 700; margin: 0; }
+      .volver-indice { font-size: 0.9rem; font-weight: 700; margin: 0 0 2rem; }
+
+      h1, h2, h3 { letter-spacing: -0.045em; line-height: 1.03; }
+      h1 { font-size: clamp(3rem, 8vw, 6.5rem); margin: 0.35rem 0 0; max-width: 10ch; }
+      h2 { font-size: clamp(1.8rem, 4vw, 3rem); margin: 0; max-width: 19ch; }
+      h3 { font-size: 1.2rem; margin: 0; }
+
+      .indice { border-bottom: 1px solid var(--linea); padding: 1.5rem 0; }
+      .indice h2 { font-size: 1rem; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+      .indice ol { display: flex; flex-wrap: wrap; gap: 0.55rem 1.5rem; list-style-position: inside; margin: 0; padding: 0; }
+      .indice li { color: var(--tinta-suave); }
+
+      main { padding: 1rem 0 5rem; }
+      section { border-bottom: 1px solid var(--linea); padding: 4rem 0; scroll-margin-top: 1rem; }
+      section:last-child { border-bottom: 0; }
+      .intro { color: var(--tinta-suave); font-size: 1.08rem; max-width: 64ch; }
+
+      .pasos { counter-reset: paso; list-style: none; margin: 2.25rem 0 0; padding: 0; }
+      .pasos > li { border-top: 1px solid var(--linea); counter-increment: paso; padding: 1.4rem 0 1.5rem 3.5rem; position: relative; }
+      .pasos > li::before { color: var(--acento); content: "0" counter(paso); font-size: 0.9rem; font-weight: 700; left: 0; position: absolute; top: 1.55rem; }
+      .pasos p { margin: 0.45rem 0 0; max-width: 68ch; }
+
+      .comando, .salida, .aviso { margin: 1rem 0 0; max-width: 68ch; }
+      .comando dt, .salida dt, .aviso strong { color: var(--acento); font-size: 0.9rem; font-weight: 700; }
+      .comando dd, .salida dd { margin: 0.4rem 0 0; }
+      pre { background: var(--papel); border-left: 3px solid var(--acento); margin: 0; overflow-x: auto; padding: 1rem 1.2rem; }
+      code, pre { font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.92em; }
+      .salida pre { border-left-color: var(--linea); color: var(--tinta-suave); }
+      .aviso { border-left: 3px solid var(--acento); color: var(--tinta-suave); padding-left: 1rem; }
+
+      .matriz { margin-top: 2rem; overflow-x: auto; }
+      table { border-collapse: collapse; min-width: 48rem; text-align: left; width: 100%; }
+      caption { color: var(--tinta-suave); margin-bottom: 0.7rem; text-align: left; }
+      th, td { border-top: 1px solid var(--linea); padding: 1rem; vertical-align: top; }
+      thead th { color: var(--acento); font-size: 0.88rem; }
+      tbody th { min-width: 9rem; }
+
+      .referencias { padding-left: 1.2rem; }
+      .referencias li { margin: 0.65rem 0; max-width: 74ch; }
+      footer { border-top: 1px solid var(--linea); color: var(--tinta-suave); font-size: 0.9rem; padding: 1.5rem 0 2.5rem; }
+
+      @media (max-width: 600px) {
+        .contenedor { padding: 0 1.25rem; }
+        .portada { padding: 3.5rem 0 2.5rem; }
+        section { padding: 3rem 0; }
+        .pasos > li { padding-left: 2.75rem; }
+      }
+
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+      @page { size: A4; margin: 16mm 14mm 18mm; }
+      @media print {
+        :root { --fondo: #fff; --papel: #fff; --tinta: #000; --tinta-suave: #333; --linea: #aaa; --acento: #000; }
+        html { font-size: 10pt; }
+        body { background: #fff; line-height: 1.42; }
+        .contenedor { max-width: none; padding: 0; }
+        .portada { padding: 0 0 1.2rem; }
+        .portada p { font-size: 1rem; }
+        h1 { font-size: 34pt; }
+        h2 { font-size: 21pt; }
+        h3 { font-size: 12pt; }
+        h2, h3 { break-after: avoid-page; }
+        .volver-indice { display: none; }
+        .indice { display: none; }
+        main { padding: 0; }
+        section { padding: 1.5rem 0; }
+        .pasos > li, .comando, .salida, .aviso, table, tr { break-inside: avoid; }
+        .pasos > li { padding-bottom: 0.9rem; padding-top: 0.9rem; }
+        pre { border: 1px solid #777; overflow-wrap: anywhere; padding: 0.65rem; white-space: pre-wrap; }
+        .matriz { overflow: visible; }
+        table { font-size: 8.5pt; min-width: 0; }
+        th, td { padding: 0.45rem; }
+        a { color: inherit; text-decoration: underline; }
+        footer { font-size: 8.5pt; padding: 1rem 0 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="portada">
+      <div class="contenedor">
+        <p class="volver-indice"><a href="../index.html">← Volver al índice</a></p>
+        <p class="identificador">Manual de Apache Cordova</p>
+        <h1>Instalación y cierre</h1>
+        <p>Guía para preparar Cordova, crear un proyecto y revisar Android, iOS, problemas frecuentes y el cierre documental.</p>
+      </div>
+    </header>
+
+    <nav class="indice" aria-label="Índice del manual">
+      <div class="contenedor">
+        <h2>En esta página</h2>
+        <ol>
+          <li><a href="#node">Node.js y npm</a></li>
+          <li><a href="#cli">Cordova CLI</a></li>
+          <li><a href="#proyecto">Crear el proyecto</a></li>
+          <li><a href="#android">Preparar Android</a></li>
+          <li><a href="#ios">Preparar iOS</a></li>
+          <li><a href="#matriz">Requisitos por capa</a></li>
+          <li><a href="#diagnostico">Diagnóstico</a></li>
+          <li><a href="#sqlite">SQLite opcional</a></li>
+          <li><a href="#checklist">Checklist final</a></li>
+          <li><a href="#referencias">Referencias</a></li>
+        </ol>
+      </div>
+    </nav>
+
+    <main class="contenedor">
+      <section id="node" aria-labelledby="titulo-node">
+        <h2 id="titulo-node">Node.js y npm</h2>
+        <p class="intro">Cordova CLI se instala con npm, el gestor de paquetes que acompaña a Node.js. Para la familia Cordova CLI 13.x, la documentación pide Node.js 20.17.0 o posterior.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Instala una versión compatible de Node.js</h3>
+            <p>Descarga e instala Node.js desde su sitio oficial o mediante el método de administración de software que use tu sistema. npm se instala junto con Node.js.</p>
+          </li>
+          <li>
+            <h3>Consulta las versiones disponibles</h3>
+            <p>Abre una terminal nueva y usa estos comandos. Son una consulta: no instalan ni modifican nada.</p>
+            <dl class="comando"><dt>Comandos</dt><dd><pre><code>node --version
+npm --version</code></pre></dd></dl>
+            <dl class="salida"><dt>Salida ilustrativa</dt><dd><pre><code>v20.17.0
+10.x.x</code></pre></dd></dl>
+          </li>
+        </ol>
+      </section>
+
+      <section id="cli" aria-labelledby="titulo-cli">
+        <h2 id="titulo-cli">Cordova CLI</h2>
+        <p class="intro">La CLI es el programa de terminal que crea y organiza un proyecto Cordova. No es la plataforma Android ni la plataforma iOS: esas se agregan después, desde el proyecto.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Instala la CLI globalmente</h3>
+            <p>La opción <code>-g</code> instala el paquete para poder usar el comando <code>cordova</code> desde cualquier carpeta del equipo.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>npm install -g cordova</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Consulta la versión de la CLI</h3>
+            <p>Este comando solo muestra la versión disponible en la terminal. Una salida concreta no prueba que Android, iOS o un proyecto ya estén configurados.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova --version</code></pre></dd></dl>
+            <dl class="salida"><dt>Salida ilustrativa</dt><dd><pre><code>13.0.0</code></pre></dd></dl>
+          </li>
+        </ol>
+      </section>
+
+      <section id="proyecto" aria-labelledby="titulo-proyecto">
+        <h2 id="titulo-proyecto">Crear el proyecto</h2>
+        <p class="intro">El comando de creación reúne en una carpeta el código web y la configuración que Cordova usará más adelante para preparar plataformas nativas.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Elige carpeta, identificador y nombre visible</h3>
+            <p>La carpeta puede llamarse <code>quever</code>. El identificador debe ser único para la aplicación, con formato de dominio invertido; <code>com.ejemplo.quever</code> es un ejemplo que debe sustituirse antes de distribuir una app.</p>
+          </li>
+          <li>
+            <h3>Crea la estructura inicial</h3>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova create quever com.ejemplo.quever QueVer</code></pre></dd></dl>
+            <p><code>cordova create</code> inicia el proyecto; <code>quever</code> es la carpeta; <code>com.ejemplo.quever</code> es el identificador; y <code>QueVer</code> es el nombre que verá la persona usuaria.</p>
+          </li>
+          <li>
+            <h3>Entra a la carpeta creada</h3>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cd quever</code></pre></dd></dl>
+            <p>Desde esa carpeta se agregarán plataformas o plugins en secciones posteriores del manual.</p>
+          </li>
+        </ol>
+        <aside class="aviso"><strong>Alcance de esta página.</strong> Crear el proyecto no instala Android ni iOS, no compila una aplicación y no confirma que un plugin funcione.</aside>
+        <h3 style="margin-top: 2.5rem;">Archivos que conviene reconocer</h3>
+        <ul>
+          <li><code>www/</code>: código web de la aplicación, como HTML, CSS, JavaScript e imágenes.</li>
+          <li><code>config.xml</code>: configuración de Cordova, incluido el identificador, el nombre y preferencias del proyecto.</li>
+          <li><code>package.json</code>: dependencias y metadatos del proyecto.</li>
+          <li><code>.gitignore</code>: reglas para indicar qué archivos no se incluyen en el repositorio, si la plantilla lo crea.</li>
+        </ul>
+      </section>
+
+      <section id="android" aria-labelledby="titulo-android">
+        <h2 id="titulo-android">Preparar Android</h2>
+        <p class="intro">Esta sección reúne el entorno de Android para la familia <code>cordova-android</code> 15.x. La tabla oficial publicada actualmente detalla 15.0.x: JDK 17, API 24–36, Build Tools 36.x y Gradle 8.14.2; el anuncio de 15.1.0 no sustituye esa tabla técnica. Son requisitos de referencia, no una prueba de que este equipo o sus plugins sean compatibles.</p>
+
+        <h3 style="margin-top: 2.5rem;">Antes de elegir sistema</h3>
+        <ul>
+          <li>Instala <strong>JDK 17</strong>, no solo un JRE. La ruta de esa instalación se guardará en <code>JAVA_HOME</code>.</li>
+          <li>Instala Android Studio. En su primer inicio permite instalar el Android SDK y conserva la ubicación que muestra el asistente.</li>
+          <li>En <strong>Tools &gt; SDK Manager</strong>, instala la plataforma Android más alta admitida por la tabla 15.0.x (API 36), <strong>Android SDK Build-Tools 36.x</strong>, <strong>Android SDK Platform-Tools</strong> y <strong>Android SDK Command-line Tools (latest)</strong>. El emulador es opcional y no se configura en este manual.</li>
+        </ul>
+
+        <h3 style="margin-top: 2.5rem;">macOS</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Define JDK y SDK en el perfil de zsh</h3>
+            <p>En macOS actual, agrega estas líneas a <code>~/.zprofile</code>. La primera obtiene la ruta del JDK 17 instalado; la segunda usa la ruta habitual del SDK de Android Studio. Ajusta la ruta si SDK Manager muestra otra.</p>
+            <dl class="comando"><dt>Contenido para <code>~/.zprofile</code></dt><dd><pre><code>export JAVA_HOME="$(/usr/libexec/java_home -v 17)"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools:$ANDROID_HOME/emulator"</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Abre una terminal nueva y consulta las rutas</h3>
+            <p>Estos comandos solo muestran las variables ya definidas. Corrigen el error de escribir <code>sdk echo $ANDROID_HOME</code>: <code>sdk</code> no forma parte de ese comando.</p>
+            <dl class="comando"><dt>Comandos de consulta</dt><dd><pre><code>echo "$JAVA_HOME"
+echo "$ANDROID_HOME"</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Acepta las licencias del SDK</h3>
+            <p>Cuando las herramientas de línea de comandos ya estén instaladas y disponibles en <code>PATH</code>, revisa cada licencia y responde solo si estás de acuerdo con ella.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>sdkmanager --licenses</code></pre></dd></dl>
+          </li>
+        </ol>
+
+        <h3 style="margin-top: 2.5rem;">Windows</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Define las variables desde el panel del sistema</h3>
+            <p>Busca <strong>Editar las variables de entorno del sistema</strong>, abre <strong>Variables de entorno</strong> y crea <code>JAVA_HOME</code> con la carpeta del JDK 17 (sin <code>bin</code>) y <code>ANDROID_HOME</code> con la carpeta que muestra SDK Manager. No copies estas rutas sin confirmar tu nombre de usuario y ubicación reales.</p>
+            <dl class="comando"><dt>Ejemplos de valores</dt><dd><pre><code>JAVA_HOME=C:\Program Files\Java\jdk-17
+ANDROID_HOME=C:\Users\tu_usuario\AppData\Local\Android\Sdk</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Agrega herramientas a <code>Path</code></h3>
+            <p>En la misma ventana, edita <code>Path</code> y agrega una entrada por cada carpeta bajo <code>ANDROID_HOME</code>.</p>
+            <dl class="comando"><dt>Entradas para <code>Path</code></dt><dd><pre><code>%ANDROID_HOME%\platform-tools
+%ANDROID_HOME%\cmdline-tools\latest\bin
+%ANDROID_HOME%\build-tools
+%ANDROID_HOME%\emulator</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Abre una terminal nueva, consulta y acepta licencias</h3>
+            <p>En Símbolo del sistema, los porcentajes muestran las variables. Después de confirmar que la ruta no está vacía, el administrador del SDK presenta las licencias pendientes.</p>
+            <dl class="comando"><dt>Comandos en Símbolo del sistema</dt><dd><pre><code>echo %JAVA_HOME%
+echo %ANDROID_HOME%
+sdkmanager --licenses</code></pre></dd></dl>
+          </li>
+        </ol>
+
+        <h3 style="margin-top: 2.5rem;">Gradle: qué instalar y qué no editar</h3>
+        <p>La guía de Cordova requiere un Gradle del sistema. En Windows, agrega también la carpeta <code>bin</code> de esa instalación a <code>Path</code>; en macOS, sigue el método de instalación indicado por Gradle y asegúrate de que su ejecutable esté disponible en la terminal. Para la línea 15.0.x, Cordova declara Gradle 8.14.2 para el proyecto: el Gradle del sistema crea el Gradle Wrapper, que descarga y usa la versión del proyecto. Por eso ambas versiones no tienen que coincidir.</p>
+        <aside class="aviso"><strong>Conserva los valores administrados por Cordova.</strong> No cambies manualmente los archivos generados dentro de <code>platforms/android</code> para forzar API, Build Tools o Gradle: pueden regenerarse. Si en el futuro se necesita una propiedad de Gradle, se documentará como configuración del proyecto, no como cambio a esta instalación base.</aside>
+      </section>
+
+      <section id="ios" aria-labelledby="titulo-ios">
+        <h2 id="titulo-ios">Preparar iOS</h2>
+        <p class="intro">Para trabajar con iOS se necesita una Mac y la aplicación completa Xcode; Windows y Linux no pueden preparar este entorno. Para <code>cordova-ios</code> 8.x, la matriz oficial indica iOS 13 o posterior, Xcode 15 o posterior, Node.js 20.17.0 o posterior y CocoaPods 1.16.0 o posterior. Son mínimos de Cordova, no requisitos vigentes para publicar en App Store.</p>
+
+        <h3 style="margin-top: 2.5rem;">Qué instalar</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Instala macOS compatible y Xcode completo</h3>
+            <p>Descarga Xcode desde App Store o desde Apple Developer. Una instalación completa aporta <code>xcodebuild</code>, el SDK de iOS y el simulador; las Command Line Tools instaladas por separado no sustituyen a Xcode para este propósito. La versión mínima de Xcode para Cordova 8.x es 15, aunque una versión de macOS puede exigir una versión concreta de Xcode.</p>
+          </li>
+          <li>
+            <h3>Completa el primer inicio y selecciona Xcode activo</h3>
+            <p>Abre Xcode una vez y acepta su licencia para que instale sus componentes. Si hay varias copias de Xcode o las herramientas apuntan a las Command Line Tools, selecciona la aplicación completa como directorio activo. El comando siguiente es una instrucción para Terminal; no se ejecuta desde este manual.</p>
+            <dl class="comando"><dt>Seleccionar Xcode instalado</dt><dd><pre><code>sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer</code></pre></dd></dl>
+            <p>Después se puede confirmar qué ruta está activa con <code>xcode-select --print-path</code>. Si falta el componente de línea de comandos, Xcode puede ofrecerlo al primer inicio; <code>xcode-select --install</code> solicita solo esas herramientas y no reemplaza la instalación completa de Xcode.</p>
+          </li>
+          <li>
+            <h3>Instala el runtime del simulador que vayas a usar</h3>
+            <p>Abre <strong>Xcode &gt; Settings &gt; Platforms</strong> y descarga un runtime de simulador de iOS compatible con tu Xcode. El SDK llega con Xcode, pero los runtimes del simulador se descargan por separado y pueden ocupar bastante espacio. Elegir o iniciar un simulador y agregar la plataforma iOS al proyecto se explica después; esta sección solo deja preparado el entorno.</p>
+          </li>
+          <li>
+            <h3>Instala CocoaPods para dependencias nativas</h3>
+            <p>CocoaPods resuelve e integra bibliotecas nativas de iOS que pueden necesitar Cordova o sus plugins. La matriz de <code>cordova-ios</code> 8.x exige CocoaPods 1.16.0 o posterior. Si usas Homebrew, este es el método que muestra la guía de Cordova:</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>brew install cocoapods</code></pre></dd></dl>
+            <p>Una vez instalado, <code>pod --version</code> permite consultar la versión. La guía conserva un párrafo antiguo que menciona 1.8.0: para la familia 8.x se toma como referencia el mínimo 1.16.0 de su matriz versionada.</p>
+          </li>
+        </ol>
+
+        <aside class="aviso"><strong>No mezcles dos políticas distintas.</strong> Los mínimos anteriores sirven para que Cordova 8.x pueda preparar un proyecto. La distribución en App Store depende además de las reglas actuales de Apple —por ejemplo, el SDK y Xcode que Apple acepte en ese momento—, por lo que deben consultarse antes de enviar una app. Cumplir el mínimo de Cordova no garantiza que una entrega sea aceptada por App Store.</aside>
+
+        <h3 style="margin-top: 2.5rem;">Agregar la plataforma y usar el simulador</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Agrega iOS desde la carpeta del proyecto</h3>
+            <p>Con el entorno anterior listo y desde la carpeta que contiene <code>config.xml</code>, este comando declara la plataforma iOS. La versión se fija para que el ejemplo corresponda a la familia documentada; es texto instructivo y no se ejecuta desde esta página.</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova platform add ios@8.1.1</code></pre></dd></dl>
+            <p>Al preparar la plataforma, Cordova genera <code>platforms/ios</code>, incluido el proyecto y workspace que Xcode abre para revisar la parte nativa. Es contenido generado: evita editarlo como lugar permanente para cambios de la app.</p>
+          </li>
+          <li>
+            <h3>Revisa requisitos y prepara una compilación</h3>
+            <p>La CLI puede informar qué herramientas detecta y preparar el proyecto iOS. Los siguientes comandos son referencias para ejecutar en una Mac configurada, no resultados ni comprobaciones realizadas por este manual.</p>
+            <dl class="comando"><dt>Comandos</dt><dd><pre><code>cordova requirements ios
+cordova build ios</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Elige un simulador instalado</h3>
+            <p>En Xcode abre el selector de destino y elige un modelo de iPhone junto con el runtime descargado en <strong>Settings &gt; Platforms</strong>. Después, la instrucción de Cordova para iniciar en el simulador es la siguiente:</p>
+            <dl class="comando"><dt>Comando</dt><dd><pre><code>cordova run ios --emulator</code></pre></dd></dl>
+            <p>El simulador permite probar la interfaz sin una cuenta de pago ni un iPhone físico, pero no sustituye un dispositivo: hardware, permisos, rendimiento, notificaciones y algunos servicios pueden variar o no estar disponibles.</p>
+          </li>
+        </ol>
+
+        <h3 style="margin-top: 2.5rem;">Usar un iPhone físico y firmar</h3>
+        <ol class="pasos">
+          <li>
+            <h3>Abre el workspace en Xcode y selecciona el equipo</h3>
+            <p>Conecta el iPhone, abre el archivo <code>.xcworkspace</code> generado dentro de <code>platforms/ios</code>, selecciona el destino físico y, en <strong>Signing &amp; Capabilities</strong>, elige tu <strong>Team</strong>. Con la firma automática, Xcode relaciona el identificador único de la app (<em>bundle ID</em>) con un certificado de desarrollo y un perfil de aprovisionamiento (<em>provisioning profile</em>) para permitir instalarla en ese dispositivo.</p>
+            <p>Puede ser necesario iniciar sesión con la Apple Account en Xcode, confiar en el ordenador y activar Developer Mode en el iPhone cuando iOS lo solicite. Son pasos de seguridad del dispositivo; no son sustituidos por Cordova.</p>
+          </li>
+          <li>
+            <h3>Distingue el equipo personal de la membresía de pago</h3>
+            <p>Una Apple Account gratuita puede aparecer como <strong>Personal Team</strong> en Xcode y sirve para firmar y probar personalmente una app en dispositivos propios, sujeto a límites de vigencia y cantidad que Apple puede cambiar. No permite distribuir por App Store ni TestFlight. El Apple Developer Program de pago habilita la distribución y los recursos de cuenta necesarios para publicar; no hace falta para aprender con el simulador.</p>
+          </li>
+          <li>
+            <h3>Entiende el papel limitado de <code>ios-deploy</code></h3>
+            <p><code>ios-deploy</code> es una utilidad de línea de comandos que Cordova puede usar para instalar o lanzar una compilación ya firmada en un dispositivo físico; no inicia ni controla el simulador y no reemplaza la firma, el perfil ni Xcode. La matriz de <code>cordova-ios</code> 8.x pide <code>ios-deploy</code> 1.12.2 o posterior, pero su comportamiento puede depender de la versión de iOS/Xcode: para el primer despliegue y los problemas de firma, Xcode es la ruta principal.</p>
+            <dl class="comando"><dt>Comando para dispositivo (solo referencia)</dt><dd><pre><code>cordova run ios --device</code></pre></dd></dl>
+          </li>
+        </ol>
+
+        <aside class="aviso"><strong>Los plugins necesitan su propia revisión.</strong> Que Cordova prepare iOS no demuestra que cada plugin funcione en iOS, en el simulador o en un iPhone. Verifica que el plugin declare soporte para la versión de <code>cordova-ios</code>, sus dependencias CocoaPods, permisos y claves de privacidad de Apple; prueba en un dispositivo cuando use hardware. En particular, este manual no ha confirmado la compatibilidad de <code>cordova-sqlite-storage</code> 7 con <code>cordova-ios</code> 8 ni su funcionamiento.</aside>
+      </section>
+
+      <section id="matriz" aria-labelledby="titulo-matriz">
+        <h2 id="titulo-matriz">Requisitos por capa</h2>
+        <p class="intro">Las versiones de la CLI, de cada plataforma y del sistema operativo son cosas distintas. “Mínimo” expresa un requisito publicado, no una garantía de compatibilidad de cualquier plugin.</p>
+        <div class="matriz">
+          <table>
+            <caption>Versiones y herramientas separadas por responsabilidad</caption>
+            <thead><tr><th scope="col">Capa</th><th scope="col">Versión de referencia</th><th scope="col">Requisitos publicados</th><th scope="col">Alcance y observaciones</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Cordova CLI</th><td>13.0.0</td><td>Node.js ≥ 20.17.0; npm llega con Node.js.</td><td>Git es opcional y solo hace falta si npm o la CLI descargan recursos desde una URL Git.</td></tr>
+              <tr><th scope="row">Cordova Android</th><td>15.1.0 (22 jul 2026)</td><td>JDK 17; Android SDK; Android Studio; Gradle del sistema; variables <code>JAVA_HOME</code> y <code>ANDROID_HOME</code>.</td><td>La guía oficial vigente detalla 15.0.x: API 24–36, Build Tools ^36.0.0, Gradle 8.14.2, AGP 8.10.1 y Node.js ≥20.17.0 o ≥22.9.0. Esta sección aplica esa referencia a la familia 15.x y advierte que la tabla no enumera 15.1.x de forma separada.</td></tr>
+              <tr><th scope="row">Cordova iOS</th><td>8.1.1 (7 jul 2026)</td><td>macOS; iOS ≥13; Xcode/xcodebuild ≥15; Node.js ≥20.17.0; CocoaPods ≥1.16.0; ios-deploy ≥1.12.2.</td><td>La matriz oficial aplica estos mínimos a toda la familia 8.x. iOS no puede prepararse desde Windows o Linux.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="aviso"><strong>Dato que requiere cuidado.</strong> <code>sdk echo $ANDROID_HOME</code> no es un comando válido. Una ruta local o la versión de <code>adb</code> tampoco demuestran compatibilidad. SQLite es opcional y la compatibilidad de su versión 7 no se ha comprobado aquí.</aside>
+      </section>
+
+      <section id="diagnostico" aria-labelledby="titulo-diagnostico">
+        <h2 id="titulo-diagnostico">Diagnóstico sin suposiciones</h2>
+        <p class="intro">Cuando un paso no sale como se esperaba, identifica primero la capa que falta: terminal y Node.js, herramientas de plataforma, proyecto o plugin. Los comandos de esta sección son referencias para diagnosticar en tu propio equipo; este manual no los ejecutó ni presenta salidas reales.</p>
+        <dl class="comando"><dt>Consultas orientativas desde la carpeta del proyecto</dt><dd><pre><code>cordova --version
+cordova platform ls
+cordova plugin ls
+cordova requirements android
+cordova requirements ios</code></pre></dd></dl>
+        <ul class="referencias">
+          <li><strong>La terminal no reconoce <code>cordova</code>.</strong> Confirma que Node.js y npm están disponibles en una terminal nueva; después revisa la instalación global de la CLI y la configuración de rutas de tu sistema. No confundas este caso con un problema del SDK de Android o Xcode.</li>
+          <li><strong>Faltan Java, SDK o licencias en Android.</strong> Revisa <code>JAVA_HOME</code>, <code>ANDROID_HOME</code> y las entradas de <code>Path</code>/<code>PATH</code> de la sección Android. Instala los componentes desde SDK Manager y revisa las licencias con <code>sdkmanager --licenses</code> solo si aceptas sus términos.</li>
+          <li><strong>Gradle o la API de Android no coinciden.</strong> Vuelve a la matriz de la plataforma que uses y evita cambiar archivos de <code>platforms/android</code> a mano: son generados y pueden reemplazarse. Una versión local de <code>adb</code> no prueba que el conjunto sea compatible.</li>
+          <li><strong>iOS no encuentra Xcode, CocoaPods o un simulador.</strong> Comprueba que Xcode completo sea el directorio activo, que el runtime esté descargado y que CocoaPods alcance el mínimo documentado. En un iPhone físico, revisa Team, bundle ID, firma y provisioning en Xcode antes de atribuir el problema a Cordova.</li>
+          <li><strong>Un plugin falla al preparar o compilar.</strong> Revisa primero su documentación, versión, dependencias nativas, permisos y claves de privacidad. Que la plataforma se agregue no confirma que el plugin sea compatible; aísla el cambio y consulta el registro de la herramienta que estés usando.</li>
+        </ul>
+      </section>
+
+      <section id="sqlite" aria-labelledby="titulo-sqlite">
+        <h2 id="titulo-sqlite">SQLite: complemento opcional</h2>
+        <p class="intro">La nota de curso original propone <code>cordova-sqlite-storage</code> para dar a la app una API JavaScript de base de datos local. No es un requisito para crear, preparar ni compilar un proyecto Cordova.</p>
+        <ol class="pasos">
+          <li>
+            <h3>Agrega el plugin solo si la app necesita datos locales</h3>
+            <p>Desde la carpeta del proyecto, la instrucción de la nota es la siguiente. Antes de usarla, consulta la documentación del plugin para confirmar versiones, plataformas, licencias, permisos y dependencias nativas.</p>
+            <dl class="comando"><dt>Comando de referencia</dt><dd><pre><code>cordova plugin add cordova-sqlite-storage</code></pre></dd></dl>
+          </li>
+          <li>
+            <h3>Usa la API cuando Cordova ya esté listo</h3>
+            <p>El plugin expone <code>window.sqlitePlugin</code> para abrir y consultar una base local. El código de la aplicación debe esperar el evento de dispositivo listo y manejar errores; no debe asumir que la API existe en un navegador común.</p>
+          </li>
+          <li>
+            <h3>Trátalo como una compatibilidad por verificar</h3>
+            <p>La carpeta de ejemplo declara <code>cordova-sqlite-storage</code> 7, pero esta guía no instaló, compiló ni probó el plugin. En particular, no confirma su funcionamiento con <code>cordova-ios</code> 8, simulador o iPhone; valida el caso real en el entorno que corresponda antes de depender de él.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section id="checklist" aria-labelledby="titulo-checklist">
+        <h2 id="titulo-checklist">Checklist final</h2>
+        <p class="intro">Úsala antes de continuar hacia una compilación o una entrega. Marcar un punto significa que lo revisaste en tu entorno, no que este manual lo haya comprobado.</p>
+        <ul class="referencias">
+          <li>Node.js cumple el mínimo de la CLI y npm está disponible.</li>
+          <li>La CLI de Cordova está instalada y el proyecto tiene <code>www/</code>, <code>config.xml</code> y <code>package.json</code>.</li>
+          <li>Si se trabajará en Android: JDK 17, Android Studio, SDK, variables, Build Tools, Gradle y licencias se revisaron contra la matriz.</li>
+          <li>Si se trabajará en iOS: se usa una Mac con Xcode completo, runtime de simulador, CocoaPods y requisitos de firma revisados.</li>
+          <li>Las versiones de CLI, plataforma y sistema se registraron por separado; no se sustituyó la matriz oficial con una salida de <code>adb</code>.</li>
+          <li>Los plugins necesarios se revisaron de forma individual. SQLite se añadió únicamente si el producto lo requiere.</li>
+          <li>Antes de distribuir, se revisarán los requisitos actuales de Google Play o App Store; los mínimos de Cordova no garantizan publicación.</li>
+        </ul>
+        <aside class="aviso"><strong>Límite de este documento.</strong> Es una guía de preparación y diagnóstico. No se ejecutaron Cordova, la aplicación, compilaciones nativas, emuladores, simuladores ni dispositivos para redactarla.</aside>
+      </section>
+
+      <section id="referencias" aria-labelledby="titulo-referencias">
+        <h2 id="titulo-referencias">Fuentes y referencias</h2>
+        <ul class="referencias">
+          <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/installation.html">Instalación de la CLI de Cordova</a> — compatibilidad de CLI 13.x y Node.js.</li>
+          <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html">Guía de Android de Cordova</a> — matriz Android, JDK, SDK, Gradle y variables.</li>
+          <li><a href="https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html">Guía de iOS de Cordova</a> — matriz iOS 8.x, Xcode, CocoaPods e ios-deploy.</li>
+          <li><a href="https://developer.apple.com/help/account/basics/about-your-developer-account/">Cuenta de desarrollador de Apple</a> y <a href="https://developer.apple.com/support/compare-memberships/">comparación de membresías</a> — Personal Team, firma y distribución.</li>
+          <li><a href="https://github.com/storesafe/cordova-sqlite-storage">cordova-sqlite-storage</a> — documentación del plugin SQLite mencionado como opcional; su compatibilidad concreta debe verificarse por proyecto.</li>
+          <li><a href="https://cordova.apache.org/announcements/2026/07/22/cordova-android-15.1.0.html">Anuncio de cordova-android 15.1.0</a>.</li>
+          <li><a href="https://cordova.apache.org/announcements/2026/07/07/cordova-ios-8.1.1.html">Anuncio de cordova-ios 8.1.1</a>.</li>
+          <li><strong>Fuente de partida interna:</strong> <code>../notasExpo.md</code>, consultada para recuperar el comando opcional de SQLite; no sustituye la documentación del plugin.</li>
+        </ul>
+      </section>
+    </main>
+    <footer><div class="contenedor">Base documental actualizada el 24 de octubre de 2026. Los comandos se muestran como instrucciones; no se ejecutaron Cordova, la aplicación, compilaciones, emuladores ni dispositivos.</div></footer>
+  </body>
+</html>
