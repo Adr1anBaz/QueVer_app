@@ -8,12 +8,15 @@
     "build": "node scripts/build.mjs",
     "serve": "node scripts/serve.mjs",
     "prepdf": "npm run assets",
-    "pdf": "node scripts/export-pdf.mjs"
+    "pdf": "node scripts/export-pdf.mjs",
+    "predeploy": "npm run build && npm run pdf",
+    "deploy": "gh-pages -d dist --dotfiles"
   },
   "dependencies": {
     "reveal.js": "^6.0.2"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "playwright": "^1.58.2"
   }
 }

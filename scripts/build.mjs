@@ -1,4 +1,4 @@
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -15,5 +15,6 @@ await cp(source, dist, {
 });
 await cp(revealSource, revealTarget, { recursive: true });
 await mkdir(join(dist, 'pdf'), { recursive: true });
+await writeFile(join(dist, '.nojekyll'), '');
 
 console.log('Generado dist/ limpio con el sitio estático y Reveal local.');
