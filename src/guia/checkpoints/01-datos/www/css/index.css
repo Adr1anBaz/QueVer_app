@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #111;
+    color: #fff;
+}
+
+.app-header {
+    padding: 1.5rem 1rem;
+    background: #222;
+    text-align: center;
+}
+
+.app-header h1,
+.app-header p,
+.empty-state h2,
+.empty-state p {
+    margin: 0;
+}
+
+.app-header p {
+    margin-top: 0.35rem;
+    color: #c7c7c7;
+}
+
+main {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+.status {
+    margin: 0 0 1.5rem;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    background: #222;
+    color: #e6e6e6;
+}
+
+.status--error {
+    background: #4b1719;
+    color: #ffd9da;
+}
+
+.empty-state {
+    padding: 1.5rem;
+    border-radius: 10px;
+    background: #222;
+}
+
+.empty-state p {
+    margin-top: 0.65rem;
+    color: #c7c7c7;
+}
