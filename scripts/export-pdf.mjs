@@ -78,7 +78,7 @@ async function exportPdf(browser, url, filename, options, reveal = false) {
   try {
     await page.goto(url, { waitUntil: 'networkidle' });
     if (filename === 'guia.pdf') {
-      await page.locator('details').evaluateAll((details) => details.forEach((detail) => { detail.open = true; }));
+      await page.locator('details.lesson').evaluateAll((details) => details.forEach((detail) => { detail.open = true; }));
       await page.locator('img[loading="lazy"]').evaluateAll((images) => images.forEach((image) => { image.loading = 'eager'; }));
     }
     await waitForDocument(page, reveal);
@@ -98,11 +98,15 @@ try {
   await mkdir(output, { recursive: true });
   const browser = await chromium.launch({ headless: true });
   try {
-    await exportPdf(browser, `${baseUrl}/manual/index.html`, 'manual.pdf', {
+    await exportPdf(browser, `${baseUrl}/guia/index.html`, 'manual.pdf', {
       format: 'A4',
       preferCSSPageSize: true,
     });
     await exportPdf(browser, `${baseUrl}/guia/index.html`, 'guia.pdf', {
+      format: 'A4',
+      preferCSSPageSize: true,
+    });
+    await exportPdf(browser, `${baseUrl}/exposicion/index.html`, 'guion.pdf', {
       format: 'A4',
       preferCSSPageSize: true,
     });
@@ -112,7 +116,8 @@ try {
       margin: { top: '0in', right: '0in', bottom: '0in', left: '0in' },
       preferCSSPageSize: true,
     };
-    await exportPdf(browser, `${baseUrl}/slides/instalacion.html?print-pdf`, 'instalacion.pdf', slideOptions, true);
+    await exportPdf(browser, `${baseUrl}/exposicion/index.html`, 'hoja-exposicion.pdf', { format: 'A4', preferCSSPageSize: true });
+    await exportPdf(browser, `${baseUrl}/guia/index.html`, 'instalacion.pdf', { format: 'A4', preferCSSPageSize: true });
     await exportPdf(browser, `${baseUrl}/slides/teoria.html?print-pdf`, 'teoria.pdf', slideOptions, true);
   } finally {
     await browser.close();

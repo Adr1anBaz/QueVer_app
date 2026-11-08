@@ -1,4 +1,4 @@
-const CORDOVA_STARTUP_MESSAGE = "SQLite no disponible: abre la app con cordova run android / ios (o cordova run browser)";
+const CORDOVA_STARTUP_MESSAGE = "SQLite no disponible: ejecuta cordova run android --emulator desde la carpeta quever";
 let deviceReadyTimer = setTimeout(() => {
     showStatus(CORDOVA_STARTUP_MESSAGE, true);
 }, 3000);

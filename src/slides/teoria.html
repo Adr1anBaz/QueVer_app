@@ -33,7 +33,7 @@
     </style>
   </head>
   <body>
-    <a class="enlace-indice" href="../index.html">← Índice</a>
+    <a class="enlace-indice" href="../exposicion/index.html">Exposición y guion</a>
     <main class="reveal">
       <div class="slides">
         <section class="portada">
@@ -178,10 +178,10 @@
         </section>
 
         <section>
-          <header class="encabezado"><h2>QueVer: un ejemplo declarado, no una prueba</h2><p class="referencia">14 / caso local</p></header>
-          <div class="layout-dos-columnas"><div><p>El proyecto de referencia declara <code>com.ejemplo.quever</code> y carga <code>www/index.html</code> desde su <code>config.xml</code>.</p><p class="nota-clave">En su <code>package.json</code> declara Android 15.1.0 y <mark>cordova-sqlite-storage</mark> 7.0.0.</p></div><ol class="pasos"><li>SQLite es un plugin externo</li><li>Puede atender datos locales</li><li>La declaración no prueba instalación</li><li>Tampoco prueba funcionamiento</li></ol></div>
-          <p class="fuente">Referencia local leída: <code>../quever/config.xml</code>, <code>www/</code> y <code>package.json</code>; sin ejecución.</p>
-          <aside class="notes">~45 segundos. Sea preciso: se inspeccionaron archivos, no se ejecutó QueVer, Cordova ni SQLite. El ejemplo sirve para reconocer config.xml, www y una declaración de plugin. No afirme que el plugin funciona, que la base existe o que la compatibilidad está comprobada.</aside>
+          <header class="encabezado"><h2>QueVer: dos recorridos distintos</h2><p class="referencia">14 / nuestra app</p></header>
+          <div class="layout-dos-columnas"><div><p><strong>Buscar:</strong> JavaScript consulta OMDb por HTTPS y dibuja los resultados.</p><p class="nota-clave"><strong>Guardar:</strong> JavaScript llama al plugin SQLite y Android conserva los datos.</p></div><ol class="pasos"><li>HTML y CSS: pantalla</li><li>JavaScript: acciones y API</li><li>Cordova: contenedor y puente</li><li>SQLite: catálogo local</li></ol></div>
+          <p class="fuente">Práctica: Cordova CLI 13.0.0, Android 15.1.0 y cordova-sqlite-storage 7.0.0.</p>
+          <aside class="notes">~45 segundos. Buscar no usa SQLite: fetch es una API web. Guardar cruza el puente hacia el plugin. En la práctica comprobaremos las dos rutas, fase por fase, sin entregar la app terminada al inicio.</aside>
         </section>
 
         <section>
@@ -201,15 +201,16 @@
         <section>
           <header class="encabezado"><h2>Conclusión: una capa web con responsabilidades nativas</h2><p class="referencia">18 / cierre</p></header>
           <div class="layout-dos-columnas"><div><p>Cordova permite empaquetar una aplicación web y conectar capacidades del dispositivo mediante una WebView, un puente y plugins.</p><p class="nota-clave">Su valor está en la reutilización consciente; su límite está en todo lo que la plataforma y los plugins aún exigen mantener.</p></div><ol class="bibliografia"><li>Apache Cordova. <em>Overview</em>, CLI Guide, Project Structure, Plugin Development y Security Guide.<br>cordova.apache.org/docs/en/latest/</li><li>Apache Cordova. “Goodbye PhoneGap” (2020) y anuncios Android 15.1.0 / iOS 8.1.1 (2026).<br>cordova.apache.org/announcements/</li><li>Capacitor. <em>Documentation</em>.<br>capacitorjs.com/docs</li><li>React Native. <em>Introduction</em>.<br>reactnative.dev/docs/getting-started</li><li>Flutter. <em>Architectural overview</em>.<br>docs.flutter.dev/resources/architectural-overview</li></ol></div>
-          <p class="fuente">Guion completo: 18 slides × ~35–55 s = 10–15 min. Fuentes consultadas: 24 oct. 2026.</p>
-          <aside class="notes">~40 segundos. Cierre con tres ideas: Cordova ejecuta una aplicación web en una WebView, el bridge y los plugins dan acceso a capacidades nativas, y la decisión debe considerar mantenimiento además de velocidad inicial. Reserve preguntas. El deck completo está pensado para 10 a 15 minutos, no para una demostración técnica.</aside>
+          <p class="fuente">Continúa en la práctica Android: seis fases y archivos completos. Guion: 12 minutos de teoría.</p>
+          <aside class="notes">~40 segundos. Cierre con tres ideas: interfaz web, puente y plugins, herramientas Android. Ahora cambie a la práctica y asegure la primera app en el emulador antes de la fase 1. La teoría tiene 12 minutos asignados; las preguntas largas se retoman al cierre.</aside>
         </section>
       </div>
     </main>
     <script type="module">
       import Reveal from '../vendor/reveal/reveal.mjs';
       import Notes from '../vendor/reveal/plugin/notes.mjs';
-      const deck = new Reveal({ width: 1600, height: 900, margin: 0.08, minScale: 0.2, maxScale: 1.5, center: false, controls: true, progress: true, slideNumber: 'c/t', hash: true, transition: 'none', plugins: [Notes] });
+      const esMovil = window.matchMedia('(max-width: 700px)').matches;
+      const deck = new Reveal({ width: esMovil ? window.innerWidth : 1600, height: esMovil ? window.innerHeight : 900, margin: esMovil ? 0 : 0.08, minScale: esMovil ? 1 : 0.2, maxScale: esMovil ? 1 : 1.5, scrollActivationWidth: null, center: false, controls: true, progress: true, slideNumber: 'c/t', hash: true, transition: 'none', plugins: [Notes] });
       deck.initialize();
     </script>
   </body>

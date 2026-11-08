@@ -5,10 +5,16 @@
   "description": "Entregables estáticos de documentación para QueVer.",
   "scripts": {
     "assets": "node scripts/copy-reveal.mjs",
+    "prebuild": "npm test",
     "build": "node scripts/build.mjs",
+    "postbuild": "npm run check:guide && npm run test:e2e",
+    "test": "node --test scripts/code-diff.test.mjs && node scripts/check-checkpoints.mjs",
+    "check:guide": "node scripts/check-guide.mjs",
+    "test:e2e": "node scripts/guide.e2e.mjs",
     "serve": "node scripts/serve.mjs",
     "prepdf": "npm run assets",
     "pdf": "node scripts/export-pdf.mjs",
+    "postpdf": "node scripts/check-guide.mjs --pdf",
     "predeploy": "npm run build && npm run pdf",
     "deploy": "gh-pages -d dist --dotfiles"
   },
