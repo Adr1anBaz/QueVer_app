@@ -128,6 +128,13 @@
 .practice-guide .terminal button { color: var(--ink); border: 1px solid #b9bdb1; background: transparent; }
 .practice-guide .terminal button:hover { background: #e0e5db; }
 .practice-guide .terminal .copy-status { color: var(--accent); }
+.practice-guide .step-result { border-top: 1px solid var(--line); background: var(--paper); color: var(--ink); padding: .9rem 1rem; font-size: .88rem; }
+.practice-guide .step-result p { margin: .35rem 0; }
+.practice-guide .step-result strong { color: var(--accent); }
+.practice-guide .step-result ul { margin: .4rem 0; padding-left: 1.2rem; }
+.practice-guide .step-result pre { margin: .6rem 0; padding: .7rem; background: #f0f1eb; font-size: .8rem; white-space: pre-wrap; }
+.practice-guide .execution-step { margin: 1.5rem 0; }
+.practice-guide .execution-step .step-result { padding-left: 0; padding-right: 0; }
 .practice-guide .file-map { margin: 1.5rem 0 2rem; }
 .practice-guide .code-card { border-radius: 4px; border-color: var(--line); background: var(--paper); margin: 2rem 0; }
 .practice-guide .code-card > header { background: #f0f1eb; padding: 1rem; }

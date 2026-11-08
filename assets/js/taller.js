@@ -35,7 +35,9 @@ document.addEventListener('click', async event => {
         text = await response.text();
       } else text = container.querySelector('code').textContent;
       await copyText(text);
-      status.textContent = 'Copiado completo. Reemplaza el contenido del archivo indicado y guarda.';
+      status.textContent = container.classList.contains('terminal')
+        ? 'Comando copiado. Pégalo en la terminal integrada de VS Code y pulsa Enter.'
+        : 'Copiado completo. Reemplaza el contenido del archivo indicado y guarda.';
     } catch {
       status.textContent = 'No se pudo copiar. Usa Descargar y abre el archivo; en Terminal, selecciona el comando manualmente.';
     } finally { copy.disabled = false; }
