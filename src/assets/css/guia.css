@@ -1,0 +1,169 @@
+@font-face {
+  font-family: "Albert Sans";
+  src: url("../fonts/albert-sans-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Alumni Sans";
+  src: url("../fonts/alumni-sans-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+.practice-guide {
+  --paper: #fcfbf8;
+  --canvas: #fcfbf8;
+  --ink: #242621;
+  --muted: #63655e;
+  --accent: #28554a;
+  --accent-soft: #edf1ec;
+  --line: #dedfd7;
+  --success: #28554a;
+  min-height: 100vh;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "Albert Sans", "Avenir Next", sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.practice-guide h1 {
+  max-width: none;
+  font: 400 clamp(3.25rem, 6vw, 5.5rem)/1.04 Georgia, "Times New Roman", serif;
+  letter-spacing: -.055em;
+  margin: .8rem 0 1.4rem;
+}
+
+.practice-guide h2,
+.practice-guide .lesson > summary {
+  font-family: "Alumni Sans", "Arial Narrow", sans-serif;
+  font-size: clamp(2.15rem, 3.5vw, 2.9rem);
+  font-weight: 500;
+  letter-spacing: -.015em;
+  line-height: 1.08;
+}
+
+.practice-guide h3 {
+  font-family: "Albert Sans", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -.02em;
+}
+
+.practice-guide h4 { font-weight: 500; letter-spacing: 0; }
+.practice-guide b, .practice-guide strong { font-weight: 600; }
+.practice-guide a:hover { color: #163b31; }
+.practice-guide button { border-radius: 3px; font-weight: 500; }
+.practice-guide button:hover { background: #1d4037; }
+.practice-guide .secondary:hover { background: var(--accent-soft); }
+.practice-guide code { background: #eeeee8; border-radius: 2px; }
+.practice-guide pre code { background: none; }
+
+.practice-guide .topbar { padding: 1.25rem 2rem; }
+.practice-guide .brand { font-weight: 600; letter-spacing: -.035em; }
+.practice-guide .brand small { font-weight: 400; letter-spacing: 0; }
+.practice-guide .topbar [aria-current] { font-weight: 600; }
+.practice-guide .hero { max-width: 1440px; padding: 3.5rem 2rem 2.5rem; }
+.practice-guide .hero .lead { font-size: 1.1rem; max-width: 58ch; }
+.practice-guide .session {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: var(--muted);
+  font-size: .85rem;
+  font-weight: 400;
+}
+.practice-guide .hero-bottom { margin-top: 1.5rem; padding-top: 1rem; border: 0; }
+.practice-guide .hero-bottom p { font-size: .8rem; }
+.practice-guide .hero-bottom a { font-size: .9rem; }
+.practice-guide .workshop { column-gap: 3rem; }
+.practice-guide .sidebar { font-size: .85rem; top: 1.5rem; }
+.practice-guide .sidebar strong { margin-bottom: .75rem; font-weight: 500; }
+.practice-guide .sidebar a {
+  border-radius: 0;
+  border-left: 2px solid transparent;
+  padding: .38rem .7rem;
+}
+.practice-guide .sidebar a[aria-current="step"] {
+  border-color: var(--accent);
+  background: none;
+  font-weight: 500;
+}
+
+.practice-guide .lesson {
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 2.25rem 0;
+  margin: 0;
+}
+.practice-guide .lesson:first-child { padding-top: 0; border-top: 0; }
+.practice-guide .lesson > summary { gap: 1.25rem; }
+.practice-guide .lesson > summary::after { font-size: 1.7rem; font-weight: 400; }
+.practice-guide .lesson[open] > summary { padding-bottom: 1.5rem; border: 0; margin-bottom: .5rem; }
+.practice-guide .phase-number {
+  font: 400 2.5rem/1 "Alumni Sans", sans-serif;
+  background: none;
+  border-radius: 0;
+  color: var(--muted);
+  justify-content: start;
+  flex-basis: 2rem;
+}
+.practice-guide .duration { font-family: "Albert Sans", sans-serif; font-size: .78rem; margin-top: .6rem; }
+.practice-guide .explain { background: none; border: 0; padding: 0; margin: 1.5rem 0 2rem; }
+.practice-guide .explain strong { color: var(--ink); margin-bottom: .35rem; }
+.practice-guide .warning { background: #f5f0e2; border: 0; color: #655226; padding: .8rem 1rem; font-size: .9rem; }
+.practice-guide .check { background: none; border: 0; border-top: 1px solid var(--line); padding: 1.25rem 0 0; margin: 2rem 0 1rem; }
+.practice-guide .check h3 { color: var(--accent); }
+.practice-guide .next { border: 0; margin-top: 1.5rem; font-size: .85rem; }
+.practice-guide .next a { font-weight: 500; }
+
+.practice-guide .terminal { background: #f0f1eb; color: var(--ink); border-radius: 4px; }
+.practice-guide .terminal header { border-color: var(--line); }
+.practice-guide .terminal button { color: var(--ink); border: 1px solid #b9bdb1; background: transparent; }
+.practice-guide .terminal button:hover { background: #e0e5db; }
+.practice-guide .terminal .copy-status { color: var(--accent); }
+.practice-guide .file-map { margin: 1.5rem 0 2rem; }
+.practice-guide .code-card { border-radius: 4px; border-color: var(--line); background: var(--paper); margin: 2rem 0; }
+.practice-guide .code-card > header { background: #f0f1eb; padding: 1rem; }
+.practice-guide .file-state { font-weight: 500; }
+.practice-guide .code-panel { background: #f7f7f3; color: #242621; }
+.practice-guide .code-panel > code { white-space: normal; }
+.practice-guide .line-number { color: #6a6d63; }
+.practice-guide .added, .practice-guide .modified { background: #eee8ff; box-shadow: inset 3px 0 #655192; }
+.practice-guide .line-mark { color: #655192; }
+.practice-guide .removed, .practice-guide .recovery { background: #f0f1eb; border-radius: 4px; }
+.practice-guide .recovery > .code-card { background: var(--paper); }
+.practice-guide footer { font-size: .8rem; }
+
+@media (min-width: 1100px) {
+  .practice-guide .hero { padding-left: calc(272px + 3rem); }
+}
+
+@media (max-width: 900px) {
+  .practice-guide .hero { padding: 2rem 1.25rem; }
+  .practice-guide .topbar { padding: 1rem; }
+  .practice-guide .topbar nav { font-size: .8rem; }
+  .practice-guide .workshop { padding: 0 1.25rem 3rem; }
+  .practice-guide .sidebar { margin-bottom: 1rem; }
+  .practice-guide .sidebar a { padding: .35rem .5rem; }
+  .practice-guide .lesson { padding: 1.75rem 0; }
+  .practice-guide .lesson > summary { gap: .6rem; }
+  .practice-guide .duration { font-size: .73rem; }
+}
+
+@media print {
+  .practice-guide { font-size: 10pt; background: white; }
+  .practice-guide .hero { padding: 0 0 1rem; }
+  .practice-guide h1 { font-size: 30pt; }
+  .practice-guide h2 { font-size: 24pt; }
+  .practice-guide .lesson { padding: 1rem 0; }
+  .practice-guide .warning { background: #f6f4ee; color: #333; }
+  .practice-guide .terminal { border: 1px solid #aaa; }
+  .practice-guide .check { break-inside: avoid; }
+}

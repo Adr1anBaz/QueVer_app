@@ -4,7 +4,7 @@ import { resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 export async function startSite() {
   const root = fileURLToPath(new URL('../dist/', import.meta.url));
-  const mime = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.pdf': 'application/pdf' };
+  const mime = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.pdf': 'application/pdf', '.woff2': 'font/woff2' };
   const server = createServer(async (req, res) => {
     try {
       const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
