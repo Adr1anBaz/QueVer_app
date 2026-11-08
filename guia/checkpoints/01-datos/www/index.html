@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'self' https://www.omdbapi.com; img-src 'self' data: https://m.media-amazon.com; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self'">
+    <title>QueVer</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>QueVer</h1>
+        <p>Tu catálogo personal de películas</p>
+    </header>
+
+    <main>
+        <p id="app-status" class="status" role="status" aria-live="polite">Preparando tu catálogo…</p>
+        <section class="empty-state" aria-labelledby="start-title">
+            <h2 id="start-title">La base de tu catálogo está lista</h2>
+            <p>En el siguiente paso buscarás películas para agregarlas aquí.</p>
+        </section>
+    </main>
+
+    <script src="cordova.js"></script>
+    <script src="js/db.js"></script>
+    <!-- Conserva este archivo local al aplicar los próximos checkpoints. -->
+    <script src="js/config.local.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

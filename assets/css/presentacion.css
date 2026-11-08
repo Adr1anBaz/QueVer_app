@@ -1,10 +1,10 @@
 :root {
-  --fondo: #f8f9fb;
+  --fondo: #f1f3fa;
   --papel: #ffffff;
-  --tinta: #1c2229;
-  --tinta-suave: #59636d;
-  --linea: #d9dee4;
-  --acento: #245fc4;
+  --tinta: #20263d;
+  --tinta-suave: #515d78;
+  --linea: #cbd2e3;
+  --acento: #4c35b5;
   --sombra: rgba(28, 34, 41, 0.08);
 }
 
@@ -192,9 +192,11 @@
 
 .reveal .layout-dos-columnas {
   align-items: start;
+  align-content: center;
   display: grid;
   gap: 1.35rem;
   grid-template-columns: minmax(0, 1.15fr) minmax(13rem, 0.85fr);
+  min-height: 10.6rem;
 }
 
 .reveal .nota-clave {
@@ -246,6 +248,9 @@
 
 .reveal .controls {
   color: var(--acento);
+  filter: drop-shadow(0 1px 1px rgba(28, 34, 41, 0.18));
+  font-size: 13px;
+  opacity: 0.95;
 }
 
 .reveal .progress {
@@ -254,9 +259,15 @@
 }
 
 .reveal .slide-number {
-  background: transparent;
-  color: var(--tinta-suave);
-  font-size: 0.42em;
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: 999px;
+  bottom: 0.85rem;
+  color: var(--tinta);
+  font-size: 0.38em;
+  font-variant-numeric: tabular-nums;
+  padding: 0.3rem 0.55rem;
+  right: 5.1rem;
 }
 
 .reveal .focus-visible,
@@ -266,18 +277,55 @@
 }
 
 @media (max-width: 700px) {
-  .reveal .slides section {
-    padding: 1.5rem;
+  .reveal {
+    font-size: 22px;
   }
 
+  .reveal .slides section {
+    padding: 3.4rem 1.5rem 1.5rem;
+  }
+
+  .reveal h1 { font-size: 2.35em; }
+
+  .reveal h2 {
+    font-size: 1.55em;
+    max-width: 17ch;
+  }
+
+  .reveal p { font-size: 0.85em; }
+
+  .reveal .encabezado { margin-bottom: 0.85rem; }
+
   .reveal .layout-dos-columnas {
+    align-content: start;
     gap: 0.75rem;
     grid-template-columns: 1fr;
+    min-height: 0;
   }
 
   .reveal .fuente {
-    bottom: 0.65rem;
-    left: 1.5rem;
+    bottom: auto;
+    font-size: 0.5em;
+    left: auto;
+    margin-top: 1.1rem;
+    max-width: none;
+    position: static;
+  }
+
+  .reveal .pasos li {
+    font-size: 0.78em;
+    padding-bottom: 0.42rem;
+    padding-top: 0.35rem;
+  }
+
+  .reveal .controls {
+    font-size: 14px;
+  }
+
+  .reveal .slide-number {
+    bottom: 0.7rem;
+    font-size: 0.58em;
+    right: 9.4rem;
   }
 }
 

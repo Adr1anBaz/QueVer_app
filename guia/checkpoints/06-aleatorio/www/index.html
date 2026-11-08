@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; connect-src 'self' https://www.omdbapi.com; img-src 'self' data: https://m.media-amazon.com; style-src 'self' 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'self'">
+    <title>QueVer</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>QueVer</h1>
+        <p>Tu catálogo personal de películas</p>
+    </header>
+
+    <main>
+        <p id="app-status" class="status" role="status" aria-live="polite">Preparando tu catálogo…</p>
+        <section class="search-panel" aria-labelledby="search-title">
+            <div class="search-panel__heading">
+                <h2 id="search-title">Busca una película</h2>
+                <button id="random-button" type="button">Recomiéndame una</button>
+            </div>
+            <form id="search-form" novalidate>
+                <label for="search-input">Título</label>
+                <div class="search-controls">
+                    <input id="search-input" name="title" type="search" placeholder="Por ejemplo, Arrival" autocomplete="off" required>
+                    <button type="submit">Buscar</button>
+                </div>
+            </form>
+        </section>
+        <section aria-labelledby="results-title">
+            <h2 id="results-title">Resultados</h2>
+            <div id="results" class="results" aria-live="polite">
+                <p class="empty-copy">Aquí aparecerán las películas encontradas.</p>
+            </div>
+        </section>
+        <section class="catalog-section" aria-labelledby="watched-title">
+            <div class="catalog-section__heading">
+                <h2 id="watched-title">Ya las vi</h2>
+                <button id="more-watched" class="button--secondary" type="button">Ver más</button>
+            </div>
+            <div id="watched-movies" class="movie-grid" aria-live="polite">
+                <p class="empty-copy">Aún no tienes películas vistas.</p>
+            </div>
+        </section>
+        <section class="catalog-section" aria-labelledby="pending-title">
+            <div class="catalog-section__heading">
+                <h2 id="pending-title">Pendientes</h2>
+                <button id="more-pending" class="button--secondary" type="button">Ver más</button>
+            </div>
+            <div id="pending-movies" class="movie-grid" aria-live="polite">
+                <p class="empty-copy">Aún no tienes películas pendientes.</p>
+            </div>
+        </section>
+        <section id="full-list" class="full-list" aria-live="polite" hidden></section>
+    </main>
+
+    <script src="cordova.js"></script>
+    <script src="js/db.js"></script>
+    <!-- Conserva este archivo local al aplicar los próximos checkpoints. -->
+    <script src="js/config.local.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
