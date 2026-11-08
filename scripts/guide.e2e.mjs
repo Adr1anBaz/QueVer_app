@@ -20,6 +20,22 @@ try {
   await page.getByRole('button', { name: 'Ampliar para proyectar' }).click();
   assert.equal(await page.locator('body.projector').count(), 1);
   await page.getByRole('button', { name: 'Vista normal' }).click();
+  for (const terminal of await page.locator('.terminal').all()) {
+    assert.equal(await terminal.locator('.step-result').count(), 1, 'Cada comando necesita resultado esperado');
+    assert.match(await terminal.locator('header').textContent(), /VS Code/);
+    assert.match(await terminal.locator('.step-result').textContent(), /Si falla:/);
+    await terminal.evaluate(el => {
+      for (let parent = el.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS') parent.open = true;
+    });
+    const command = await terminal.locator('pre > code').textContent();
+    await terminal.getByRole('button').click();
+    await page.waitForFunction(text => navigator.clipboard.readText().then(value => value === text), command);
+  }
+  const firstCommand = page.locator('.terminal').first();
+  const commandText = await firstCommand.locator('pre > code').textContent();
+  await firstCommand.getByRole('button').click();
+  await page.waitForFunction(text => navigator.clipboard.readText().then(value => value === text), commandText);
+  await firstCommand.locator('.copy-status').filter({ hasText: 'terminal integrada de VS Code' }).waitFor();
   const phases = page.locator('details.lesson');
   assert.equal(await phases.count(), 6);
   for (const phase of await phases.all()) {
