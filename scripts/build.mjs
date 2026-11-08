@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import { stageNames, filesForStage } from './checkpoints.mjs';
 import { diffLines } from './code-diff.mjs';
 
@@ -51,6 +52,7 @@ await cp(source, dist, { recursive: true, filter: path => !path.includes(`${sour
 await cp(join(root, 'node_modules/reveal.js/dist'), join(dist, 'vendor/reveal'), { recursive: true });
 await mkdir(join(dist, 'pdf'), { recursive: true });
 await writeFile(join(dist, '.nojekyll'), '');
+await writeFile(join(dist, 'build.json'), JSON.stringify({ source: process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(), generatedAt: new Date().toISOString() }, null, 2));
 let guide = await readFile(join(source, 'guia/index.html'), 'utf8');
 for (const [index, stage] of stageNames.entries()) {
   const marker = `<!-- files:${stage} -->`;

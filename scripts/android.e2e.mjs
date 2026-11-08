@@ -25,12 +25,31 @@ run('cordova', ['create', 'app', appId, 'QueVerValidation'], temporary);
 run('cordova', ['platform', 'add', 'android@15.1.0']);
 run('cordova', ['plugin', 'add', 'cordova-sqlite-storage@7.0.0']);
 run('cordova', ['requirements', 'android']);
+// Reiniciar solo los datos de nuestra app de validación si quedó de otra prueba.
+const installed = spawnSync('adb', ['shell', 'pm', 'path', appId], { env, encoding: 'utf8' });
+if (installed.status === 0 && installed.stdout.includes('package:')) run('adb', ['shell', 'pm', 'clear', appId]);
 console.log(`Proyecto aislado: ${app}; identificador ${appId}. No reemplaza la app original.`);
 const fixture = id => ({ Response: 'True', imdbID: id, Title: id === 'tt0000001' ? 'Inception Taller' : 'Otra Película Taller', Year: '2010', Runtime: '148 min', Genre: 'Sci-Fi', Director: 'Dirección de prueba', Actors: 'Reparto de prueba', Plot: 'Sinopsis de prueba controlada.', Poster: 'N/A', imdbRating: '8.8' });
 let browser, page, port;
 async function attach() {
-  const pid = run('adb', ['shell', 'pidof', appId]).trim();
+  let pid;
+  for (let attempt = 0; attempt < 40; attempt++) {
+    const result = spawnSync('adb', ['shell', 'pidof', appId], { env, encoding: 'utf8' });
+    if (result.status === 0 && result.stdout.trim()) { pid = result.stdout.trim(); break; }
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+  assert.ok(pid, 'Android no inició el proceso de la app');
   port = run('adb', ['forward', 'tcp:0', `localabstract:webview_devtools_remote_${pid}`]);
+  // Tras un reinicio, el proceso existe antes de que WebView abra DevTools.
+  let ready = false;
+  for (let attempt = 0; attempt < 40; attempt++) {
+    try {
+      const response = await fetch(`http://127.0.0.1:${port}/json/version`, { signal: AbortSignal.timeout(500) });
+      if (response.ok) { ready = true; break; }
+    } catch { /* WebView todavía está arrancando */ }
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+  assert.ok(ready, 'DevTools de la WebView no estuvo listo en el plazo esperado');
   browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`);
   page = browser.contexts()[0].pages()[0];
   await page.waitForFunction(() => window.sqlitePlugin && document.getElementById('app-status')?.textContent !== 'Preparando tu catálogo…');
@@ -42,7 +61,11 @@ async function attach() {
 }
 async function disconnect() {
   if (browser) { await browser.close(); browser = undefined; }
-  if (port) run('adb', ['forward', '--remove', `tcp:${port}`]);
+  if (port) {
+    const activePort = port;
+    port = undefined;
+    run('adb', ['forward', '--remove', `tcp:${activePort}`]);
+  }
 }
 async function searchDetail(index = 0) {
   await page.locator('#search-input').fill('Inception');
@@ -99,7 +122,7 @@ try {
       await page.getByRole('button', { name: 'Editar opinión y calificación' }).click();
       await page.locator('textarea').fill('Opinión editada');
       await page.getByRole('button', { name: 'Guardar cambios' }).click();
-      await page.waitForFunction(() => document.getElementById('app-status').textContent.includes('Cambios guardados'));
+      await page.waitForFunction(() => document.getElementById('watched-movies').textContent.includes('Opinión editada'));
       await page.locator('#pending-movies .movie-card button').first().click();
       await page.getByRole('button', { name: 'Marcar como vista', exact: true }).click();
       await page.getByRole('button', { name: 'Guardar cambios' }).click();
@@ -136,7 +159,17 @@ try {
   }
   await disconnect();
   run('adb', ['shell', 'am', 'force-stop', appId]);
-  run('adb', ['shell', 'monkey', '-p', appId, '1']);
+  run('adb', ['shell', 'am', 'start', '-W', '-n', `${appId}/.MainActivity`]);
+  // Conectar CDP durante el handshake inicial de Cordova puede interferir con
+  // su prompt de inicialización. Primero observar el arranque desde Android.
+  const coldPid = run('adb', ['shell', 'pidof', appId]);
+  let databaseReady = false;
+  for (let attempt = 0; attempt < 60; attempt++) {
+    const logs = run('adb', ['logcat', '-d', `--pid=${coldPid}`]);
+    if (logs.includes('DB opened: quever.db')) { databaseReady = true; break; }
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
+  assert.ok(databaseReady, 'SQLite no terminó de abrir tras el reinicio Android');
   await attach();
   await page.locator('#pending-movies .movie-card').waitFor();
   assert.match(await page.locator('#watched-movies').textContent(), /Opinión editada/);

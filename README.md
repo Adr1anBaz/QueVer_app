@@ -36,14 +36,16 @@ Crea un proyecto temporal y usa un identificador distinto (`com.ejemplo.queverta
 
 ## Publicar en GitHub Pages
 
-La publicación principal es automática: cada `push` a `main` ejecuta el workflow de GitHub Actions, instala dependencias, ejecuta pruebas, genera sitio y PDF y despliega `dist/` en GitHub Pages. En Settings → Pages, la fuente debe ser **GitHub Actions**. El workflow también admite ejecución manual.
+La configuración actual de Pages publica desde **Deploy from a branch → gh-pages → / (root)**. Se usa esta ruta porque GitHub impidió iniciar el workflow por un bloqueo de facturación de Actions. El código fuente vive en `main`; la salida construida vive en `gh-pages`.
 
-Como respaldo manual, si Actions no está disponible, se puede publicar la misma salida en la rama `gh-pages`:
+Para actualizar la web, con Chromium instalado y acceso de escritura al repo:
 
 ```sh
 npm run deploy
 ```
 
-El comando reconstruye el sitio, genera los tres PDF y publica únicamente `dist/` en `gh-pages`.
+El comando reconstruye el sitio, genera los PDF principales y de compatibilidad y publica únicamente `dist/` en `gh-pages`.
+
+`build.json` permite comprobar qué commit fuente y fecha generaron la versión pública. El workflow original se conserva para volver a despliegue automático cuando Actions esté disponible; entonces hay que seleccionar **GitHub Actions** en Settings → Pages. Las pruebas se ejecutan mediante los hooks de npm en ambas rutas.
 
 La publicación estará disponible en `https://adr1anbaz.github.io/QueVer_app/`.

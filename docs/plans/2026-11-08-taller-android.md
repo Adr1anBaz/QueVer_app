@@ -1,6 +1,6 @@
 # Taller Android de QueVer — auditoría y plan de implementación
 
-**Estado:** aprobado por el usuario; implementación en verificación. El usuario autorizó además publicar los materiales con GitHub Pages.
+**Estado:** implementado y publicado en GitHub Pages. Verificación web y seis fases Android realizadas; condiciones externas de la escuela pendientes. El usuario autorizó además publicar los materiales con GitHub Pages.
 **Objetivo:** impartir una sesión de 120 minutos en Mac, construir QueVer por fases copiando archivos completos y comprobarla en un emulador Android existente.
 **Arquitectura:** conservar el sitio estático y los checkpoints como fuente del código. Generar la práctica desde esos archivos, con diferencias reales entre fases y copia exacta del archivo completo. Separar el sitio en dos entradas: Práctica y Exposición.
 **Tecnologías:** HTML, CSS, JavaScript, Node.js, Reveal.js; Cordova Android y SQLite para la app.
@@ -194,8 +194,17 @@ Permisos de instalación en las Mac escolares; versiones realmente presentes; ti
 - `npm run pdf` y `node scripts/check-guide.mjs --pdf`: correctos. Guía de apoyo: 9 páginas; guion: 5; diapositivas: 18.
 - Revisión visual de portada, práctica, exposición y slides de arquitectura/caso QueVer. Slides muestreados sin desbordamiento vertical a 1280×720.
 - Metadatos de npm para Android 15.1.0: Node `>=20.17.0 || >=22.9.0`.
-- GitHub Pages ya estaba en modo workflow y el usuario tiene permiso de publicación. Falta registrar el resultado del despliegue de esta revisión.
+- GitHub Pages estaba en modo workflow y el usuario tiene permiso de publicación. El resultado y el cambio de fuente se registran a continuación.
 - El token Git rechazó modificar `.github/workflows/pages.yml` por falta de scope `workflow`. Se conserva ese workflow y las verificaciones se integran mediante `prebuild`, `postbuild` y `postpdf` de npm, que ese workflow ya ejecuta. No se ampliaron permisos ni se cambiaron credenciales.
 - Primera prueba Android: compilación correcta; despliegue bloqueado al indicar `--target=Pixel_4` sobre un AVD ya encendido. En Cordova Android 15.1.0 el destino online se compara con el ID ADB, no con el nombre del AVD. Corregida la prueba para usar el comando principal de la guía, sin target, y documentada la diferencia en ayuda.
 - La validación nativa usa un proyecto temporal y otro identificador, para no tocar `../quever/` ni reemplazar su app. OMDb se simula con fixtures; no se usa una clave real.
+- Las seis fases compilaron y pasaron sus pruebas funcionales sobre el AVD Android local, incluido guardado, duplicados, persistencia entre actualizaciones, edición, cambio de estado, cancelación/confirmación de eliminación y recomendación con fallo de red simulado. Se ajustó el test de edición para comprobar el dato guardado, no un mensaje transitorio que el renderizado reemplaza.
+- Reinicio frío real verificado por separado: cierre forzado, arranque con `am start -W`, apertura SQLite confirmada antes de conectar el inspector y comprobación de película pendiente y opinión editada conservadas. El inspector conectado durante el handshake de arranque interfería con el bridge en este emulador; se corrigió la secuencia de la prueba, sin modificar ni eludir la seguridad de Cordova.
+- El primer workflow publicado no inició por un bloqueo de facturación de la cuenta, no por un fallo de las pruebas. Se subió `dist/` a `gh-pages` y se configuró Pages desde el navegador autenticado para publicar esa rama. La API del token permitía leer Pages pero rechazaba configurar su fuente (403); no se ampliaron permisos.
+- La publicación clásica `pages build and deployment` terminó correctamente. Verificación HTTP pública: inicio, práctica, exposición y `build.json` con 200; los tres PDF principales responden 200 y cabecera `%PDF`.
+- Playwright contra la web pública confirmó copia exacta del HTML de fase 2, apertura de la fase por ancla, acceso al guion y carga del deck, sin errores JavaScript.
 - Pendientes externos incluso después de las pruebas locales: ejecutar en una Mac de la escuela, permisos y red escolar, y búsqueda autenticada con la clave OMDb personal activada.
+
+### Nota de herramientas
+
+Browser Control (shim documentado 0.0.25; versión CLI no consultada): al cambiar la fuente de Pages, `snapshot()` coincidió con la navegación y devolvió “Page navigated while snapshot() was capturing”; después una referencia previa devolvió “Snapshot refs are stale”. Se recuperó con snapshot nuevo y locatores semánticos. Contexto: página de configuración Pages del repo del taller; comportamiento esperado: permitir una lectura nueva después de navegar. No hubo pérdida de sesión ni cambios adicionales de permisos. Seguimiento de herramienta pendiente si se reproduce fuera de una navegación normal.
